@@ -12,6 +12,7 @@ import { ReclamosPage } from './components/reclamos/ReclamosPage';
 import { ProveedoresPage } from './components/proveedores/ProveedoresPage';
 import { AsambleasPage } from './components/asambleas/AsambleasPage';
 import { EncuestasPage } from './components/encuestas/EncuestasPage';
+import { VentasPage } from './components/ventas/VentasPage';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<TabId>('home');
@@ -37,6 +38,8 @@ export default function App() {
         return <AsambleasPage />;
       case 'encuestas':
         return <EncuestasPage />;
+      case 'publicaciones':
+        return <VentasPage />;
       default:
         return (
           <div className="tab-content active">
