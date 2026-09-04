@@ -10,6 +10,7 @@ import { NoticiasPage } from './components/noticias/NoticiasPage';
 import { DocumentosPage } from './components/documentos/DocumentosPage';
 import { ReclamosPage } from './components/reclamos/ReclamosPage';
 import { ProveedoresPage } from './components/proveedores/ProveedoresPage';
+import { AsambleasPage } from './components/asambleas/AsambleasPage';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<TabId>('home');
@@ -31,6 +32,8 @@ export default function App() {
         return <ReclamosPage />;
       case 'proveedores':
         return <ProveedoresPage />;
+      case 'asambleas':
+        return <AsambleasPage />;
       default:
         return (
           <div className="tab-content active">
