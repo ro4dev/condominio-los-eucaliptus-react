@@ -2,6 +2,15 @@
 
 ## Registro de cambios
 
+### 04/09/2026 - Módulo Noticias
+- **Added**: Página **Noticias**:
+  - Filtros: Vigentes / Destacadas / No vigentes / Todas
+  - Cards de noticia con título, fecha, descripción y link a archivo adjunto (si existe)
+  - Acciones admin: pinnea/despinnea en Home (`push_pin`), editar y eliminar con confirmación
+  - Modal crear/editar noticia: título, "Vigente hasta", descripción y switch "Destacar en Home" (admin). No edita archivo (fiel al original)
+- **Added**: Sección **Noticias destacadas** en Home (pinneadas vigentes, hasta 3), que estaba pendiente por depender de este módulo
+- **Changed**: Tab "Noticias" activada en la navegación. `noticias` agregado a los datos del DataContext (demo/prod) con CRUD
+
 ### 04/09/2026 - Módulo Home
 - **Added**: Página **Home** (vista admin):
   - Stats del periodo: Esperado, Recaudado, Egresos y cantidad de morosos

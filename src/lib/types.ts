@@ -78,3 +78,14 @@ export interface CuotaCalculada {
   fondo_reserva: number;
   total: number;
 }
+
+export interface Noticia {
+  id: string;
+  titulo: string;
+  descripcion: string;
+  fecha?: string;
+  fecha_hasta?: string;
+  pinned?: boolean;
+  archivo?: string;
+  created_at?: string;
+}

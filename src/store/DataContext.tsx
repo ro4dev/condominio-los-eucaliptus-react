@@ -2,7 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, t
 import { loadFinanzasData, type FinanzasData } from '../lib/data';
 import { supabaseClient } from '../lib/supabase';
 import { getDemoMode, generateUUID } from '../lib';
-import type { Config, Gasto, Pago, Parcela, Propietario } from '../lib/types';
+import type { Config, Gasto, Noticia, Pago, Parcela, Propietario } from '../lib/types';
 import { useApp } from './AppContext';
 
 export interface GastoSave extends Partial<Gasto> {}
@@ -20,6 +20,9 @@ interface DataContextValue extends FinanzasData {
   deleteParcela: (id: string) => Promise<void>;
   savePropietario: (data: Partial<Propietario>, isEdit: boolean) => Promise<boolean>;
   deletePropietario: (id: string) => Promise<void>;
+  saveNoticia: (data: Partial<Noticia>, isEdit: boolean) => Promise<boolean>;
+  deleteNoticia: (id: string) => Promise<void>;
+  toggleNoticiaPinned: (id: string) => Promise<void>;
 }
 
 const DataContext = createContext<DataContextValue | null>(null);
@@ -279,6 +282,61 @@ export function DataProvider({ children }: { children: ReactNode }) {
     [data, demoMode, reload, showSnackbar],
   );
 
+  const saveNoticia = useCallback(
+    async (payload: Partial<Noticia>, isEdit: boolean): Promise<boolean> => {
+      if (!data) return false;
+      if (demoMode) {
+        if (isEdit && payload.id) {
+          setData({ ...data, noticias: data.noticias.map((n) => (n.id === payload.id ? { ...n, ...payload } : n)) });
+        } else {
+          const nuevo: Noticia = { ...(payload as Partial<Noticia>), id: generateUUID() } as Noticia;
+          setData({ ...data, noticias: [...data.noticias, nuevo] });
+        }
+        showSnackbar(isEdit ? 'Noticia actualizada.' : 'Noticia creada.', 'success');
+        return true;
+      }
+      if (!supabaseClient) return false;
+      if (isEdit && payload.id) {
+        const { error } = await supabaseClient.from('noticias').update(payload).eq('id', payload.id);
+        if (error) { showSnackbar('Error: ' + error.message, 'error'); return false; }
+      } else {
+        const { error } = await supabaseClient.from('noticias').insert(payload);
+        if (error) { showSnackbar('Error: ' + error.message, 'error'); return false; }
+      }
+      await reload();
+      showSnackbar(isEdit ? 'Noticia actualizada.' : 'Noticia creada.', 'success');
+      return true;
+    },
+    [data, demoMode, reload, showSnackbar],
+  );
+
+  const deleteNoticia = useCallback(
+    async (id: string): Promise<void> => {
+      if (!data) return;
+      if (demoMode) {
+        setData({ ...data, noticias: data.noticias.filter((n) => n.id !== id) });
+        showSnackbar('Noticia eliminada (demo).', 'success');
+        return;
+      }
+      if (!supabaseClient) return;
+      const { error } = await supabaseClient.from('noticias').delete().eq('id', id);
+      if (error) { showSnackbar('Error: ' + error.message, 'error'); return; }
+      await reload();
+      showSnackbar('Noticia eliminada.', 'success');
+    },
+    [data, demoMode, reload, showSnackbar],
+  );
+
+  const toggleNoticiaPinned = useCallback(
+    async (id: string): Promise<void> => {
+      const n = data?.noticias.find((x) => x.id === id);
+      if (!n) return;
+      const pinned = !n.pinned;
+      await saveNoticia({ id, pinned }, true);
+    },
+    [data, saveNoticia],
+  );
+
   const value = useMemo<DataContextValue>(() => {
     return {
       gastos: data?.gastos ?? [],
@@ -286,6 +344,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
       flujo: data?.flujo ?? [],
       parcelas: data?.parcelas ?? [],
       propietarios: data?.propietarios ?? [],
+      noticias: data?.noticias ?? [],
       config: data?.config ?? {},
       loading,
       reload,
@@ -299,8 +358,11 @@ export function DataProvider({ children }: { children: ReactNode }) {
       deleteParcela,
       savePropietario,
       deletePropietario,
+      saveNoticia,
+      deleteNoticia,
+      toggleNoticiaPinned,
     };
-  }, [data, loading, reload, saveGasto, deleteGasto, savePago, deletePago, savePeriodos, generarCuotas, saveParcela, deleteParcela, savePropietario, deletePropietario]);
+  }, [data, loading, reload, saveGasto, deleteGasto, savePago, deletePago, savePeriodos, generarCuotas, saveParcela, deleteParcela, savePropietario, deletePropietario, saveNoticia, deleteNoticia, toggleNoticiaPinned]);
 
   return <DataContext.Provider value={value}>{children}</DataContext.Provider>;
 }

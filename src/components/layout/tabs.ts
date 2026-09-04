@@ -21,7 +21,7 @@ export const TABS: TabDef[] = [
   { id: 'home', label: 'Home', implemented: true },
   { id: 'finanzas', label: 'Finanzas', implemented: true },
   { id: 'parcelas', label: 'Parcelas', implemented: true },
-  { id: 'noticias', label: 'Noticias', implemented: false },
+  { id: 'noticias', label: 'Noticias', implemented: true },
   { id: 'documentos', label: 'Documentos', implemented: false },
   { id: 'reclamos', label: 'Comentarios', implemented: false },
   { id: 'proveedores', label: 'Proveedores', implemented: false },

@@ -1,4 +1,4 @@
-import type { Config, Gasto, Movimiento, Pago, Parcela, Propietario } from './types';
+import type { Config, Gasto, Movimiento, Noticia, Pago, Parcela, Propietario } from './types';
 import { getDemoMode } from './appConfig';
 import { supabaseClient } from './supabase';
 
@@ -82,16 +82,18 @@ export interface FinanzasData {
   flujo: Movimiento[];
   parcelas: Parcela[];
   propietarios: Propietario[];
+  noticias: Noticia[];
   config: Config;
 }
 
 export async function loadFinanzasData(): Promise<FinanzasData> {
-  const [gastos, pagos, flujo, parcelas, propietarios, config] = await Promise.all([
+  const [gastos, pagos, flujo, parcelas, propietarios, noticias, config] = await Promise.all([
     loadJson('GASTOS'),
     loadJson('PAGOS'),
     loadJson('FLUJO'),
     loadJson('PARCELAS'),
     loadJson('PROPIETARIOS'),
+    loadJson('NOTICIAS'),
     loadConfig(),
   ]);
   return {
@@ -100,6 +102,7 @@ export async function loadFinanzasData(): Promise<FinanzasData> {
     flujo: flujo as Movimiento[],
     parcelas: parcelas as Parcela[],
     propietarios: propietarios as Propietario[],
+    noticias: noticias as Noticia[],
     config,
   };
 }

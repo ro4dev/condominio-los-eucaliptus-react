@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { formatMoney, formatPeriodo } from '../../lib/format';
+import { todayISO } from '../../lib/appConfig';
+import { escHtml, formatMoney, formatPeriodo } from '../../lib/format';
 import {
   cuotaDelPeriodo,
   egresosMes,
@@ -24,8 +25,14 @@ function parcelaNumero(id: string, parcelas: { id: string; numero?: string }[]):
   return p ? p.numero || id : id;
 }
 
+function parseFecha(s?: string | number): number {
+  if (s === undefined || s === null || s === '') return 0;
+  if (typeof s === 'number') return s;
+  return new Date(String(s).slice(0, 10) + 'T00:00:00').getTime() || 0;
+}
+
 export function HomePage() {
-  const { gastos, pagos, flujo, parcelas, config, loading } = useData();
+  const { gastos, pagos, flujo, parcelas, config, noticias, loading } = useData();
 
   const [comoPagar, setComoPagar] = useState(false);
   const [deuda, setDeuda] = useState<{ parcelaId: string; nombre: string } | null>(null);
@@ -57,6 +64,11 @@ export function HomePage() {
   const pct = pctRecaudado(periodo, gastos, pagos);
   const fillColor = pct >= 90 ? 'var(--color-positive)' : pct >= 60 ? '#f59e0b' : 'var(--md-sys-color-error)';
   const cuota = cuotaDelPeriodo(periodo, config).monto;
+  const hoy = todayISO();
+  const pinnedNews = noticias
+    .filter((n) => n.pinned && (!n.fecha_hasta || n.fecha_hasta >= hoy))
+    .sort((a, b) => parseFecha(b.fecha || b.created_at) - parseFecha(a.fecha || a.created_at))
+    .slice(0, 3);
 
   return (
     <div id="tab-home" className="tab-content active">
@@ -66,6 +78,20 @@ export function HomePage() {
         <StatCard label="Egresos (periodo)" value={formatMoney(egresos)} tone="red" />
         <StatCard label="Morosos" value={cantidadMorosos} tone={cantidadMorosos > 0 ? 'red' : 'green'} />
       </section>
+
+      {pinnedNews.length > 0 && (
+        <div className="card" style={{ marginBottom: '1rem' }}>
+          <h4>Noticias destacadas</h4>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+            {pinnedNews.map((n) => (
+              <div key={n.id}>
+                <div style={{ fontWeight: 600, color: 'var(--text)' }}>{escHtml(n.titulo)}</div>
+                <div style={{ fontSize: '0.8rem', color: 'var(--text-2)', marginTop: '0.2rem' }}>{escHtml(n.descripcion)}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginBottom: '1rem' }}>
         <div className="card" style={{ flex: '1 1 260px' }}>
