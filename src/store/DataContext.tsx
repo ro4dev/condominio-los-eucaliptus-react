@@ -2,7 +2,8 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, t
 import { loadFinanzasData, type FinanzasData } from '../lib/data';
 import { supabaseClient } from '../lib/supabase';
 import { getDemoMode, generateUUID, sanitizeAudit } from '../lib';
-import type { Asamblea, AsambleaAsistente, Config, Documento, Encuesta, Gasto, Noticia, Pago, Parcela, Propietario, Proveedor, Publicacion, Reclamo, VotoEncuesta } from '../lib/types';
+import { formatPeriodo } from '../lib/format';
+import type { Asamblea, AsambleaAsistente, Config, Documento, Encuesta, Gasto, Movimiento, Noticia, Pago, Parcela, Propietario, Proveedor, Publicacion, Reclamo, VotoEncuesta } from '../lib/types';
 import { useApp } from './AppContext';
 
 export interface GastoSave extends Partial<Gasto> {}
@@ -13,7 +14,9 @@ interface DataContextValue extends FinanzasData {
   saveGasto: (data: GastoSave, isEdit: boolean) => Promise<boolean>;
   deleteGasto: (id: string) => Promise<void>;
   savePago: (data: Partial<Pago>) => Promise<boolean>;
-  deletePago: (id: string) => Promise<void>;
+  deletePago: (id: string) => Promise<boolean>;
+  saveFlujo: (data: Partial<Movimiento>, isEdit: boolean) => Promise<boolean>;
+  deleteFlujo: (id: string) => Promise<void>;
   savePeriodos: (periodos: Config['periodos']) => Promise<boolean>;
   generarCuotas: (periodo: string, monto: number | string, fondo: number | string) => Promise<number>;
   saveParcela: (data: Partial<Parcela>, isEdit: boolean) => Promise<boolean>;
@@ -151,7 +154,6 @@ export function DataProvider({ children }: { children: ReactNode }) {
         const nuevo: Pago = { ...payload, id: generateUUID() } as Pago;
         setData({ ...data, pagos: [...data.pagos, nuevo] });
         showSnackbar('Pago registrado (demo).', 'success');
-        await logAudit('pagos', 'INSERT', nuevo );
         return true;
       }
       if (!supabaseClient) return false;
@@ -167,20 +169,71 @@ export function DataProvider({ children }: { children: ReactNode }) {
   );
 
   const deletePago = useCallback(
-    async (id: string): Promise<void> => {
-      if (!data) return;
+    async (id: string): Promise<boolean> => {
+      if (!data) return false;
       if (demoMode) {
         setData({ ...data, pagos: data.pagos.filter((p) => p.id !== id) });
         showSnackbar('Pago eliminado (demo).', 'success');
-        await logAudit('pagos', 'DELETE', { id });
+        return true;
+      }
+      if (!supabaseClient) return false;
+      const { error } = await supabaseClient.from('pagos').delete().eq('id', id);
+      if (error) { showSnackbar('Error: ' + error.message, 'error'); return false; }
+      await reload();
+      showSnackbar('Pago eliminado.', 'success');
+      return true;
+    },
+    [data, demoMode, reload, showSnackbar],
+  );
+
+  const saveFlujo = useCallback(
+    async (payload: Partial<Movimiento>, isEdit: boolean): Promise<boolean> => {
+      if (!data) return false;
+      if (demoMode) {
+        if (isEdit && payload.id) {
+          const actualizado = data.flujo.map((f) => (f.id === payload.id ? { ...f, ...payload } : f));
+          setData({ ...data, flujo: actualizado });
+          showSnackbar('Actualizado correctamente.', 'success');
+          await logAudit('flujo', 'UPDATE', actualizado.find((f) => f.id === payload.id));
+        } else {
+          const nuevo: Movimiento = { ...(payload as Partial<Movimiento>), id: generateUUID() } as Movimiento;
+          setData({ ...data, flujo: [...data.flujo, nuevo] });
+          showSnackbar('Guardado correctamente.', 'success');
+          await logAudit('flujo', 'INSERT', nuevo);
+        }
+        return true;
+      }
+      if (!supabaseClient) return false;
+      if (isEdit && payload.id) {
+        const { error } = await supabaseClient.from('flujo').update(payload).eq('id', payload.id);
+        if (error) { showSnackbar('Error: ' + error.message, 'error'); return false; }
+      } else {
+        const { error } = await supabaseClient.from('flujo').insert(payload);
+        if (error) { showSnackbar('Error: ' + error.message, 'error'); return false; }
+      }
+      await logAudit('flujo', isEdit ? 'UPDATE' : 'INSERT', payload);
+      await reload();
+      showSnackbar(isEdit ? 'Actualizado correctamente.' : 'Guardado correctamente.', 'success');
+      return true;
+    },
+    [data, demoMode, reload, showSnackbar, logAudit],
+  );
+
+  const deleteFlujo = useCallback(
+    async (id: string): Promise<void> => {
+      if (!data) return;
+      if (demoMode) {
+        setData({ ...data, flujo: data.flujo.filter((f) => f.id !== id) });
+        showSnackbar('Eliminado (demo).', 'success');
+        await logAudit('flujo', 'DELETE', { id });
         return;
       }
       if (!supabaseClient) return;
-      const { error } = await supabaseClient.from('pagos').delete().eq('id', id);
+      const { error } = await supabaseClient.from('flujo').delete().eq('id', id);
       if (error) { showSnackbar('Error: ' + error.message, 'error'); return; }
-      await logAudit('pagos', 'DELETE', { id });
+      await logAudit('flujo', 'DELETE', { id });
       await reload();
-      showSnackbar('Pago eliminado.', 'success');
+      showSnackbar('Eliminado correctamente.', 'success');
     },
     [data, demoMode, reload, showSnackbar, logAudit],
   );
@@ -188,36 +241,41 @@ export function DataProvider({ children }: { children: ReactNode }) {
   const savePeriodos = useCallback(
     async (periodos: Config['periodos']): Promise<boolean> => {
       if (!data) return false;
+      const existed = Object.prototype.hasOwnProperty.call(data.config, 'periodos');
       if (demoMode) {
         setData({ ...data, config: { ...data.config, periodos } });
+        await logAudit('config', existed ? 'UPDATE' : 'INSERT', { key: 'periodos', value: periodos });
         return true;
       }
       if (!supabaseClient) return false;
-      const { error } = await supabaseClient.from('config').upsert({ key: 'periodos', value: periodos });
+      const { error } = await supabaseClient
+        .from('config')
+        .upsert({ key: 'periodos', value: periodos, updated_at: new Date().toISOString() });
       if (error) { showSnackbar('Error: ' + error.message, 'error'); return false; }
+      await logAudit('config', existed ? 'UPDATE' : 'INSERT', { key: 'periodos', value: periodos });
       return true;
     },
-    [data, demoMode, showSnackbar],
+    [data, demoMode, showSnackbar, logAudit],
   );
 
   const generarCuotas = useCallback(
     async (periodo: string, monto: number | string, fondo: number | string): Promise<number> => {
       if (!data) return 0;
+      const m = parseFloat(String(monto)) || 0;
+      const f = parseFloat(String(fondo)) || 0;
       if (demoMode) {
-        const filas = data.gastos.filter((g) => g.periodo === periodo).map((g) => g.parcela_id);
-        const m = parseFloat(String(monto)) || 0;
-        const f = parseFloat(String(fondo)) || 0;
+        const usadas = new Set(data.gastos.filter((g) => g.periodo === periodo).map((g) => g.parcela_id));
         const parts = periodo.split('-');
         const nuevas: Gasto[] = [];
         data.parcelas.forEach((p) => {
-          if (filas.includes(p.id)) return;
+          if (usadas.has(p.id)) return;
           if (m > 0) nuevas.push({
             id: generateUUID(),
             parcela_id: p.id,
             periodo,
             concepto: 'GC_' + parts[1] + '_' + parts[0],
             monto: m,
-            descripcion: 'Cuota ' + parts[1] + '/' + parts[0],
+            descripcion: 'Cuota ' + formatPeriodo(periodo),
             pagado: 'No',
           } as Gasto);
           if (f > 0) nuevas.push({
@@ -226,16 +284,29 @@ export function DataProvider({ children }: { children: ReactNode }) {
             periodo,
             concepto: 'GC_FR_' + parts[1] + '_' + parts[0],
             monto: f,
-            descripcion: 'Fondo reserva ' + parts[1] + '/' + parts[0],
+            descripcion: 'Fondo reserva ' + formatPeriodo(periodo),
             pagado: 'No',
           } as Gasto);
         });
         if (nuevas.length) setData({ ...data, gastos: [...data.gastos, ...nuevas] });
         return nuevas.length;
       }
-      return 0;
+      if (!supabaseClient) return 0;
+      const usadas = new Set(data.gastos.filter((g) => g.periodo === periodo).map((g) => g.parcela_id));
+      const parts = periodo.split('-');
+      const rows: Partial<Gasto>[] = [];
+      data.parcelas.forEach((p) => {
+        if (usadas.has(p.id)) return;
+        if (m > 0) rows.push({ parcela_id: p.id, periodo, concepto: 'GC_' + parts[1] + '_' + parts[0], monto: m, descripcion: 'Cuota ' + formatPeriodo(periodo), pagado: 'No' });
+        if (f > 0) rows.push({ parcela_id: p.id, periodo, concepto: 'GC_FR_' + parts[1] + '_' + parts[0], monto: f, descripcion: 'Fondo reserva ' + formatPeriodo(periodo), pagado: 'No' });
+      });
+      if (rows.length === 0) return 0;
+      const { error } = await supabaseClient.from('gastos').insert(rows);
+      if (error) { showSnackbar(error.message || 'Error al generar cuotas.', 'error'); return -1; }
+      await reload();
+      return rows.length;
     },
-    [data],
+    [data, demoMode, reload, showSnackbar],
   );
 
   const saveParcela = useCallback(
@@ -302,7 +373,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
           setData({ ...data, propietarios: [...data.propietarios, nuevo] });
           await logAudit('propietarios', 'INSERT', nuevo );
         }
-        showSnackbar(isEdit ? 'Propietario actualizado.' : 'Propietario agregado.', 'success');
+        showSnackbar(isEdit ? 'Actualizado correctamente.' : 'Guardado correctamente.', 'success');
         return true;
       }
       if (!supabaseClient) return false;
@@ -310,12 +381,12 @@ export function DataProvider({ children }: { children: ReactNode }) {
         const { error } = await supabaseClient.from('propietarios').update(payload).eq('id', payload.id);
         if (error) { showSnackbar('Error: ' + error.message, 'error'); return false; }
       } else {
-        const { error } = await supabaseClient.from('propietarios').insert(payload);
-        if (error) { showSnackbar('Error: ' + error.message, 'error'); return false; }
+        const { error } = await supabaseClient.functions.invoke('create-user', { body: payload });
+        if (error) { showSnackbar(error.message || 'Error al crear usuario', 'error'); return false; }
       }
-      await logAudit('propietarios', isEdit ? 'UPDATE' : 'INSERT', payload );
+      await logAudit('propietarios', isEdit ? 'UPDATE' : 'INSERT', payload);
       await reload();
-      showSnackbar(isEdit ? 'Propietario actualizado.' : 'Propietario agregado.', 'success');
+      showSnackbar(isEdit ? 'Actualizado correctamente.' : 'Guardado correctamente.', 'success');
       return true;
     },
     [data, demoMode, reload, showSnackbar, logAudit],
@@ -326,16 +397,19 @@ export function DataProvider({ children }: { children: ReactNode }) {
       if (!data) return;
       if (demoMode) {
         setData({ ...data, propietarios: data.propietarios.filter((p) => p.id !== id) });
-        showSnackbar('Propietario eliminado (demo).', 'success');
+        showSnackbar('Eliminado (demo).', 'success');
         await logAudit('propietarios', 'DELETE', { id });
         return;
       }
       if (!supabaseClient) return;
-      const { error } = await supabaseClient.from('propietarios').delete().eq('id', id);
-      if (error) { showSnackbar('Error: ' + error.message, 'error'); return; }
+      const res = await supabaseClient.functions.invoke('delete-user', { body: { propietario_id: id } });
+      if (res.error) {
+        showSnackbar(res.error.message || 'Error al eliminar', 'error');
+        return;
+      }
       await logAudit('propietarios', 'DELETE', { id });
       await reload();
-      showSnackbar('Propietario eliminado.', 'success');
+      showSnackbar('Eliminado correctamente.', 'success');
     },
     [data, demoMode, reload, showSnackbar, logAudit],
   );
@@ -680,7 +754,6 @@ export function DataProvider({ children }: { children: ReactNode }) {
           created_at: new Date().toISOString(),
         };
         setData({ ...data, encuestas_votos: [...(data.encuestas_votos || []), nuevo] });
-        showSnackbar('Voto registrado (demo).', 'success');
         return true;
       }
       if (!supabaseClient) return false;
@@ -689,7 +762,14 @@ export function DataProvider({ children }: { children: ReactNode }) {
         parcela_id: parcelaId,
         seleccion,
       });
-      if (error) { showSnackbar('Error: ' + error.message, 'error'); return false; }
+      if (error) {
+        if (error.code === '23505') {
+          showSnackbar('Ya votaste en esta encuesta.', 'warning');
+          return false;
+        }
+        showSnackbar('Error: ' + error.message, 'error');
+        return false;
+      }
       await reload();
       showSnackbar('Voto registrado.', 'success');
       return true;
@@ -797,6 +877,8 @@ export function DataProvider({ children }: { children: ReactNode }) {
       deleteGasto,
       savePago,
       deletePago,
+      saveFlujo,
+      deleteFlujo,
       savePeriodos,
       generarCuotas,
       saveParcela,
@@ -821,7 +903,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
       deletePublicacion,
       saveConfigValue,
     };
-  }, [data, loading, reload, saveGasto, deleteGasto, savePago, deletePago, savePeriodos, generarCuotas, saveParcela, deleteParcela, savePropietario, deletePropietario, saveNoticia, deleteNoticia, toggleNoticiaPinned, saveDocumento, deleteDocumento, saveReclamo, deleteReclamo, saveProveedor, deleteProveedor, saveAsamblea, deleteAsamblea, saveEncuesta, deleteEncuesta, registrarVoto, savePublicacion, deletePublicacion, saveConfigValue]);
+  }, [data, loading, reload, saveGasto, deleteGasto, savePago, deletePago, saveFlujo, deleteFlujo, savePeriodos, generarCuotas, saveParcela, deleteParcela, savePropietario, deletePropietario, saveNoticia, deleteNoticia, toggleNoticiaPinned, saveDocumento, deleteDocumento, saveReclamo, deleteReclamo, saveProveedor, deleteProveedor, saveAsamblea, deleteAsamblea, saveEncuesta, deleteEncuesta, registrarVoto, savePublicacion, deletePublicacion, saveConfigValue]);
 
   return <DataContext.Provider value={value}>{children}</DataContext.Provider>;
 }

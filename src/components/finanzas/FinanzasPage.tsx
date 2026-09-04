@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useData } from '../../store/DataContext';
-import { useApp } from '../../store/AppContext';
-import type { Gasto } from '../../lib/types';
+import type { Gasto, Movimiento } from '../../lib/types';
 import { RecaudadoChart } from './RecaudadoChart';
 import { FlujoChart } from './FlujoChart';
 import { PeriodoEnCurso } from './PeriodoEnCurso';
@@ -10,25 +9,35 @@ import { CuotasPeriodoModal } from './CuotasPeriodoModal';
 import { PagosCuotaModal } from './PagosCuotaModal';
 import { MovimientosPeriodoModal } from './MovimientosPeriodoModal';
 import { GastoFormModal } from './GastoFormModal';
+import { FlujoFormModal } from './FlujoFormModal';
 import { GenerarCuotasModal } from './GenerarCuotasModal';
 import { PeriodoModal } from './PeriodoModal';
 
 export function FinanzasPage() {
-  const { gastos, pagos, flujo, parcelas, config, loading, deleteGasto } = useData();
-  const { showSnackbar } = useApp();
+  const { gastos, pagos, flujo, parcelas, config, loading, deleteGasto, deleteFlujo } = useData();
 
   const [cuotasPeriodo, setCuotasPeriodo] = useState<string | null>(null);
   const [pagosGasto, setPagosGasto] = useState<Gasto | null>(null);
   const [movimientosPeriodo, setMovimientosPeriodo] = useState<string | null>(null);
   const [gastoForm, setGastoForm] = useState<{ open: boolean; gasto: Gasto | null }>({ open: false, gasto: null });
+  const [flujoForm, setFlujoForm] = useState<{ open: boolean; movimiento: Movimiento | null }>({ open: false, movimiento: null });
   const [generar, setGenerar] = useState<{ open: boolean; titulo?: string; periodo?: string; fijo?: boolean }>({ open: false });
   const [periodoModal, setPeriodoModal] = useState<{ open: boolean; periodo: string | null }>({ open: false, periodo: null });
 
   function eliminarGasto(g: Gasto) {
     if (window.confirm('¿Estás seguro de eliminar este gasto? Esta acción no se puede deshacer.')) {
       deleteGasto(g.id);
-      showSnackbar('Eliminado (demo).', 'success');
     }
+  }
+
+  function eliminarMovimiento(m: Movimiento) {
+    if (window.confirm('¿Estás seguro de eliminar este movimiento? Esta acción no se puede deshacer.')) {
+      deleteFlujo(m.id);
+    }
+  }
+
+  function actualizarMovimiento(m: Movimiento) {
+    setFlujoForm({ open: true, movimiento: m });
   }
 
   if (loading) {
@@ -107,12 +116,20 @@ export function FinanzasPage() {
         periodo={movimientosPeriodo}
         onClose={() => setMovimientosPeriodo(null)}
         flujo={flujo}
+        onEditar={actualizarMovimiento}
+        onEliminar={eliminarMovimiento}
       />
 
       <GastoFormModal
         open={gastoForm.open}
         gasto={gastoForm.gasto}
         onClose={() => setGastoForm({ open: false, gasto: null })}
+      />
+
+      <FlujoFormModal
+        open={flujoForm.open}
+        movimiento={flujoForm.movimiento}
+        onClose={() => setFlujoForm({ open: false, movimiento: null })}
       />
 
       <GenerarCuotasModal

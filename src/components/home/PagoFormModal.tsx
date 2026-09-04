@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
 import { todayISO } from '../../lib/appConfig';
 import { formatMoney, formatPeriodo } from '../../lib/format';
-import { sumPagosGasto } from '../../lib/finanzas';import type { Gasto } from '../../lib/types';
+import { sumPagosGasto } from '../../lib/finanzas';
+import { blobURLDemo, subirArchivo } from '../../lib/storage';
+import type { Gasto, Pago } from '../../lib/types';
+import { useApp } from '../../store/AppContext';
 import { useData } from '../../store/DataContext';
 import { Button, TextButton } from '../ui/Button';
 import { Modal } from '../ui/Modal';
@@ -15,8 +18,10 @@ interface Props {
 
 export function PagoFormModal({ open, gasto, parcelaNombre, onClose }: Props) {
   const { pagos, savePago } = useData();
+  const { showSnackbar, demoMode } = useApp();
   const [monto, setMonto] = useState('');
   const [fecha, setFecha] = useState(() => todayISO());
+  const [comprobante, setComprobante] = useState<File | null>(null);
 
   useEffect(() => {
     if (!open || !gasto) return;
@@ -25,6 +30,7 @@ export function PagoFormModal({ open, gasto, parcelaNombre, onClose }: Props) {
     const restante = Math.max(0, montoCuota - pagado);
     setMonto(restante > 0 ? String(restante) : '');
     setFecha(todayISO());
+    setComprobante(null);
   }, [open, gasto, pagos]);
 
   if (!gasto) return null;
@@ -38,13 +44,28 @@ export function PagoFormModal({ open, gasto, parcelaNombre, onClose }: Props) {
     e.preventDefault();
     const m = parseFloat(monto) || 0;
     if (m <= 0) return;
-    const ok = await savePago({
+    let comprobanteValue: string | undefined;
+    if (comprobante) {
+      if (demoMode) {
+        comprobanteValue = await blobURLDemo(comprobante);
+      } else {
+        const res = await subirArchivo(comprobante, 'gastos_comunes', '');
+        if (!res.url) {
+          showSnackbar(res.error || 'Error al subir archivo.', 'error');
+          return;
+        }
+        comprobanteValue = res.url;
+      }
+    }
+    const payload: Partial<Pago> = {
       gasto_id: g.id,
       parcela_id: g.parcela_id,
       periodo: g.periodo,
       monto: m,
       fecha,
-    });
+    };
+    if (comprobanteValue) payload.comprobante = comprobanteValue;
+    const ok = await savePago(payload);
     if (ok) onClose();
   }
 
@@ -75,6 +96,16 @@ export function PagoFormModal({ open, gasto, parcelaNombre, onClose }: Props) {
             <label htmlFor="homePagoFecha">Fecha</label>
             <input id="homePagoFecha" className="field-input" type="date" name="fecha" value={fecha} onChange={(e) => setFecha(e.target.value)} required />
           </div>
+        </div>
+        <div className="form-group">
+          <label>Comprobante (foto)</label>
+          <input
+            className="field-input"
+            type="file"
+            name="comprobante"
+            accept="image/*"
+            onChange={(e) => setComprobante(e.target.files ? e.target.files[0] : null)}
+          />
         </div>
       </form>
     </Modal>

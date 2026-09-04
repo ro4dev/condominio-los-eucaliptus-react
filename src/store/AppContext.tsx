@@ -19,6 +19,7 @@ interface AppContextValue {
   /** In demo mode se asume admin (no hay login). En producción, según role del usuario. */
   isAdmin: boolean;
   currentUserEmail: string | null;
+  currentUserId: string | null;
   login: (email: string, password: string) => Promise<AuthResult>;
   signup: (email: string, password: string) => Promise<AuthResult>;
   logout: () => Promise<void>;
@@ -31,6 +32,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [demoMode, setDemo] = useState<boolean>(getDemoMode);
   const [snackbar, setSnackbar] = useState<{ message: string; type: SnackType } | null>(null);
   const [currentUserEmail, setCurrentUserEmail] = useState<string | null>(null);
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
   const [isAdmin, setIsAdmin] = useState<boolean>(true);
   const snackTimer = useRef<number | null>(null);
 
@@ -40,7 +42,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (!supabaseClient) return;
-    const applyUser = (user: { email?: string | null; app_metadata?: Record<string, unknown> } | null) => {
+    const applyUser = (user: { id?: string; email?: string | null; app_metadata?: Record<string, unknown> } | null) => {
+      setCurrentUserId(user?.id ?? null);
       setCurrentUserEmail(user?.email ?? null);
       setIsAdmin(user?.app_metadata?.role === 'admin');
     };
@@ -64,6 +67,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     }
     supabaseClient.auth.getSession().then(({ data }) => {
       const user = data.session?.user;
+      setCurrentUserId(user?.id ?? null);
       setCurrentUserEmail(user?.email ?? null);
       setIsAdmin(user?.app_metadata?.role === 'admin');
     });
@@ -125,6 +129,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         showSnackbar,
         isAdmin,
         currentUserEmail,
+        currentUserId,
         login,
         signup,
         logout,

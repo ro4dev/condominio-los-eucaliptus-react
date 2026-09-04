@@ -10,7 +10,6 @@ import { Modal } from '../ui/Modal';
 
 const AUDIT_TABLES: { value: string; label: string }[] = [
   { value: 'gastos', label: 'Gastos' },
-  { value: 'pagos', label: 'Pagos' },
   { value: 'flujo', label: 'Flujo' },
   { value: 'noticias', label: 'Noticias' },
   { value: 'documentos', label: 'Documentos' },

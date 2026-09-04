@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { numeroDeParcela, safeUrl } from '../../lib/format';
+import { blobURLDemo, subirArchivo } from '../../lib/storage';
 import type { Publicacion } from '../../lib/types';
+import { useApp } from '../../store/AppContext';
 import { useData } from '../../store/DataContext';
 import { Button, TextButton } from '../ui/Button';
 import { Modal } from '../ui/Modal';
@@ -15,6 +17,7 @@ interface Props {
 export function PublicacionFormModal({ open, publicacion, onClose }: Props) {
   const isEdit = !!publicacion;
   const { parcelas, savePublicacion } = useData();
+  const { showSnackbar, demoMode, currentUserEmail } = useApp();
   const [titulo, setTitulo] = useState('');
   const [categoria, setCategoria] = useState<'Producto' | 'Servicio'>('Producto');
   const [precio, setPrecio] = useState('');
@@ -44,16 +47,30 @@ export function PublicacionFormModal({ open, publicacion, onClose }: Props) {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!titulo || !categoria) return;
+    let fotoValue: string | undefined;
+    if (foto) {
+      if (demoMode) {
+        fotoValue = await blobURLDemo(foto);
+      } else {
+        const res = await subirArchivo(foto, 'publicaciones', '');
+        if (!res.url) {
+          showSnackbar(res.error || 'Error al subir archivo.', 'error');
+          return;
+        }
+        fotoValue = res.url;
+      }
+    }
     const payload: Partial<Publicacion> = {
       titulo,
       categoria,
       descripcion: descripcion || undefined,
-      precio: precio !== '' ? precio : '',
       parcela_id: parcelaId || undefined,
       contacto: contacto || undefined,
       estado,
     };
-    if (foto) payload.foto = URL.createObjectURL(foto);
+    if (precio !== '') payload.precio = precio;
+    if (fotoValue) payload.foto = fotoValue;
+    if (!isEdit) payload.usuario = currentUserEmail || 'anónimo';
     if (isEdit && publicacion) payload.id = publicacion.id;
     const ok = await savePublicacion(payload, isEdit);
     if (ok) onClose();

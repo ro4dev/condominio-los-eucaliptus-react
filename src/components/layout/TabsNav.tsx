@@ -1,4 +1,5 @@
 import { TABS, type TabId } from './tabs';
+import { useApp } from '../../store/AppContext';
 
 interface TabsNavProps {
   active: TabId;
@@ -6,9 +7,11 @@ interface TabsNavProps {
 }
 
 export function TabsNav({ active, onChange }: TabsNavProps) {
+  const { isAdmin } = useApp();
+  const tabs = isAdmin ? TABS : TABS.filter((t) => t.id !== 'config');
   return (
     <nav className="tabs" role="tablist">
-      {TABS.map((tab) => (
+      {tabs.map((tab) => (
         <button
           key={tab.id}
           type="button"

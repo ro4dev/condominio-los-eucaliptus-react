@@ -46,6 +46,7 @@ export interface Movimiento {
   fecha: string;
   concepto: string;
   descripcion?: string;
+  comprobante?: string;
   registrado_por?: string;
 }
 

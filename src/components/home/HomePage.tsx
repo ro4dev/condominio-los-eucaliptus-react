@@ -3,8 +3,10 @@ import { todayISO } from '../../lib/appConfig';
 import { escHtml, formatMoney, formatPeriodo } from '../../lib/format';
 import {
   cuotaDelPeriodo,
+  deudaParcela,
   egresosMes,
   esperadoPorPeriodo,
+  estadoParcelaPago,
   morosos,
   pctRecaudado,
   periodosPendientes,
@@ -12,6 +14,7 @@ import {
   recaudadoPorPeriodo,
 } from '../../lib/finanzas';
 import type { Gasto } from '../../lib/types';
+import { useApp } from '../../store/AppContext';
 import { useData } from '../../store/DataContext';
 import { Button } from '../ui/Button';
 import { EmptyState } from '../ui/EmptyState';
@@ -32,7 +35,8 @@ function parseFecha(s?: string | number): number {
 }
 
 export function HomePage() {
-  const { gastos, pagos, flujo, parcelas, config, noticias, loading } = useData();
+  const { gastos, pagos, flujo, parcelas, propietarios, config, noticias, loading } = useData();
+  const { isAdmin, currentUserEmail } = useApp();
 
   const [comoPagar, setComoPagar] = useState(false);
   const [deuda, setDeuda] = useState<{ parcelaId: string; nombre: string } | null>(null);
@@ -56,27 +60,92 @@ export function HomePage() {
   const periodos = periodosFinanzas(gastos, flujo);
   const periodo = periodos.length ? periodos[0] : null;
 
-  const esperado = esperadoPorPeriodo(periodo, gastos);
-  const recaudado = recaudadoPorPeriodo(periodo, gastos, pagos);
+  const miParcela = currentUserEmail && !isAdmin
+    ? (propietarios || []).find((p) => p.email === currentUserEmail)?.parcela_id ?? null
+    : null;
+  const esPropietario = !!miParcela;
+
+  const regsParcela = esPropietario ? gastos.filter((g) => g.parcela_id === miParcela) : gastos;
+  const esperado = esperadoPorPeriodo(periodo, regsParcela);
+  const recaudado = recaudadoPorPeriodo(periodo, regsParcela, pagos);
   const egresos = egresosMes(periodo, flujo);
   const cantidadMorosos = morosos(gastos, parcelas, pagos).length;
+  const estado = esPropietario ? estadoParcelaPago(miParcela, gastos, pagos) : null;
+  const deudaTotal = esPropietario ? deudaParcela(miParcela, gastos, pagos) : 0;
 
   const pct = pctRecaudado(periodo, gastos, pagos);
   const fillColor = pct >= 90 ? 'var(--color-positive)' : pct >= 60 ? '#f59e0b' : 'var(--md-sys-color-error)';
   const cuota = cuotaDelPeriodo(periodo, config).monto;
+  const gEsperado = esperadoPorPeriodo(periodo, gastos);
+  const gRecaudado = recaudadoPorPeriodo(periodo, gastos, pagos);
   const hoy = todayISO();
   const pinnedNews = noticias
     .filter((n) => n.pinned && (!n.fecha_hasta || n.fecha_hasta >= hoy))
     .sort((a, b) => parseFecha(b.fecha || b.created_at) - parseFecha(a.fecha || a.created_at))
     .slice(0, 3);
 
+  const morososCard = (m: { parcela_id: string; numero: string; deuda: number }, propia: boolean) => {
+    const pend = periodosPendientes(m.parcela_id, gastos, pagos).length;
+    return (
+      <div
+        key={m.parcela_id}
+        className="card"
+        style={{ margin: 0, cursor: 'pointer', padding: '0.9rem', border: '1px solid var(--border)' }}
+        onClick={() => setDeuda({ parcelaId: m.parcela_id, nombre: m.numero })}
+      >
+        <div style={{ fontWeight: 600, color: 'var(--text)' }}>
+          {m.numero}
+          {propia && <span style={{ fontSize: '0.75rem', color: 'var(--text-2)' }}> (tu parcela)</span>}
+        </div>
+        <div style={{ color: 'var(--md-sys-color-error)', fontWeight: 700 }}>{formatMoney(m.deuda)}</div>
+        <div style={{ fontSize: '0.8rem', color: 'var(--text-2)' }}>
+          {pend ? pend + ' periodo' + (pend > 1 ? 's' : '') : ''}
+        </div>
+      </div>
+    );
+  };
+
+  let bloqueMorosos: React.ReactNode = null;
+  if (currentUserEmail) {
+    if (isAdmin) {
+      const mor = morosos(gastos, parcelas, pagos);
+      bloqueMorosos = mor.length === 0 ? (
+        <EmptyState texto="Todas las parcelas están al día." />
+      ) : (
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '0.6rem' }}>
+          {mor.map((m) => morososCard(m, false))}
+        </div>
+      );
+    } else if (miParcela) {
+      const deudaPropia = deudaParcela(miParcela, gastos, pagos);
+      bloqueMorosos = deudaPropia <= 0 ? (
+        <EmptyState texto="Tu parcela está al día." />
+      ) : (
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '0.6rem' }}>
+          {morososCard({ parcela_id: miParcela, numero: parcelaNumero(miParcela, parcelas), deuda: deudaPropia }, true)}
+        </div>
+      );
+    }
+  }
+
   return (
     <div id="tab-home" className="tab-content active">
       <section className="stats">
-        <StatCard label="Esperado (periodo)" value={formatMoney(esperado)} />
-        <StatCard label="Recaudado (periodo)" value={formatMoney(recaudado)} tone="blue" />
-        <StatCard label="Egresos (periodo)" value={formatMoney(egresos)} tone="red" />
-        <StatCard label="Morosos" value={cantidadMorosos} tone={cantidadMorosos > 0 ? 'red' : 'green'} />
+        {esPropietario ? (
+          <>
+            <StatCard label="Pagado (periodo)" value={formatMoney(recaudado)} tone="blue" />
+            <StatCard label="Cuota (periodo)" value={formatMoney(esperado)} />
+            <StatCard label="Estado" value={estado || ''} tone={estado === 'Al día' ? 'green' : 'red'} />
+            <StatCard label="Deuda acumulada" value={formatMoney(deudaTotal)} tone={deudaTotal > 0 ? 'red' : 'green'} />
+          </>
+        ) : (
+          <>
+            <StatCard label="Esperado (periodo)" value={formatMoney(esperado)} />
+            <StatCard label="Recaudado (periodo)" value={formatMoney(recaudado)} tone="blue" />
+            <StatCard label="Egresos (periodo)" value={formatMoney(egresos)} tone="red" />
+            <StatCard label="Morosos" value={cantidadMorosos} tone={cantidadMorosos > 0 ? 'red' : 'green'} />
+          </>
+        )}
       </section>
 
       {pinnedNews.length > 0 && (
@@ -100,7 +169,7 @@ export function HomePage() {
             <strong style={{ color: 'var(--text)' }}>Cuota de gasto común:</strong> <strong style={{ color: 'var(--text)' }}>{formatMoney(cuota)}</strong>
             {periodo ? <> <span style={{ color: 'var(--text-muted)' }}>({formatPeriodo(periodo)})</span></> : null}
             {' \u00A0 '}
-            <strong style={{ color: 'var(--text)' }}>{formatMoney(recaudado)}</strong> <span style={{ color: 'var(--text-muted)' }}>de {formatMoney(esperado)} recaudados</span>
+            <strong style={{ color: 'var(--text)' }}>{formatMoney(gRecaudado)}</strong> <span style={{ color: 'var(--text-muted)' }}>de {formatMoney(gEsperado)} recaudados</span>
           </p>
           <div className="progress-track">
             <div className="progress-fill" style={{ width: pct + '%', background: fillColor }} />
@@ -119,32 +188,12 @@ export function HomePage() {
         </div>
       </div>
 
-      <div className="card" style={{ marginBottom: '1rem' }}>
-        <h4>Parcelas morosas</h4>
-        {cantidadMorosos === 0 ? (
-          <EmptyState texto="Todas las parcelas están al día." />
-        ) : (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '0.6rem' }}>
-            {morosos(gastos, parcelas, pagos).map((m) => {
-              const pend = periodosPendientes(m.parcela_id, gastos, pagos).length;
-              return (
-                <div
-                  key={m.parcela_id}
-                  className="card"
-                  style={{ margin: 0, cursor: 'pointer', padding: '0.9rem', border: '1px solid var(--border)' }}
-                  onClick={() => setDeuda({ parcelaId: m.parcela_id, nombre: m.numero })}
-                >
-                  <div style={{ fontWeight: 600, color: 'var(--text)' }}>{m.numero}</div>
-                  <div style={{ color: 'var(--md-sys-color-error)', fontWeight: 700 }}>{formatMoney(m.deuda)}</div>
-                  <div style={{ fontSize: '0.8rem', color: 'var(--text-2)' }}>
-                    {pend ? pend + ' periodo' + (pend > 1 ? 's' : '') : ''}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        )}
-      </div>
+      {currentUserEmail && (
+        <div className="card" style={{ marginBottom: '1rem' }}>
+          <h4>Parcelas morosas</h4>
+          {bloqueMorosos}
+        </div>
+      )}
 
       <ComoPagarModal
         open={comoPagar}

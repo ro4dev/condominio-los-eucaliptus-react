@@ -3,6 +3,7 @@ import { Header } from './components/layout/Header';
 import { TabsNav } from './components/layout/TabsNav';
 import { ComingSoon } from './components/layout/ComingSoon';
 import { TABS, type TabId } from './components/layout/tabs';
+import { useApp } from './store/AppContext';
 import { FinanzasPage } from './components/finanzas/FinanzasPage';
 import { ParcelasPage } from './components/parcelas/ParcelasPage';
 import { HomePage } from './components/home/HomePage';
@@ -16,11 +17,16 @@ import { VentasPage } from './components/ventas/VentasPage';
 import { ConfigPage } from './components/config/ConfigPage';
 
 export default function App() {
+  const { isAdmin } = useApp();
   const [activeTab, setActiveTab] = useState<TabId>('home');
   const activeDef = TABS.find((t) => t.id === activeTab) || TABS[0];
 
+  const guard = isAdmin || activeDef.id !== 'config'
+    ? activeDef
+    : TABS.find((t) => t.id === 'home') || TABS[0];
+
   function renderPage() {
-    switch (activeDef.id) {
+    switch (guard.id) {
       case 'home':
         return <HomePage />;
       case 'finanzas':
@@ -46,7 +52,7 @@ export default function App() {
       default:
         return (
           <div className="tab-content active">
-            <ComingSoon label={activeDef.label} />
+            <ComingSoon label={guard.label} />
           </div>
         );
     }

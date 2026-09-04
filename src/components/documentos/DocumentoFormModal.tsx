@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import { safeUrl } from '../../lib/format';
+import { blobURLDemo, subirArchivo } from '../../lib/storage';
 import type { Documento } from '../../lib/types';
+import { useApp } from '../../store/AppContext';
 import { useData } from '../../store/DataContext';
 import { Button, TextButton } from '../ui/Button';
 import { Modal } from '../ui/Modal';
@@ -17,6 +19,7 @@ const DEFAULT_CATS = ['Estatuto', 'Actas', 'Contratos', 'Seguros', 'Planos'];
 export function DocumentoFormModal({ open, documento, onClose }: Props) {
   const isEdit = !!documento;
   const { config, saveDocumento } = useData();
+  const { showSnackbar, demoMode } = useApp();
   const [nombre, setNombre] = useState('');
   const [categoria, setCategoria] = useState('');
   const [descripcion, setDescripcion] = useState('');
@@ -41,12 +44,25 @@ export function DocumentoFormModal({ open, documento, onClose }: Props) {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!nombre || !categoria || !descripcion) return;
+    let archivoValue: string | undefined;
+    if (archivo) {
+      if (demoMode) {
+        archivoValue = await blobURLDemo(archivo);
+      } else {
+        const res = await subirArchivo(archivo, 'documentos', categoria);
+        if (!res.url) {
+          showSnackbar(res.error || 'Error al subir archivo.', 'error');
+          return;
+        }
+        archivoValue = res.url;
+      }
+    }
     const payload: Partial<Documento> = {
       nombre,
       categoria,
       descripcion,
     };
-    if (archivo) payload.archivo = URL.createObjectURL(archivo);
+    if (archivoValue) payload.archivo = archivoValue;
     if (isEdit && documento) payload.id = documento.id;
     const ok = await saveDocumento(payload, isEdit);
     if (ok) onClose();

@@ -18,7 +18,7 @@ interface Props {
 
 export function GenerarCuotasModal({ open, onClose, titulo, periodoInicial, fijo = false }: Props) {
   const { gastos, config, generarCuotas } = useData();
-  const { showSnackbar } = useApp();
+  const { showSnackbar, demoMode } = useApp();
   const [periodo, setPeriodo] = useState<string>('');
   const [monto, setMonto] = useState<string>('');
   const [fondo, setFondo] = useState<string>('');
@@ -57,8 +57,10 @@ export function GenerarCuotasModal({ open, onClose, titulo, periodoInicial, fijo
     e.preventDefault();
     if (!periodo) return;
     const count = await generarCuotas(periodo, monto, fondo);
+    if (count < 0) return;
+    const sufijo = demoMode ? ' (demo).' : '.';
     showSnackbar(
-      count ? 'Se generaron ' + count + ' cuotas.' : 'Todas las parcelas ya tienen cuota para este periodo.',
+      count ? 'Se generaron ' + count + ' cuotas' + sufijo : 'Todas las parcelas ya tienen cuota para este periodo.',
       count ? 'success' : 'warning',
     );
     onClose();

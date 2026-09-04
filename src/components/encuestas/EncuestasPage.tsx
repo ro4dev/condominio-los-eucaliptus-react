@@ -13,15 +13,16 @@ type Filtro = 'Abiertas' | 'Cerradas';
 const COLORS = ['#22c55e', '#3b82f6', '#f59e0b', '#b91c1c', '#8b5cf6', '#ec4899'];
 
 export function EncuestasPage() {
-  const { isAdmin } = useApp();
+  const { isAdmin, currentUserEmail, showSnackbar } = useApp();
   const { encuestas, encuestas_votos, propietarios, registrarVoto, deleteEncuesta } = useData();
   const [filtro, setFiltro] = useState<Filtro>('Abiertas');
   const [form, setForm] = useState<{ open: boolean; encuesta: Encuesta | null }>({ open: false, encuesta: null });
 
   const miParcela = useMemo(() => {
-    const p = (propietarios || []).find((x) => x.parcela_id);
+    if (!currentUserEmail) return '';
+    const p = (propietarios || []).find((x) => x.email === currentUserEmail);
     return p ? p.parcela_id : '';
-  }, [propietarios]);
+  }, [propietarios, currentUserEmail]);
 
   const ahora = new Date();
 
@@ -59,8 +60,12 @@ export function EncuestasPage() {
   async function votar(e: Encuesta, indice: number, opciones: string[]) {
     const seleccion = opciones[indice];
     if (!seleccion) return;
+    if (!currentUserEmail) {
+      showSnackbar('Debes iniciar sesión para votar.', 'info');
+      return;
+    }
     if (!miParcela) {
-      window.alert('No se encontró una parcela asociada a tu cuenta.');
+      showSnackbar('No se encontró una parcela asociada a tu cuenta.', 'error');
       return;
     }
     await registrarVoto(e.id, miParcela, seleccion);

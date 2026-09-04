@@ -1,8 +1,9 @@
 import { formatDate, formatMoney, formatPeriodo, mesDeFecha, nl2br, parseFecha } from '../../lib/format';
 import { egresosMes } from '../../lib/finanzas';
 import type { Movimiento } from '../../lib/types';
+import { useApp } from '../../store/AppContext';
 import { Chip } from '../ui/Chip';
-import { TextButton } from '../ui/Button';
+import { IconButton, TextButton } from '../ui/Button';
 import { Modal } from '../ui/Modal';
 import { EmptyState } from '../ui/EmptyState';
 
@@ -11,9 +12,12 @@ interface Props {
   onClose: () => void;
   periodo: string | null;
   flujo: Movimiento[];
+  onEditar?: (m: Movimiento) => void;
+  onEliminar?: (m: Movimiento) => void;
 }
 
-export function MovimientosPeriodoModal({ open, onClose, periodo, flujo }: Props) {
+export function MovimientosPeriodoModal({ open, onClose, periodo, flujo, onEditar, onEliminar }: Props) {
+  const { isAdmin } = useApp();
   if (!periodo) return null;
   const ing = flujo
     .filter((f) => f.tipo === 'Ingreso' && mesDeFecha(f.fecha) === periodo)
@@ -45,7 +49,13 @@ export function MovimientosPeriodoModal({ open, onClose, periodo, flujo }: Props
         <div style={{ overflowX: 'auto' }}>
           <table style={{ minWidth: 420 }}>
             <thead>
-              <tr><th>Fecha</th><th>Tipo</th><th>Concepto</th><th>Monto</th></tr>
+              <tr>
+                <th>Fecha</th>
+                <th>Tipo</th>
+                <th>Concepto</th>
+                <th>Monto</th>
+                {isAdmin && <th>Acciones</th>}
+              </tr>
             </thead>
             <tbody>
               {movs.map((f) => {
@@ -63,6 +73,12 @@ export function MovimientosPeriodoModal({ open, onClose, periodo, flujo }: Props
                       )}
                     </td>
                     <td style={{ textAlign: 'right', fontWeight: 600, whiteSpace: 'nowrap', color }}>{formatMoney(parseFloat(String(f.monto)) || 0)}</td>
+                    {isAdmin && (
+                      <td style={{ whiteSpace: 'nowrap' }}>
+                        <IconButton icon="edit" title="Editar" onClick={() => onEditar?.(f)} />
+                        <IconButton icon="delete" className="danger" title="Eliminar" onClick={() => onEliminar?.(f)} />
+                      </td>
+                    )}
                   </tr>
                 );
               })}

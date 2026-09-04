@@ -64,6 +64,7 @@ export function ReclamoFormModal({ open, onClose }: Props) {
             value={parcelaId}
             onChange={setParcelaId}
             options={parcelasSelect}
+            required
             placeholder={parcelas.length ? 'Seleccionar...' : 'Sin parcelas'}
           />
         </div>

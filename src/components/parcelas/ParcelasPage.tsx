@@ -18,7 +18,7 @@ function estadoTone(estado: string | undefined): 'positive' | 'warning' | 'neutr
 
 export function ParcelasPage() {
   const { parcelas, propietarios, deletePropietario } = useData();
-  const { isAdmin, showSnackbar } = useApp();
+  const { isAdmin } = useApp();
 
   const [parcelaForm, setParcelaForm] = useState<{ open: boolean; parcela: Parcela | null }>({ open: false, parcela: null });
   const [propForm, setPropForm] = useState<{ open: boolean; propietario: Propietario | null; parcelaIdFija: string | null }>({
@@ -31,7 +31,6 @@ export function ParcelasPage() {
   function eliminarPropietario(p: Propietario) {
     if (window.confirm('¿Estás seguro de eliminar este propietario? Esta acción no se puede deshacer.')) {
       deletePropietario(p.id);
-      showSnackbar('Eliminado.', 'success');
     }
   }
 

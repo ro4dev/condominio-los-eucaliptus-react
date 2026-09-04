@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { formatDate, formatMoney, formatPeriodo, safeUrl } from '../../lib/format';
 import { pagosDeGasto, sumPagosGasto } from '../../lib/finanzas';
 import { todayISO } from '../../lib/appConfig';
-import type { Gasto, Parcela } from '../../lib/types';
+import { blobURLDemo, subirArchivo } from '../../lib/storage';
+import type { Gasto, Parcela, Pago } from '../../lib/types';
 import { useApp } from '../../store/AppContext';
 import { useData } from '../../store/DataContext';
 import { Button, IconButton, TextButton } from '../ui/Button';
@@ -22,11 +23,12 @@ function parcelName(id: string, parcelas: Parcela[]): string {
 }
 
 export function PagosCuotaModal({ open, onClose, onBack, gasto, parcelas }: Props) {
-  const { isAdmin } = useApp();
+  const { isAdmin, showSnackbar, demoMode } = useApp();
   const { pagos, savePago, deletePago } = useData();
   const [showForm, setShowForm] = useState(false);
   const [monto, setMonto] = useState('');
   const [fecha, setFecha] = useState(() => todayISO());
+  const [comprobante, setComprobante] = useState<File | null>(null);
 
   if (!gasto) return null;
   const g = gasto;
@@ -40,16 +42,43 @@ export function PagosCuotaModal({ open, onClose, onBack, gasto, parcelas }: Prop
     e.preventDefault();
     const m = parseFloat(monto) || 0;
     if (m <= 0) return;
-    const ok = await savePago({
+    let comprobanteValue: string | undefined;
+    if (comprobante) {
+      if (demoMode) {
+        comprobanteValue = await blobURLDemo(comprobante);
+      } else {
+        const res = await subirArchivo(comprobante, 'gastos_comunes', '');
+        if (!res.url) {
+          showSnackbar(res.error || 'Error al subir archivo.', 'error');
+          return;
+        }
+        comprobanteValue = res.url;
+      }
+    }
+    const payload: Partial<Pago> = {
       gasto_id: g.id,
       parcela_id: g.parcela_id,
       periodo: g.periodo,
       monto: m,
       fecha,
-    });
+    };
+    if (comprobanteValue) payload.comprobante = comprobanteValue;
+    const ok = await savePago(payload);
     if (ok) {
       setShowForm(false);
       setMonto('');
+      setComprobante(null);
+    }
+  }
+
+  function eliminarPago(id: string) {
+    if (window.confirm('¿Eliminar este pago?')) {
+      deletePago(id).then((ok) => {
+        if (ok) {
+          setShowForm(false);
+          onClose();
+        }
+      });
     }
   }
 
@@ -79,11 +108,15 @@ export function PagosCuotaModal({ open, onClose, onBack, gasto, parcelas }: Prop
               <label>Monto</label>
               <input className="field-input" type="number" min={0} value={monto} onChange={(e) => setMonto(e.target.value)} required />
             </div>
-            <div className="form-group">
-              <label>Fecha</label>
-              <input className="field-input" type="date" value={fecha} onChange={(e) => setFecha(e.target.value)} required />
-            </div>
+<div className="form-group">
+            <label htmlFor="pagoFechaForm">Fecha</label>
+            <input id="pagoFechaForm" className="field-input" type="date" value={fecha} onChange={(e) => setFecha(e.target.value)} required />
           </div>
+          <div className="form-group">
+            <label>Comprobante (foto)</label>
+            <input className="field-input" type="file" name="comprobante" accept="image/*" onChange={(e) => setComprobante(e.target.files ? e.target.files[0] : null)} />
+          </div>
+        </div>
           <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.5rem' }}>
             <Button type="submit" icon="payments">Guardar pago</Button>
           </div>
@@ -108,7 +141,7 @@ export function PagosCuotaModal({ open, onClose, onBack, gasto, parcelas }: Prop
                   <IconButton icon="receipt" className="primary" title="Ver comprobante" style={{ color: 'var(--md-sys-color-primary)' }} />
                 </a>
               )}
-              {isAdmin && <IconButton icon="delete" className="danger" onClick={() => deletePago(p.id)} title="Eliminar pago" />}
+              {isAdmin && <IconButton icon="delete" className="danger" onClick={() => eliminarPago(p.id)} title="Eliminar pago" />}
             </div>
           ))}
         </>

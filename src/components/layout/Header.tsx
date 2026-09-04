@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useApp } from '../../store/AppContext';
-import { Button, IconButton } from '../ui/Button';
+import { IconButton } from '../ui/Button';
 import { LoginModal } from '../auth/LoginModal';
 
 export function Header() {
@@ -26,19 +26,6 @@ export function Header() {
           <p>Control de gastos comunes</p>
         </div>
         <div className="header-actions">
-          <Button
-            onClick={toggleDemoMode}
-            icon="science"
-            className="btn-text"
-            style={{ padding: '0.5rem 0.75rem' }}
-          >
-            {demoMode ? 'Salir de modo demo' : 'Ir a modo demo'}
-          </Button>
-          <IconButton
-            icon={isDark ? 'light_mode' : 'dark_mode'}
-            onClick={toggleTheme}
-            title={isDark ? 'Modo claro' : 'Modo oscuro'}
-          />
           <div style={{ position: 'relative' }} ref={menuRef}>
             <IconButton
               icon="account_circle"
@@ -67,6 +54,11 @@ export function Header() {
                     Administrador
                   </div>
                 )}
+                {currentUserEmail && !isAdmin && (
+                  <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', padding: '0 0.6rem 0.5rem' }}>
+                    Propietario
+                  </div>
+                )}
                 <hr style={{ margin: '0.3rem 0', border: 'none', borderTop: '1px solid var(--border)' }} />
                 <button
                   type="button"
@@ -78,13 +70,35 @@ export function Header() {
                     } else {
                       setLoginOpen(true);
                     }
-                    setMenuOpen(false);
                   }}
                 >
                   <span className="material-symbols-outlined" style={{ fontSize: '1.1rem', marginRight: '0.5rem' }}>
                     {currentUserEmail ? 'logout' : 'login'}
                   </span>
                   {currentUserEmail ? 'Cerrar sesión' : 'Iniciar sesión'}
+                </button>
+                <hr style={{ margin: '0.3rem 0', border: 'none', borderTop: '1px solid var(--border)' }} />
+                <button
+                  type="button"
+                  className="btn btn-text"
+                  style={{ width: '100%', justifyContent: 'flex-start', padding: '0.5rem 0.6rem', fontSize: '0.9rem' }}
+                  onClick={toggleDemoMode}
+                >
+                  <span className="material-symbols-outlined" style={{ fontSize: '1.1rem', marginRight: '0.5rem' }}>
+                    science
+                  </span>
+                  {demoMode ? 'Salir de modo demo' : 'Ir a modo demo'}
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-text"
+                  style={{ width: '100%', justifyContent: 'flex-start', padding: '0.5rem 0.6rem', fontSize: '0.9rem' }}
+                  onClick={toggleTheme}
+                >
+                  <span className="material-symbols-outlined" style={{ fontSize: '1.1rem', marginRight: '0.5rem' }}>
+                    {isDark ? 'light_mode' : 'dark_mode'}
+                  </span>
+                  {isDark ? 'Modo claro' : 'Modo oscuro'}
                 </button>
               </div>
             )}

@@ -2,7 +2,9 @@ import { useEffect, useMemo, useState } from 'react';
 import { formatMoney, formatPeriodo, numeroDeParcela } from '../../lib/format';
 import { cuotaDelPeriodo } from '../../lib/finanzas';
 import { periodOptions } from '../../lib/appConfig';
+import { blobURLDemo, subirArchivo } from '../../lib/storage';
 import type { Gasto, Parcela } from '../../lib/types';
+import { useApp } from '../../store/AppContext';
 import { useData } from '../../store/DataContext';
 import { Button, TextButton } from '../ui/Button';
 import { Modal } from '../ui/Modal';
@@ -22,6 +24,7 @@ function sortParcelas(parcelas: Parcela[]): Parcela[] {
 export function GastoFormModal({ open, onClose, gasto }: Props) {
   const isEdit = !!gasto;
   const { gastos, parcelas, config, saveGasto } = useData();
+  const { showSnackbar, demoMode } = useApp();
 
   const [periodo, setPeriodo] = useState<string>('');
   const [parcelaId, setParcelaId] = useState<string>('');
@@ -73,7 +76,7 @@ export function GastoFormModal({ open, onClose, gasto }: Props) {
     const parcela = parcelas.find((p) => p.id === parcelaId);
     const numero = parcela ? parcela.numero : '';
     const parts = periodo.split('-');
-    return parts[1] + '_' + parts[0] + '_' + numero;
+    return 'GC_' + parts[1] + '_' + parts[0] + '_' + numero;
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -81,7 +84,16 @@ export function GastoFormModal({ open, onClose, gasto }: Props) {
     if (!periodo || !parcelaId || !monto) return;
     let archivoValue: string | undefined;
     if (archivo) {
-      archivoValue = URL.createObjectURL(archivo);
+      if (demoMode) {
+        archivoValue = await blobURLDemo(archivo);
+      } else {
+        const res = await subirArchivo(archivo, 'gastos_comunes', periodo);
+        if (!res.url) {
+          showSnackbar(res.error || 'Error al subir archivo.', 'error');
+          return;
+        }
+        archivoValue = res.url;
+      }
     }
     const payload: Partial<Gasto> = {
       periodo,

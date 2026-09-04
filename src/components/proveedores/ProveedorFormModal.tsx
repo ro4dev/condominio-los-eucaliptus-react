@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import type { Proveedor } from '../../lib/types';
+import { useApp } from '../../store/AppContext';
 import { useData } from '../../store/DataContext';
 import { Button, TextButton } from '../ui/Button';
 import { Modal } from '../ui/Modal';
@@ -16,6 +17,7 @@ const DEFAULT_RUBROS = ['Jardinería', 'Plomería', 'Electricidad', 'Albañiler�
 export function ProveedorFormModal({ open, proveedor, onClose }: Props) {
   const isEdit = !!proveedor;
   const { config, saveProveedor } = useData();
+  const { showSnackbar } = useApp();
   const [rubro, setRubro] = useState('');
   const [nombre, setNombre] = useState('');
   const [contacto, setContacto] = useState('');
@@ -43,13 +45,21 @@ export function ProveedorFormModal({ open, proveedor, onClose }: Props) {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!rubro || !nombre || !contacto) return;
+    let web = webInstagram;
+    if (web) {
+      if (/[\s,]/.test(web)) {
+        showSnackbar('El campo Web/Instagram contiene caracteres inválidos (espacios, comas).', 'warning');
+        return;
+      }
+      if (web.indexOf('http') !== 0) web = 'https://' + web;
+    }
     const payload: Partial<Proveedor> = {
       rubro,
       nombre,
       contacto,
       telefono,
       email,
-      web_instagram: webInstagram,
+      web_instagram: web,
       observaciones,
     };
     if (isEdit && proveedor) payload.id = proveedor.id;

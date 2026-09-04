@@ -10,8 +10,7 @@ interface Props {
 }
 
 export function LoginModal({ open, onClose }: Props) {
-  const { login, signup } = useApp();
-  const [modo, setModo] = useState<'login' | 'signup'>('login');
+  const { login } = useApp();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -19,7 +18,6 @@ export function LoginModal({ open, onClose }: Props) {
 
   useEffect(() => {
     if (!open) return;
-    setModo('login');
     setEmail('');
     setPassword('');
     setError('');
@@ -30,17 +28,7 @@ export function LoginModal({ open, onClose }: Props) {
     if (busy) return;
     setError('');
     setBusy(true);
-    let res: { ok: boolean; error?: string };
-    if (modo === 'login') {
-      res = await login(email, password);
-    } else {
-      res = await signup(email, password);
-      if (res.ok) {
-        setModo('login');
-        setBusy(false);
-        return;
-      }
-    }
+    const res = await login(email, password);
     setBusy(false);
     if (!res.ok) {
       setError(res.error || 'Ocurrió un error.');
@@ -66,13 +54,13 @@ export function LoginModal({ open, onClose }: Props) {
   return (
     <Modal
       open={open}
-      title={modo === 'login' ? 'Iniciar sesión' : 'Crear cuenta'}
+      title="Iniciar sesión"
       onClose={onClose}
       footer={
         <>
           <TextButton onClick={onClose}>Cancelar</TextButton>
           <Button type="submit" form="loginForm" disabled={busy}>
-            {modo === 'login' ? 'Iniciar sesión' : 'Crear cuenta'}
+            Iniciar sesión
           </Button>
         </>
       }
@@ -103,17 +91,6 @@ export function LoginModal({ open, onClose }: Props) {
           />
         </div>
         {error && <div style={{ color: 'var(--md-sys-color-error)', fontSize: '0.85rem' }}>{error}</div>}
-        <button
-          type="button"
-          className="btn btn-text"
-          style={{ alignSelf: 'flex-start', padding: '0.25rem 0', fontSize: '0.85rem' }}
-          onClick={() => {
-            setError('');
-            setModo((m) => (m === 'login' ? 'signup' : 'login'));
-          }}
-        >
-          {modo === 'login' ? '¿No tenés cuenta? Crear cuenta' : '¿Ya tenés cuenta? Iniciar sesión'}
-        </button>
       </form>
     </Modal>
   );

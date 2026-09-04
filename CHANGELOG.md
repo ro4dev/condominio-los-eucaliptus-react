@@ -2,6 +2,18 @@
 
 ## Registro de cambios
 
+### 04/09/2026 - Paridad total con el frontend original (replicado exactamente)
+- **Added**: **CRUD de flujo (ingresos/egresos)** completo (pestaña Finanzas → "Movimientos del periodo"): modal de flujo con comprobante, guardado demo/prod y eliminación con confirmación; botones de editar/eliminar por fila (admin).
+- **Added**: **Subida de archivos a Supabase Storage** (`src/lib/storage.ts`): compresión de imágenes (<500KB), firma de URLs de 7 días y buckets por módulo (flujo→`ingresos_egresos`, documentos→`documentos`, publicaciones→`publicaciones`, gastos/pagos→`gastos_comunes`); en demo usa blob de la imagen.
+- **Added**: **Comprobante (foto) en pagos** (Home y Finanzas→Pagos de la cuota) con subida opcional; eliminar pago con confirmación y cierre del modal.
+- **Added**: **generarCuotas en producción** (inserta cuotas GC/GC_FR a la tabla `gastos`, como el original) y descripciones con `formatPeriodo`.
+- **Added**: **Votación de encuestas en producción** (verifica voto por parcela; error `23505` → "Ya votaste en esta encuesta.").
+- **Added**: edge functions `create-user` y `delete-user` (crear/eliminar propietarios de auth en prod).
+- **Added**: **Home según rol** — stats de propietario (Pagado/Cuota/Estado/Deuda acumulada) vs admin (Esperado/Recaudado/Egresos/Morosos) y bloques de morosos diferenciados ("Tu parcela está al día." / "(tu parcela)").
+- **Changed**: **login-only** (sin registro, como el original): el menú del header muestra una sola entrada; se mantiene `signup` en AppContext sin UI.
+- **Changed**: textos de snackbar alineados al original ("Pago eliminado.", "Periodo actualizado."), auditoría de `config` (periodos) y `AUDIT_TABLES` sin 'Pagos'.
+- **Changed**: validaciones del original en proveedores (prefijo `https://`, caracteres inválidos) y reclamos (parcela requerida); `publicaciones` setea `usuario` en inserts nuevos.
+
 ### 04/09/2026 - Auth real (login/roles admin) + Auditoría de actividad
 - **Added**: **Autenticación real** con Supabase (reemplaza el `isAdmin: true` temporal):
   - Sesión persistida vía `onAuthStateChange` + `getSession` en AppContext

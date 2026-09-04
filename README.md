@@ -41,7 +41,7 @@ src/
     encuestas/          # Página Encuestas (votación + resultados + CRUD)
     ventas/             # Página Ventas (publicaciones con foto + filtros + CRUD)
     config/             # Página Configuración (parcelas bulk, datos de pago, chips, auditoría)
-    auth/               # LoginModal (login + registro)
+    auth/               # LoginModal (login) + supabase/functions (create-user/delete-user)
 ```
 
 ## Modo demo vs producción
@@ -65,7 +65,7 @@ src/
 | Encuestas (votación, quorum, resultados con barras, CRUD) | ✅ |
 | Ventas (publicaciones con foto, filtros categoría/estado, CRUD) | ✅ |
 | Configuración (creación masiva de parcelas, datos de pago, chips editables) | ✅ |
-| Auth (login/registro Supabase, roles admin) y auditoría de actividad | ✅ |
+| Auth (login Supabase, roles admin) y auditoría de actividad | ✅ |
 
 ## Comandos
 
