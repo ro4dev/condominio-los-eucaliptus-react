@@ -2,6 +2,15 @@
 
 ## Registro de cambios
 
+### 04/09/2026 - Módulo Home
+- **Added**: Página **Home** (vista admin):
+  - Stats del periodo: Esperado, Recaudado, Egresos y cantidad de morosos
+  - Card "Recaudación del periodo": cuota vigente + recaudado/esperado + barra de progreso con porcentaje
+  - Card "Cómo pagar": modal con datos bancarios (`config.datos_pago`) con copiado por campo y "Copiar datos" (portapapeles), y QR si existe
+  - Card "Parcelas morosas": grid de morosos (número, deuda, periodos pendientes) que abre detalle de deuda por periodo; los admins pueden "Registrar pago" desde ahí
+  - Registro de pago desde la deuda (reusa `savePago`)
+- **Changed**: Tab "Home" activada y seteada como pestaña inicial de la app. Las noticias destacadas se dejan fuera por ahora (dependen del módulo Noticias, aún no migrado)
+
 ### 04/09/2026 - Módulo Parcelas
 - **Added**: Página **Parcelas**:
   - Grid de parcelas ordenado por número, con Rol, Metros², chip de estado (Habitada/Desocupada/En construcción), contador de propietarios y botón "Ver propietarios"

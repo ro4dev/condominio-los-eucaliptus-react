@@ -18,7 +18,7 @@ export interface TabDef {
 }
 
 export const TABS: TabDef[] = [
-  { id: 'home', label: 'Home', implemented: false },
+  { id: 'home', label: 'Home', implemented: true },
   { id: 'finanzas', label: 'Finanzas', implemented: true },
   { id: 'parcelas', label: 'Parcelas', implemented: true },
   { id: 'noticias', label: 'Noticias', implemented: false },

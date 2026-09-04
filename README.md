@@ -32,6 +32,7 @@ src/
     layout/             # Header, TabsNav, ComingSoon
     finanzas/           # Página Finanzas completa + charts y modales
     parcelas/           # Página Parcelas (grid + CRUD parcelas/propietarios)
+    home/               # Página Home (stats, recaudación, cómo pagar, morosos + pagos)
 ```
 
 ## Modo demo vs producción
@@ -46,6 +47,7 @@ src/
 | Scaffolding + layout + tabs | ✅ |
 | Finanzas (gráficos, periodo en curso, histórico, generación de cuotas, CRUD gastos/pagos) | ✅ |
 | Parcelas (grid, estado, propietarios, CRUD parcelas/propietarios) | ✅ |
+| Home (stats, recaudación, cómo pagar, morosos, registro de pagos) | ✅ |
 | Resto de pestañas (Noticias, Documentos, Reclamos, Asambleas, Encuestas, etc.) | ⏳ Próximamente |
 
 ## Comandos
