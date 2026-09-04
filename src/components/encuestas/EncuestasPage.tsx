@@ -102,9 +102,9 @@ export function EncuestasPage() {
             const e = d.encuesta;
             const quorumAlcanzado = e.quorum ? d.total >= e.quorum : true;
             const fechaPub =
-              e.fecha_termino && (e.fecha || e.created_at)
-                ? formatDateCorta(e.fecha || e.created_at) + ' - ' + formatDateCorta(e.fecha_termino)
-                : formatDateCorta(e.fecha || e.created_at);
+              e.fecha_termino && e.created_at
+                ? formatDateCorta(e.created_at) + ' - ' + formatDateCorta(e.fecha_termino)
+                : formatDateCorta(e.created_at);
             let infoExtra = '';
             if (e.fecha_termino && !d.cerrada) {
               const remaining = getTimeRemaining(e.fecha_termino);

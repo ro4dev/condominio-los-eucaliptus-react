@@ -12,17 +12,13 @@ interface Props {
 
 export function EncuestaFormModal({ open, encuesta, onClose }: Props) {
   const isEdit = !!encuesta;
-  const { encuestas_votos, saveEncuesta } = useData();
+  const { saveEncuesta } = useData();
   const [titulo, setTitulo] = useState('');
   const [descripcion, setDescripcion] = useState('');
   const [fechaTermino, setFechaTermino] = useState('');
   const [quorum, setQuorum] = useState('');
   const [modoAlt, setModoAlt] = useState(false);
   const [alternativas, setAlternativas] = useState<string[]>(['', '']);
-
-  const tieneVotos = isEdit
-    ? (encuestas_votos || []).some((v) => v.encuesta_id === encuesta?.id)
-    : false;
 
   useEffect(() => {
     if (!open) return;
