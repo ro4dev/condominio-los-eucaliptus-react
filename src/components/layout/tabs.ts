@@ -29,5 +29,4 @@ export const TABS: TabDef[] = [
   { id: 'encuestas', label: 'Encuestas', implemented: true },
   { id: 'publicaciones', label: 'Ventas', implemented: true },
   { id: 'config', label: 'Configuración', implemented: true },
-  { id: 'config', label: 'Configuración', implemented: false },
 ];

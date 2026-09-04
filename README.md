@@ -35,6 +35,12 @@ src/
     home/               # Página Home (stats, recaudación, cómo pagar, morosos + noticias destacadas)
     noticias/           # Página Noticias (filtros + CRUD + destacar/pinnea)
     documentos/         # Página Documentos (filtros por categoría + CRUD + archivo)
+    reclamos/           # Página Comentarios (Reclamos/Sugerencias + CRUD)
+    proveedores/        # Página Proveedores (grid de cards + CRUD)
+    asambleas/          # Página Asambleas (filtros + asistentes + CRUD)
+    encuestas/          # Página Encuestas (votación + resultados + CRUD)
+    ventas/             # Página Ventas (publicaciones con foto + filtros + CRUD)
+    config/             # Página Configuración (parcelas bulk, datos de pago, chips)
 ```
 
 ## Modo demo vs producción
@@ -52,7 +58,13 @@ src/
 | Home (stats, recaudación, cómo pagar, morosos, noticias destacadas, registro de pagos) | ✅ |
 | Noticias (filtros vigentes/destacadas/no vigentes/todas, CRUD, destacar en Home) | ✅ |
 | Documentos (filtros por categoría desde config, CRUD, archivo adjunto, ver descripción) | ✅ |
-| Resto de pestañas (Reclamos, Asambleas, Encuestas, etc.) | ⏳ Próximamente |
+| Comentarios (reclamos/sugerencias, filtros, crear/eliminar) | ✅ |
+| Proveedores (grid de cards con contacto, CRUD) | ✅ |
+| Asambleas (filtros, temario/acuerdos, asistentes por parcela, CRUD) | ✅ |
+| Encuestas (votación, quorum, resultados con barras, CRUD) | ✅ |
+| Ventas (publicaciones con foto, filtros categoría/estado, CRUD) | ✅ |
+| Configuración (creación masiva de parcelas, datos de pago, chips editables) | ✅ |
+| Auth real (login/roles admin) y auditoría | ⏳ Pendiente |
 
 ## Comandos
 

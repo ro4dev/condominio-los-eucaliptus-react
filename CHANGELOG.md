@@ -2,6 +2,28 @@
 
 ## Registro de cambios
 
+### 04/09/2026 - Módulos Asambleas, Encuestas, Ventas y Configuración (migración completa)
+- **Added**: Página **Asambleas**:
+  - Filtros Todos / Ordinarias / Extraordinarias
+  - Cards ordenadas por fecha (más reciente primero) con chip de tipo, temario y acuerdos (nl2br)
+  - Lista de asistentes por parcela (chips numéricos) con "Marcar todos"
+  - Modal crear/editar asamblea: fecha, tipo, temario, acuerdos y asistentes (chips de parcelas)
+  - Editar/eliminar admin con confirmación
+- **Added**: Página **Encuestas**:
+  - Filtros Abiertas / Cerradas (por fecha de término)
+  - Votación por parcela (una vez por parcela, aviso "Ya votaste"), quorum con indicador
+  - Barras de resultados con % por opción, alternativas "A favor"/"En contra" o personalizadas
+  - Modal crear/editar encuesta (alternativas no editables con votos), editar/eliminar admin
+- **Added**: Página **Ventas** (Publicaciones):
+  - Filtros por categoría (Todas/Productos/Servicios) y estado (Todos/Disponibles/Vendidos)
+  - Grid de cards con foto (clic para ver en modal), precio formateado, parcela y contacto
+  - Modal publicar/editar venta con foto opcional (URL.createObjectURL) y estado Disponible/Vendido
+- **Added**: Página **Configuración** (solo admin):
+  - Creación masiva de parcelas (cantidad + prefijo) con detección de cambios y renombrado opcional
+  - Datos de pago (Home → Cómo pagar) editables y guardados en config
+  - Chips editables con autosave: Categorías de Documentos, Rubros de Proveedores y Conceptos de Ingresos/Egresos (items en uso con candado)
+- **Changed**: Tabs Asambleas, Encuestas, Ventas y Configuración activadas en la navegación. Se completa la migración de todos los módulos del frontend original (queda pendiente auth real y auditoría)
+
 ### 04/09/2026 - Módulo Documentos
 - **Added**: Página **Documentos**:
   - Filtros por categoría: "Todos" + categorías desde `config.categorias_documentos` (Estatuto, Actas, Contratos, Seguros, Planos)
