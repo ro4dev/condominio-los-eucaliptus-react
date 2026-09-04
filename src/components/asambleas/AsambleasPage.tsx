@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { escHtml, formatDate, nl2br } from '../../lib/format';
-import type { Asamblea, Parcela } from '../../lib/types';
+import type { Asamblea } from '../../lib/types';
 import { useApp } from '../../store/AppContext';
 import { useData } from '../../store/DataContext';
 import { Button, IconButton } from '../ui/Button';
