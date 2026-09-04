@@ -25,8 +25,8 @@ src/
     data.ts             # Carga demo (JSON) / prod (Supabase)
     supabase.ts         # Cliente lazy desde env
   store/
-    AppContext.tsx      # isDark, demoMode, snackbar, isAdmin
-    DataContext.tsx     # Datos + CRUD demo/prod
+    AppContext.tsx      # isDark, demoMode, snackbar, auth (login/logout/signup) e isAdmin
+    DataContext.tsx     # Datos + CRUD demo/prod + logAudit
     components/
     ui/                 # Button, Chip, StatCard, Modal, Select, Switch, Icon, EmptyState, Snackbar
     layout/             # Header, TabsNav, ComingSoon
@@ -40,7 +40,8 @@ src/
     asambleas/          # Página Asambleas (filtros + asistentes + CRUD)
     encuestas/          # Página Encuestas (votación + resultados + CRUD)
     ventas/             # Página Ventas (publicaciones con foto + filtros + CRUD)
-    config/             # Página Configuración (parcelas bulk, datos de pago, chips)
+    config/             # Página Configuración (parcelas bulk, datos de pago, chips, auditoría)
+    auth/               # LoginModal (login + registro)
 ```
 
 ## Modo demo vs producción
@@ -64,7 +65,7 @@ src/
 | Encuestas (votación, quorum, resultados con barras, CRUD) | ✅ |
 | Ventas (publicaciones con foto, filtros categoría/estado, CRUD) | ✅ |
 | Configuración (creación masiva de parcelas, datos de pago, chips editables) | ✅ |
-| Auth real (login/roles admin) y auditoría | ⏳ Pendiente |
+| Auth (login/registro Supabase, roles admin) y auditoría de actividad | ✅ |
 
 ## Comandos
 

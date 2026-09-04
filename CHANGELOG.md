@@ -2,6 +2,19 @@
 
 ## Registro de cambios
 
+### 04/09/2026 - Auth real (login/roles admin) + Auditoría de actividad
+- **Added**: **Autenticación real** con Supabase (reemplaza el `isAdmin: true` temporal):
+  - Sesión persistida vía `onAuthStateChange` + `getSession` en AppContext
+  - `isAdmin = role === 'admin'` en producción (desde `app_metadata.role`); en modo demo se mantiene admin sin login (no rompe el demo)
+  - Menú de usuario en el header (`account_circle`): muestra email/estado, "Iniciar sesión" / "Cerrar sesión"
+  - Modal de login con login + registro (signup), errores localizados ("Email o contraseña incorrectos")
+- **Added**: **Auditoría de actividad**:
+  - `logAudit(tabla, accion, registro)` en DataContext: demo → array local (prepende), prod → insert a tabla `audit_log` (con sanitización de PII: rut/telefono/email → `[oculto]`)
+  - Registro de INSERT/UPDATE/DELETE en todos los CRUDs (gastos, pagos, parcelas, propietarios, noticias, documentos, reclamos, proveedores, asambleas, encuestas, publicaciones, config)
+  - Sección "Actividad reciente" en Configuración: timeline con chips de filtro por tabla, acciones (Creó/Actualizó/Eliminó), detalle de datos en modal y carga incremental ("Cargar más")
+  - Migración `supabase/migrations/001_audit_log.sql` (tabla + RLS: lectura solo admin, escritura autenticados)
+- **Changed**: `audit_log.json` cargado en demo (DataContext). README actualizado (query pendientes: ninguno)
+
 ### 04/09/2026 - Módulos Asambleas, Encuestas, Ventas y Configuración (migración completa)
 - **Added**: Página **Asambleas**:
   - Filtros Todos / Ordinarias / Extraordinarias

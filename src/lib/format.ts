@@ -105,3 +105,24 @@ export function generateUUID(): string {
 export function numeroDeParcela(numero?: string | null): number {
   return parseInt((numero || '').replace(/\D/g, '')) || 0;
 }
+
+const PII_FIELDS = ['rut', 'telefono', 'email'];
+
+export function sanitizeAudit(registro?: Record<string, unknown> | null): Record<string, unknown> {
+  const copy: Record<string, unknown> = { ...(registro || {}) };
+  PII_FIELDS.forEach((f) => {
+    if (f in copy) copy[f] = '[oculto]';
+  });
+  return copy;
+}
+
+export function formatAuditDate(iso?: string): string {
+  if (!iso) return '';
+  const d = new Date(iso);
+  if (isNaN(d.getTime())) return iso;
+  const dd = String(d.getDate()).padStart(2, '0');
+  const mm = String(d.getMonth() + 1).padStart(2, '0');
+  const hh = String(d.getHours()).padStart(2, '0');
+  const mi = String(d.getMinutes()).padStart(2, '0');
+  return dd + '/' + mm + '/' + d.getFullYear() + ' ' + hh + ':' + mi;
+}

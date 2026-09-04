@@ -1,7 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { loadFinanzasData, type FinanzasData } from '../lib/data';
 import { supabaseClient } from '../lib/supabase';
-import { getDemoMode, generateUUID } from '../lib';
+import { getDemoMode, generateUUID, sanitizeAudit } from '../lib';
 import type { Asamblea, AsambleaAsistente, Config, Documento, Encuesta, Gasto, Noticia, Pago, Parcela, Propietario, Proveedor, Publicacion, Reclamo, VotoEncuesta } from '../lib/types';
 import { useApp } from './AppContext';
 
@@ -42,10 +42,35 @@ interface DataContextValue extends FinanzasData {
 const DataContext = createContext<DataContextValue | null>(null);
 
 export function DataProvider({ children }: { children: ReactNode }) {
-  const { showSnackbar } = useApp();
+  const { showSnackbar, currentUserEmail } = useApp();
   const [data, setData] = useState<FinanzasData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const demoMode = getDemoMode();
+
+  const logAudit = useCallback(
+    async (tabla: string, accion: 'INSERT' | 'UPDATE' | 'DELETE', registro?: unknown) => {
+      const r = (registro || {}) as unknown as Record<string, unknown>;
+      const entry = {
+        tabla,
+        accion,
+        registro_id: r.id != null ? String(r.id) : null,
+        datos: sanitizeAudit(r),
+        usuario: currentUserEmail || 'anónimo',
+      };
+      if (demoMode) {
+        setData((prev) =>
+          prev
+            ? { ...prev, audit_log: [{ ...entry, created_at: new Date().toISOString() }, ...prev.audit_log] }
+            : prev,
+        );
+        return;
+      }
+      if (!supabaseClient) return;
+      const { error } = await supabaseClient.from('audit_log').insert(entry);
+      if (error) console.error('logAudit:', error);
+    },
+    [currentUserEmail, demoMode],
+  );
 
   const reload = useCallback(async () => {
     setLoading(true);
@@ -69,11 +94,10 @@ export function DataProvider({ children }: { children: ReactNode }) {
       if (!data) return false;
       if (demoMode) {
         if (isEdit && payload.id) {
-          setData({
-            ...data,
-            gastos: data.gastos.map((g) => (g.id === payload.id ? { ...g, ...payload } : g)),
-          });
+          const actualizado = data.gastos.map((g) => (g.id === payload.id ? { ...g, ...payload } : g));
+          setData({ ...data, gastos: actualizado });
           showSnackbar('Actualizado correctamente.', 'success');
+          await logAudit('gastos', 'UPDATE', actualizado.find((g) => g.id === payload.id) );
         } else {
           const nuevo: Gasto = {
             ...(payload as Partial<Gasto>),
@@ -81,6 +105,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
           } as Gasto;
           setData({ ...data, gastos: [...data.gastos, nuevo] });
           showSnackbar('Guardado correctamente.', 'success');
+          await logAudit('gastos', 'INSERT', nuevo );
         }
         return true;
       }
@@ -92,11 +117,12 @@ export function DataProvider({ children }: { children: ReactNode }) {
         const { error } = await supabaseClient.from('gastos').insert(payload);
         if (error) { showSnackbar('Error: ' + error.message, 'error'); return false; }
       }
+      await logAudit('gastos', isEdit ? 'UPDATE' : 'INSERT', payload );
       await reload();
       showSnackbar(isEdit ? 'Actualizado correctamente.' : 'Guardado correctamente.', 'success');
       return true;
     },
-    [data, demoMode, reload, showSnackbar],
+    [data, demoMode, reload, showSnackbar, logAudit],
   );
 
   const deleteGasto = useCallback(
@@ -105,15 +131,17 @@ export function DataProvider({ children }: { children: ReactNode }) {
       if (demoMode) {
         setData({ ...data, gastos: data.gastos.filter((g) => g.id !== id) });
         showSnackbar('Eliminado (demo).', 'success');
+        await logAudit('gastos', 'DELETE', { id });
         return;
       }
       if (!supabaseClient) return;
       const { error } = await supabaseClient.from('gastos').delete().eq('id', id);
       if (error) { showSnackbar('Error: ' + error.message, 'error'); return; }
+      await logAudit('gastos', 'DELETE', { id });
       await reload();
       showSnackbar('Eliminado correctamente.', 'success');
     },
-    [data, demoMode, reload, showSnackbar],
+    [data, demoMode, reload, showSnackbar, logAudit],
   );
 
   const savePago = useCallback(
@@ -123,17 +151,19 @@ export function DataProvider({ children }: { children: ReactNode }) {
         const nuevo: Pago = { ...payload, id: generateUUID() } as Pago;
         setData({ ...data, pagos: [...data.pagos, nuevo] });
         showSnackbar('Pago registrado (demo).', 'success');
+        await logAudit('pagos', 'INSERT', nuevo );
         return true;
       }
       if (!supabaseClient) return false;
       const insert = { ...payload, monto: parseFloat(String(payload.monto)) || 0 };
       const { error } = await supabaseClient.from('pagos').insert(insert);
       if (error) { showSnackbar('Error: ' + error.message, 'error'); return false; }
+      await logAudit('pagos', 'INSERT', insert );
       await reload();
       showSnackbar('Pago registrado.', 'success');
       return true;
     },
-    [data, demoMode, reload, showSnackbar],
+    [data, demoMode, reload, showSnackbar, logAudit],
   );
 
   const deletePago = useCallback(
@@ -142,15 +172,17 @@ export function DataProvider({ children }: { children: ReactNode }) {
       if (demoMode) {
         setData({ ...data, pagos: data.pagos.filter((p) => p.id !== id) });
         showSnackbar('Pago eliminado (demo).', 'success');
+        await logAudit('pagos', 'DELETE', { id });
         return;
       }
       if (!supabaseClient) return;
       const { error } = await supabaseClient.from('pagos').delete().eq('id', id);
       if (error) { showSnackbar('Error: ' + error.message, 'error'); return; }
+      await logAudit('pagos', 'DELETE', { id });
       await reload();
       showSnackbar('Pago eliminado.', 'success');
     },
-    [data, demoMode, reload, showSnackbar],
+    [data, demoMode, reload, showSnackbar, logAudit],
   );
 
   const savePeriodos = useCallback(
@@ -211,10 +243,13 @@ export function DataProvider({ children }: { children: ReactNode }) {
       if (!data) return false;
       if (demoMode) {
         if (isEdit && payload.id) {
-          setData({ ...data, parcelas: data.parcelas.map((p) => (p.id === payload.id ? { ...p, ...payload } : p)) });
+          const actualizado = data.parcelas.map((p) => (p.id === payload.id ? { ...p, ...payload } : p));
+          setData({ ...data, parcelas: actualizado });
+          await logAudit('parcelas', 'UPDATE', actualizado.find((p) => p.id === payload.id) );
         } else {
           const nuevo: Parcela = { ...(payload as Partial<Parcela>), id: generateUUID() } as Parcela;
           setData({ ...data, parcelas: [...data.parcelas, nuevo] });
+          await logAudit('parcelas', 'INSERT', nuevo );
         }
         showSnackbar(isEdit ? 'Parcela actualizada.' : 'Parcela agregada.', 'success');
         return true;
@@ -227,11 +262,12 @@ export function DataProvider({ children }: { children: ReactNode }) {
         const { error } = await supabaseClient.from('parcelas').insert(payload);
         if (error) { showSnackbar('Error: ' + error.message, 'error'); return false; }
       }
+      await logAudit('parcelas', isEdit ? 'UPDATE' : 'INSERT', payload );
       await reload();
       showSnackbar(isEdit ? 'Parcela actualizada.' : 'Parcela agregada.', 'success');
       return true;
     },
-    [data, demoMode, reload, showSnackbar],
+    [data, demoMode, reload, showSnackbar, logAudit],
   );
 
   const deleteParcela = useCallback(
@@ -240,15 +276,17 @@ export function DataProvider({ children }: { children: ReactNode }) {
       if (demoMode) {
         setData({ ...data, parcelas: data.parcelas.filter((p) => p.id !== id) });
         showSnackbar('Parcela eliminada (demo).', 'success');
+        await logAudit('parcelas', 'DELETE', { id });
         return;
       }
       if (!supabaseClient) return;
       const { error } = await supabaseClient.from('parcelas').delete().eq('id', id);
       if (error) { showSnackbar('Error: ' + error.message, 'error'); return; }
+      await logAudit('parcelas', 'DELETE', { id });
       await reload();
       showSnackbar('Parcela eliminada.', 'success');
     },
-    [data, demoMode, reload, showSnackbar],
+    [data, demoMode, reload, showSnackbar, logAudit],
   );
 
   const savePropietario = useCallback(
@@ -256,10 +294,13 @@ export function DataProvider({ children }: { children: ReactNode }) {
       if (!data) return false;
       if (demoMode) {
         if (isEdit && payload.id) {
-          setData({ ...data, propietarios: data.propietarios.map((p) => (p.id === payload.id ? { ...p, ...payload } : p)) });
+          const actualizado = data.propietarios.map((p) => (p.id === payload.id ? { ...p, ...payload } : p));
+          setData({ ...data, propietarios: actualizado });
+          await logAudit('propietarios', 'UPDATE', actualizado.find((p) => p.id === payload.id) );
         } else {
           const nuevo: Propietario = { ...(payload as Partial<Propietario>), id: generateUUID() } as Propietario;
           setData({ ...data, propietarios: [...data.propietarios, nuevo] });
+          await logAudit('propietarios', 'INSERT', nuevo );
         }
         showSnackbar(isEdit ? 'Propietario actualizado.' : 'Propietario agregado.', 'success');
         return true;
@@ -272,11 +313,12 @@ export function DataProvider({ children }: { children: ReactNode }) {
         const { error } = await supabaseClient.from('propietarios').insert(payload);
         if (error) { showSnackbar('Error: ' + error.message, 'error'); return false; }
       }
+      await logAudit('propietarios', isEdit ? 'UPDATE' : 'INSERT', payload );
       await reload();
       showSnackbar(isEdit ? 'Propietario actualizado.' : 'Propietario agregado.', 'success');
       return true;
     },
-    [data, demoMode, reload, showSnackbar],
+    [data, demoMode, reload, showSnackbar, logAudit],
   );
 
   const deletePropietario = useCallback(
@@ -285,15 +327,17 @@ export function DataProvider({ children }: { children: ReactNode }) {
       if (demoMode) {
         setData({ ...data, propietarios: data.propietarios.filter((p) => p.id !== id) });
         showSnackbar('Propietario eliminado (demo).', 'success');
+        await logAudit('propietarios', 'DELETE', { id });
         return;
       }
       if (!supabaseClient) return;
       const { error } = await supabaseClient.from('propietarios').delete().eq('id', id);
       if (error) { showSnackbar('Error: ' + error.message, 'error'); return; }
+      await logAudit('propietarios', 'DELETE', { id });
       await reload();
       showSnackbar('Propietario eliminado.', 'success');
     },
-    [data, demoMode, reload, showSnackbar],
+    [data, demoMode, reload, showSnackbar, logAudit],
   );
 
   const saveNoticia = useCallback(
@@ -301,10 +345,13 @@ export function DataProvider({ children }: { children: ReactNode }) {
       if (!data) return false;
       if (demoMode) {
         if (isEdit && payload.id) {
-          setData({ ...data, noticias: data.noticias.map((n) => (n.id === payload.id ? { ...n, ...payload } : n)) });
+          const actualizado = data.noticias.map((n) => (n.id === payload.id ? { ...n, ...payload } : n));
+          setData({ ...data, noticias: actualizado });
+          await logAudit('noticias', 'UPDATE', actualizado.find((n) => n.id === payload.id) );
         } else {
           const nuevo: Noticia = { ...(payload as Partial<Noticia>), id: generateUUID() } as Noticia;
           setData({ ...data, noticias: [...data.noticias, nuevo] });
+          await logAudit('noticias', 'INSERT', nuevo );
         }
         showSnackbar(isEdit ? 'Noticia actualizada.' : 'Noticia creada.', 'success');
         return true;
@@ -317,11 +364,12 @@ export function DataProvider({ children }: { children: ReactNode }) {
         const { error } = await supabaseClient.from('noticias').insert(payload);
         if (error) { showSnackbar('Error: ' + error.message, 'error'); return false; }
       }
+      await logAudit('noticias', isEdit ? 'UPDATE' : 'INSERT', payload );
       await reload();
       showSnackbar(isEdit ? 'Noticia actualizada.' : 'Noticia creada.', 'success');
       return true;
     },
-    [data, demoMode, reload, showSnackbar],
+    [data, demoMode, reload, showSnackbar, logAudit],
   );
 
   const deleteNoticia = useCallback(
@@ -330,15 +378,17 @@ export function DataProvider({ children }: { children: ReactNode }) {
       if (demoMode) {
         setData({ ...data, noticias: data.noticias.filter((n) => n.id !== id) });
         showSnackbar('Noticia eliminada (demo).', 'success');
+        await logAudit('noticias', 'DELETE', { id });
         return;
       }
       if (!supabaseClient) return;
       const { error } = await supabaseClient.from('noticias').delete().eq('id', id);
       if (error) { showSnackbar('Error: ' + error.message, 'error'); return; }
+      await logAudit('noticias', 'DELETE', { id });
       await reload();
       showSnackbar('Noticia eliminada.', 'success');
     },
-    [data, demoMode, reload, showSnackbar],
+    [data, demoMode, reload, showSnackbar, logAudit],
   );
 
   const toggleNoticiaPinned = useCallback(
@@ -356,10 +406,13 @@ export function DataProvider({ children }: { children: ReactNode }) {
       if (!data) return false;
       if (demoMode) {
         if (isEdit && payload.id) {
-          setData({ ...data, documentos: data.documentos.map((d) => (d.id === payload.id ? { ...d, ...payload } : d)) });
+          const actualizado = data.documentos.map((d) => (d.id === payload.id ? { ...d, ...payload } : d));
+          setData({ ...data, documentos: actualizado });
+          await logAudit('documentos', 'UPDATE', actualizado.find((d) => d.id === payload.id) );
         } else {
           const nuevo: Documento = { ...(payload as Partial<Documento>), id: generateUUID() } as Documento;
           setData({ ...data, documentos: [...data.documentos, nuevo] });
+          await logAudit('documentos', 'INSERT', nuevo );
         }
         showSnackbar(isEdit ? 'Documento actualizado.' : 'Documento agregado.', 'success');
         return true;
@@ -372,11 +425,12 @@ export function DataProvider({ children }: { children: ReactNode }) {
         const { error } = await supabaseClient.from('documentos').insert(payload);
         if (error) { showSnackbar('Error: ' + error.message, 'error'); return false; }
       }
+      await logAudit('documentos', isEdit ? 'UPDATE' : 'INSERT', payload );
       await reload();
       showSnackbar(isEdit ? 'Documento actualizado.' : 'Documento agregado.', 'success');
       return true;
     },
-    [data, demoMode, reload, showSnackbar],
+    [data, demoMode, reload, showSnackbar, logAudit],
   );
 
   const deleteDocumento = useCallback(
@@ -385,15 +439,17 @@ export function DataProvider({ children }: { children: ReactNode }) {
       if (demoMode) {
         setData({ ...data, documentos: data.documentos.filter((d) => d.id !== id) });
         showSnackbar('Documento eliminado (demo).', 'success');
+        await logAudit('documentos', 'DELETE', { id });
         return;
       }
       if (!supabaseClient) return;
       const { error } = await supabaseClient.from('documentos').delete().eq('id', id);
       if (error) { showSnackbar('Error: ' + error.message, 'error'); return; }
+      await logAudit('documentos', 'DELETE', { id });
       await reload();
       showSnackbar('Documento eliminado.', 'success');
     },
-    [data, demoMode, reload, showSnackbar],
+    [data, demoMode, reload, showSnackbar, logAudit],
   );
 
   const saveReclamo = useCallback(
@@ -403,16 +459,18 @@ export function DataProvider({ children }: { children: ReactNode }) {
         const nuevo: Reclamo = { ...(payload as Partial<Reclamo>), id: generateUUID() } as Reclamo;
         setData({ ...data, reclamos: [...data.reclamos, nuevo] });
         showSnackbar('Comentario enviado (demo).', 'success');
+        await logAudit('reclamos', 'INSERT', nuevo );
         return true;
       }
       if (!supabaseClient) return false;
       const { error } = await supabaseClient.from('reclamos').insert(payload);
       if (error) { showSnackbar('Error: ' + error.message, 'error'); return false; }
+      await logAudit('reclamos', 'INSERT', payload );
       await reload();
       showSnackbar('Comentario enviado.', 'success');
       return true;
     },
-    [data, demoMode, reload, showSnackbar],
+    [data, demoMode, reload, showSnackbar, logAudit],
   );
 
   const deleteReclamo = useCallback(
@@ -421,15 +479,17 @@ export function DataProvider({ children }: { children: ReactNode }) {
       if (demoMode) {
         setData({ ...data, reclamos: data.reclamos.filter((r) => r.id !== id) });
         showSnackbar('Comentario eliminado (demo).', 'success');
+        await logAudit('reclamos', 'DELETE', { id });
         return;
       }
       if (!supabaseClient) return;
       const { error } = await supabaseClient.from('reclamos').delete().eq('id', id);
       if (error) { showSnackbar('Error: ' + error.message, 'error'); return; }
+      await logAudit('reclamos', 'DELETE', { id });
       await reload();
       showSnackbar('Comentario eliminado.', 'success');
     },
-    [data, demoMode, reload, showSnackbar],
+    [data, demoMode, reload, showSnackbar, logAudit],
   );
 
   const saveProveedor = useCallback(
@@ -437,10 +497,13 @@ export function DataProvider({ children }: { children: ReactNode }) {
       if (!data) return false;
       if (demoMode) {
         if (isEdit && payload.id) {
-          setData({ ...data, proveedores: data.proveedores.map((p) => (p.id === payload.id ? { ...p, ...payload } : p)) });
+          const actualizado = data.proveedores.map((p) => (p.id === payload.id ? { ...p, ...payload } : p));
+          setData({ ...data, proveedores: actualizado });
+          await logAudit('proveedores', 'UPDATE', actualizado.find((p) => p.id === payload.id) );
         } else {
           const nuevo: Proveedor = { ...(payload as Partial<Proveedor>), id: generateUUID() } as Proveedor;
           setData({ ...data, proveedores: [...data.proveedores, nuevo] });
+          await logAudit('proveedores', 'INSERT', nuevo );
         }
         showSnackbar(isEdit ? 'Proveedor actualizado.' : 'Proveedor agregado.', 'success');
         return true;
@@ -453,11 +516,12 @@ export function DataProvider({ children }: { children: ReactNode }) {
         const { error } = await supabaseClient.from('proveedores').insert(payload);
         if (error) { showSnackbar('Error: ' + error.message, 'error'); return false; }
       }
+      await logAudit('proveedores', isEdit ? 'UPDATE' : 'INSERT', payload );
       await reload();
       showSnackbar(isEdit ? 'Proveedor actualizado.' : 'Proveedor agregado.', 'success');
       return true;
     },
-    [data, demoMode, reload, showSnackbar],
+    [data, demoMode, reload, showSnackbar, logAudit],
   );
 
   const deleteProveedor = useCallback(
@@ -466,15 +530,17 @@ export function DataProvider({ children }: { children: ReactNode }) {
       if (demoMode) {
         setData({ ...data, proveedores: data.proveedores.filter((p) => p.id !== id) });
         showSnackbar('Proveedor eliminado (demo).', 'success');
+        await logAudit('proveedores', 'DELETE', { id });
         return;
       }
       if (!supabaseClient) return;
       const { error } = await supabaseClient.from('proveedores').delete().eq('id', id);
       if (error) { showSnackbar('Error: ' + error.message, 'error'); return; }
+      await logAudit('proveedores', 'DELETE', { id });
       await reload();
       showSnackbar('Proveedor eliminado.', 'success');
     },
-    [data, demoMode, reload, showSnackbar],
+    [data, demoMode, reload, showSnackbar, logAudit],
   );
 
   const saveAsamblea = useCallback(
@@ -494,6 +560,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
         });
         setData({ ...data, asambleas, asamblea_asistentes: asistentes });
         showSnackbar(payload.id ? 'Asamblea actualizada.' : 'Asamblea guardada.', 'success');
+        await logAudit('asambleas', payload.id ? 'UPDATE' : 'INSERT', asambleas[asambleas.length - 1] );
         return true;
       }
       if (!supabaseClient) return false;
@@ -513,11 +580,12 @@ export function DataProvider({ children }: { children: ReactNode }) {
         const { error: insErr } = await supabaseClient.from('asamblea_asistentes').insert(rows);
         if (insErr) { showSnackbar('Error: ' + insErr.message, 'error'); return false; }
       }
+      await logAudit('asambleas', payload.id ? 'UPDATE' : 'INSERT', { ...payload, id: asambleaId });
       await reload();
       showSnackbar(payload.id ? 'Asamblea actualizada.' : 'Asamblea guardada.', 'success');
       return true;
     },
-    [data, demoMode, reload, showSnackbar],
+    [data, demoMode, reload, showSnackbar, logAudit],
   );
 
   const deleteAsamblea = useCallback(
@@ -530,16 +598,18 @@ export function DataProvider({ children }: { children: ReactNode }) {
           asamblea_asistentes: (data.asamblea_asistentes || []).filter((a) => a.asamblea_id !== id),
         });
         showSnackbar('Asamblea eliminada (demo).', 'success');
+        await logAudit('asambleas', 'DELETE', { id });
         return;
       }
       if (!supabaseClient) return;
       await supabaseClient.from('asamblea_asistentes').delete().eq('asamblea_id', id);
       const { error } = await supabaseClient.from('asambleas').delete().eq('id', id);
       if (error) { showSnackbar('Error: ' + error.message, 'error'); return; }
+      await logAudit('asambleas', 'DELETE', { id });
       await reload();
       showSnackbar('Asamblea eliminada.', 'success');
     },
-    [data, demoMode, reload, showSnackbar],
+    [data, demoMode, reload, showSnackbar, logAudit],
   );
 
   const saveEncuesta = useCallback(
@@ -547,10 +617,13 @@ export function DataProvider({ children }: { children: ReactNode }) {
       if (!data) return false;
       if (demoMode) {
         if (isEdit && payload.id) {
-          setData({ ...data, encuestas: data.encuestas.map((e) => (e.id === payload.id ? { ...e, ...payload } : e)) });
+          const actualizado = data.encuestas.map((e) => (e.id === payload.id ? { ...e, ...payload } : e));
+          setData({ ...data, encuestas: actualizado });
+          await logAudit('encuestas', 'UPDATE', actualizado.find((e) => e.id === payload.id) );
         } else {
           const nueva: Encuesta = { ...(payload as Partial<Encuesta>), id: generateUUID() } as Encuesta;
           setData({ ...data, encuestas: [...data.encuestas, nueva] });
+          await logAudit('encuestas', 'INSERT', nueva );
         }
         showSnackbar(isEdit ? 'Encuesta actualizada.' : 'Encuesta creada.', 'success');
         return true;
@@ -563,11 +636,12 @@ export function DataProvider({ children }: { children: ReactNode }) {
         const { error } = await supabaseClient.from('encuestas').insert(payload);
         if (error) { showSnackbar('Error: ' + error.message, 'error'); return false; }
       }
+      await logAudit('encuestas', isEdit ? 'UPDATE' : 'INSERT', payload );
       await reload();
       showSnackbar(isEdit ? 'Encuesta actualizada.' : 'Encuesta creada.', 'success');
       return true;
     },
-    [data, demoMode, reload, showSnackbar],
+    [data, demoMode, reload, showSnackbar, logAudit],
   );
 
   const deleteEncuesta = useCallback(
@@ -580,16 +654,18 @@ export function DataProvider({ children }: { children: ReactNode }) {
           encuestas_votos: (data.encuestas_votos || []).filter((v) => v.encuesta_id !== id),
         });
         showSnackbar('Encuesta eliminada (demo).', 'success');
+        await logAudit('encuestas', 'DELETE', { id });
         return;
       }
       if (!supabaseClient) return;
       await supabaseClient.from('encuestas_votos').delete().eq('encuesta_id', id);
       const { error } = await supabaseClient.from('encuestas').delete().eq('id', id);
       if (error) { showSnackbar('Error: ' + error.message, 'error'); return; }
+      await logAudit('encuestas', 'DELETE', { id });
       await reload();
       showSnackbar('Encuesta eliminada.', 'success');
     },
-    [data, demoMode, reload, showSnackbar],
+    [data, demoMode, reload, showSnackbar, logAudit],
   );
 
   const registrarVoto = useCallback(
@@ -626,10 +702,17 @@ export function DataProvider({ children }: { children: ReactNode }) {
       if (!data) return false;
       if (demoMode) {
         if (isEdit && payload.id) {
-          setData({ ...data, publicaciones: data.publicaciones.map((p) => (p.id === payload.id ? { ...p, ...payload } : p)) });
+          const actualizado = data.publicaciones.map((p) => (p.id === payload.id ? { ...p, ...payload } : p));
+          setData({ ...data, publicaciones: actualizado });
+          await logAudit('publicaciones', 'UPDATE', actualizado.find((p) => p.id === payload.id) );
         } else {
-          const nueva: Publicacion = { ...(payload as Partial<Publicacion>), id: generateUUID() } as Publicacion;
+          const nueva: Publicacion = {
+            ...(payload as Partial<Publicacion>),
+            id: generateUUID(),
+            usuario: currentUserEmail || 'anónimo',
+          } as Publicacion;
           setData({ ...data, publicaciones: [...data.publicaciones, nueva] });
+          await logAudit('publicaciones', 'INSERT', nueva );
         }
         showSnackbar(isEdit ? 'Publicación actualizada.' : 'Publicación publicada.', 'success');
         return true;
@@ -639,14 +722,18 @@ export function DataProvider({ children }: { children: ReactNode }) {
         const { error } = await supabaseClient.from('publicaciones').update(payload).eq('id', payload.id);
         if (error) { showSnackbar('Error: ' + error.message, 'error'); return false; }
       } else {
-        const { error } = await supabaseClient.from('publicaciones').insert(payload);
+        const insert = { ...payload };
+        if (!insert.usuario) insert.usuario = currentUserEmail || 'anónimo';
+        const { error } = await supabaseClient.from('publicaciones').insert(insert);
         if (error) { showSnackbar('Error: ' + error.message, 'error'); return false; }
+        await logAudit('publicaciones', 'INSERT', insert );
       }
+      if (isEdit) await logAudit('publicaciones', 'UPDATE', payload );
       await reload();
       showSnackbar(isEdit ? 'Publicación actualizada.' : 'Publicación publicada.', 'success');
       return true;
     },
-    [data, demoMode, reload, showSnackbar],
+    [data, demoMode, reload, showSnackbar, currentUserEmail, logAudit],
   );
 
   const deletePublicacion = useCallback(
@@ -655,30 +742,35 @@ export function DataProvider({ children }: { children: ReactNode }) {
       if (demoMode) {
         setData({ ...data, publicaciones: data.publicaciones.filter((p) => p.id !== id) });
         showSnackbar('Publicación eliminada (demo).', 'success');
+        await logAudit('publicaciones', 'DELETE', { id });
         return;
       }
       if (!supabaseClient) return;
       const { error } = await supabaseClient.from('publicaciones').delete().eq('id', id);
       if (error) { showSnackbar('Error: ' + error.message, 'error'); return; }
+      await logAudit('publicaciones', 'DELETE', { id });
       await reload();
       showSnackbar('Publicación eliminada.', 'success');
     },
-    [data, demoMode, reload, showSnackbar],
+    [data, demoMode, reload, showSnackbar, logAudit],
   );
 
   const saveConfigValue = useCallback(
     async (key: keyof Config, value: unknown): Promise<boolean> => {
       if (!data) return false;
+      const existed = Object.prototype.hasOwnProperty.call(data.config, key);
       if (demoMode) {
         setData({ ...data, config: { ...data.config, [key]: value } });
+        await logAudit('config', existed ? 'UPDATE' : 'INSERT', { key, value });
         return true;
       }
       if (!supabaseClient) return false;
       const { error } = await supabaseClient.from('config').upsert({ key, value });
       if (error) { showSnackbar('Error: ' + error.message, 'error'); return false; }
+      await logAudit('config', existed ? 'UPDATE' : 'INSERT', { key, value });
       return true;
     },
-    [data, demoMode, showSnackbar],
+    [data, demoMode, showSnackbar, logAudit],
   );
 
   const value = useMemo<DataContextValue>(() => {
@@ -697,6 +789,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
       encuestas: data?.encuestas ?? [],
       encuestas_votos: data?.encuestas_votos ?? [],
       publicaciones: data?.publicaciones ?? [],
+      audit_log: data?.audit_log ?? [],
       config: data?.config ?? {},
       loading,
       reload,

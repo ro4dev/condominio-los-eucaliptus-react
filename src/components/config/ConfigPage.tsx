@@ -3,6 +3,7 @@ import { useApp } from '../../store/AppContext';
 import { useData } from '../../store/DataContext';
 import { Button, TextButton } from '../ui/Button';
 import { Modal } from '../ui/Modal';
+import { AuditSection } from './AuditSection';
 
 type ChipKey = 'categorias_documentos' | 'rubros_proveedores' | 'conceptos_flujo';
 
@@ -274,6 +275,8 @@ export function ConfigPage() {
           </div>
         </form>
       </Modal>
+
+      <AuditSection />
 
       <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', textAlign: 'center' }}>
         Condominio Los Eucaliptus · {new Date().getFullYear()}

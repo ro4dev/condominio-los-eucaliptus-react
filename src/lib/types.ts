@@ -169,3 +169,13 @@ export interface Publicacion {
   foto?: string;
   created_at?: string;
 }
+
+export interface AuditEntry {
+  id?: string;
+  tabla: string;
+  accion: 'INSERT' | 'UPDATE' | 'DELETE';
+  registro_id?: string | null;
+  datos?: Record<string, unknown>;
+  usuario?: string;
+  created_at?: string;
+}
