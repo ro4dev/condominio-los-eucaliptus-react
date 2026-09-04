@@ -71,6 +71,8 @@ export interface Config {
   conceptos_flujo?: string[];
   datos_pago?: DatosPago;
   periodos?: PeriodoConfig[];
+  parcelas_prefijo?: string;
+  parcelas_cantidad?: number;
 }
 
 export interface CuotaCalculada {
