@@ -4,6 +4,7 @@ import { TabsNav } from './components/layout/TabsNav';
 import { ComingSoon } from './components/layout/ComingSoon';
 import { TABS, type TabId } from './components/layout/tabs';
 import { FinanzasPage } from './components/finanzas/FinanzasPage';
+import { ParcelasPage } from './components/parcelas/ParcelasPage';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<TabId>('finanzas');
@@ -15,7 +16,11 @@ export default function App() {
       <div className="container">
         <TabsNav active={activeTab} onChange={setActiveTab} />
         {activeDef.implemented ? (
-          <FinanzasPage />
+          activeDef.id === 'finanzas' ? (
+            <FinanzasPage />
+          ) : (
+            <ParcelasPage />
+          )
         ) : (
           <div className="tab-content active">
             <ComingSoon label={activeDef.label} />

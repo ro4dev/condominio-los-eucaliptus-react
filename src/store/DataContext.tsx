@@ -2,7 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, t
 import { loadFinanzasData, type FinanzasData } from '../lib/data';
 import { supabaseClient } from '../lib/supabase';
 import { getDemoMode, generateUUID } from '../lib';
-import type { Config, Gasto, Pago } from '../lib/types';
+import type { Config, Gasto, Pago, Parcela, Propietario } from '../lib/types';
 import { useApp } from './AppContext';
 
 export interface GastoSave extends Partial<Gasto> {}
@@ -16,6 +16,10 @@ interface DataContextValue extends FinanzasData {
   deletePago: (id: string) => Promise<void>;
   savePeriodos: (periodos: Config['periodos']) => Promise<boolean>;
   generarCuotas: (periodo: string, monto: number | string, fondo: number | string) => Promise<number>;
+  saveParcela: (data: Partial<Parcela>, isEdit: boolean) => Promise<boolean>;
+  deleteParcela: (id: string) => Promise<void>;
+  savePropietario: (data: Partial<Propietario>, isEdit: boolean) => Promise<boolean>;
+  deletePropietario: (id: string) => Promise<void>;
 }
 
 const DataContext = createContext<DataContextValue | null>(null);
@@ -185,6 +189,96 @@ export function DataProvider({ children }: { children: ReactNode }) {
     [data],
   );
 
+  const saveParcela = useCallback(
+    async (payload: Partial<Parcela>, isEdit: boolean): Promise<boolean> => {
+      if (!data) return false;
+      if (demoMode) {
+        if (isEdit && payload.id) {
+          setData({ ...data, parcelas: data.parcelas.map((p) => (p.id === payload.id ? { ...p, ...payload } : p)) });
+        } else {
+          const nuevo: Parcela = { ...(payload as Partial<Parcela>), id: generateUUID() } as Parcela;
+          setData({ ...data, parcelas: [...data.parcelas, nuevo] });
+        }
+        showSnackbar(isEdit ? 'Parcela actualizada.' : 'Parcela agregada.', 'success');
+        return true;
+      }
+      if (!supabaseClient) return false;
+      if (isEdit && payload.id) {
+        const { error } = await supabaseClient.from('parcelas').update(payload).eq('id', payload.id);
+        if (error) { showSnackbar('Error: ' + error.message, 'error'); return false; }
+      } else {
+        const { error } = await supabaseClient.from('parcelas').insert(payload);
+        if (error) { showSnackbar('Error: ' + error.message, 'error'); return false; }
+      }
+      await reload();
+      showSnackbar(isEdit ? 'Parcela actualizada.' : 'Parcela agregada.', 'success');
+      return true;
+    },
+    [data, demoMode, reload, showSnackbar],
+  );
+
+  const deleteParcela = useCallback(
+    async (id: string): Promise<void> => {
+      if (!data) return;
+      if (demoMode) {
+        setData({ ...data, parcelas: data.parcelas.filter((p) => p.id !== id) });
+        showSnackbar('Parcela eliminada (demo).', 'success');
+        return;
+      }
+      if (!supabaseClient) return;
+      const { error } = await supabaseClient.from('parcelas').delete().eq('id', id);
+      if (error) { showSnackbar('Error: ' + error.message, 'error'); return; }
+      await reload();
+      showSnackbar('Parcela eliminada.', 'success');
+    },
+    [data, demoMode, reload, showSnackbar],
+  );
+
+  const savePropietario = useCallback(
+    async (payload: Partial<Propietario>, isEdit: boolean): Promise<boolean> => {
+      if (!data) return false;
+      if (demoMode) {
+        if (isEdit && payload.id) {
+          setData({ ...data, propietarios: data.propietarios.map((p) => (p.id === payload.id ? { ...p, ...payload } : p)) });
+        } else {
+          const nuevo: Propietario = { ...(payload as Partial<Propietario>), id: generateUUID() } as Propietario;
+          setData({ ...data, propietarios: [...data.propietarios, nuevo] });
+        }
+        showSnackbar(isEdit ? 'Propietario actualizado.' : 'Propietario agregado.', 'success');
+        return true;
+      }
+      if (!supabaseClient) return false;
+      if (isEdit && payload.id) {
+        const { error } = await supabaseClient.from('propietarios').update(payload).eq('id', payload.id);
+        if (error) { showSnackbar('Error: ' + error.message, 'error'); return false; }
+      } else {
+        const { error } = await supabaseClient.from('propietarios').insert(payload);
+        if (error) { showSnackbar('Error: ' + error.message, 'error'); return false; }
+      }
+      await reload();
+      showSnackbar(isEdit ? 'Propietario actualizado.' : 'Propietario agregado.', 'success');
+      return true;
+    },
+    [data, demoMode, reload, showSnackbar],
+  );
+
+  const deletePropietario = useCallback(
+    async (id: string): Promise<void> => {
+      if (!data) return;
+      if (demoMode) {
+        setData({ ...data, propietarios: data.propietarios.filter((p) => p.id !== id) });
+        showSnackbar('Propietario eliminado (demo).', 'success');
+        return;
+      }
+      if (!supabaseClient) return;
+      const { error } = await supabaseClient.from('propietarios').delete().eq('id', id);
+      if (error) { showSnackbar('Error: ' + error.message, 'error'); return; }
+      await reload();
+      showSnackbar('Propietario eliminado.', 'success');
+    },
+    [data, demoMode, reload, showSnackbar],
+  );
+
   const value = useMemo<DataContextValue>(() => {
     return {
       gastos: data?.gastos ?? [],
@@ -201,8 +295,12 @@ export function DataProvider({ children }: { children: ReactNode }) {
       deletePago,
       savePeriodos,
       generarCuotas,
+      saveParcela,
+      deleteParcela,
+      savePropietario,
+      deletePropietario,
     };
-  }, [data, loading, reload, saveGasto, deleteGasto, savePago, deletePago, savePeriodos, generarCuotas]);
+  }, [data, loading, reload, saveGasto, deleteGasto, savePago, deletePago, savePeriodos, generarCuotas, saveParcela, deleteParcela, savePropietario, deletePropietario]);
 
   return <DataContext.Provider value={value}>{children}</DataContext.Provider>;
 }

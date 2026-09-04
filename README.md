@@ -27,10 +27,11 @@ src/
   store/
     AppContext.tsx      # isDark, demoMode, snackbar, isAdmin
     DataContext.tsx     # Datos + CRUD demo/prod
-  components/
+    components/
     ui/                 # Button, Chip, StatCard, Modal, Select, Switch, Icon, EmptyState, Snackbar
     layout/             # Header, TabsNav, ComingSoon
     finanzas/           # Página Finanzas completa + charts y modales
+    parcelas/           # Página Parcelas (grid + CRUD parcelas/propietarios)
 ```
 
 ## Modo demo vs producción
@@ -44,6 +45,7 @@ src/
 |--------|--------|
 | Scaffolding + layout + tabs | ✅ |
 | Finanzas (gráficos, periodo en curso, histórico, generación de cuotas, CRUD gastos/pagos) | ✅ |
+| Parcelas (grid, estado, propietarios, CRUD parcelas/propietarios) | ✅ |
 | Resto de pestañas (Noticias, Documentos, Reclamos, Asambleas, Encuestas, etc.) | ⏳ Próximamente |
 
 ## Comandos

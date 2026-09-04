@@ -32,8 +32,11 @@ export interface Parcela {
 export interface Propietario {
   id: string;
   parcela_id: string;
-  nombre: string;
+  nombre_completo?: string;
+  rut?: string;
+  telefono?: string;
   email?: string;
+  tipo?: 'Propietario' | 'Inquilino' | 'Administrador';
 }
 
 export interface Movimiento {
