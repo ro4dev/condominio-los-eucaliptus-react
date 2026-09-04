@@ -2,7 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, t
 import { loadFinanzasData, type FinanzasData } from '../lib/data';
 import { supabaseClient } from '../lib/supabase';
 import { getDemoMode, generateUUID } from '../lib';
-import type { Config, Documento, Gasto, Noticia, Pago, Parcela, Propietario } from '../lib/types';
+import type { Asamblea, AsambleaAsistente, Config, Documento, Encuesta, Gasto, Noticia, Pago, Parcela, Propietario, Proveedor, Publicacion, Reclamo, VotoEncuesta } from '../lib/types';
 import { useApp } from './AppContext';
 
 export interface GastoSave extends Partial<Gasto> {}
@@ -25,6 +25,18 @@ interface DataContextValue extends FinanzasData {
   toggleNoticiaPinned: (id: string) => Promise<void>;
   saveDocumento: (data: Partial<Documento>, isEdit: boolean) => Promise<boolean>;
   deleteDocumento: (id: string) => Promise<void>;
+  saveReclamo: (data: Partial<Reclamo>) => Promise<boolean>;
+  deleteReclamo: (id: string) => Promise<void>;
+  saveProveedor: (data: Partial<Proveedor>, isEdit: boolean) => Promise<boolean>;
+  deleteProveedor: (id: string) => Promise<void>;
+  saveAsamblea: (data: Partial<Asamblea>, asistenteIds: string[]) => Promise<boolean>;
+  deleteAsamblea: (id: string) => Promise<void>;
+  saveEncuesta: (data: Partial<Encuesta>, isEdit: boolean) => Promise<boolean>;
+  deleteEncuesta: (id: string) => Promise<void>;
+  registrarVoto: (encuestaId: string, parcelaId: string, seleccion: string) => Promise<boolean>;
+  savePublicacion: (data: Partial<Publicacion>, isEdit: boolean) => Promise<boolean>;
+  deletePublicacion: (id: string) => Promise<void>;
+  saveConfigValue: (key: keyof Config, value: unknown) => Promise<boolean>;
 }
 
 const DataContext = createContext<DataContextValue | null>(null);
@@ -384,6 +396,291 @@ export function DataProvider({ children }: { children: ReactNode }) {
     [data, demoMode, reload, showSnackbar],
   );
 
+  const saveReclamo = useCallback(
+    async (payload: Partial<Reclamo>): Promise<boolean> => {
+      if (!data) return false;
+      if (demoMode) {
+        const nuevo: Reclamo = { ...(payload as Partial<Reclamo>), id: generateUUID() } as Reclamo;
+        setData({ ...data, reclamos: [...data.reclamos, nuevo] });
+        showSnackbar('Comentario enviado (demo).', 'success');
+        return true;
+      }
+      if (!supabaseClient) return false;
+      const { error } = await supabaseClient.from('reclamos').insert(payload);
+      if (error) { showSnackbar('Error: ' + error.message, 'error'); return false; }
+      await reload();
+      showSnackbar('Comentario enviado.', 'success');
+      return true;
+    },
+    [data, demoMode, reload, showSnackbar],
+  );
+
+  const deleteReclamo = useCallback(
+    async (id: string): Promise<void> => {
+      if (!data) return;
+      if (demoMode) {
+        setData({ ...data, reclamos: data.reclamos.filter((r) => r.id !== id) });
+        showSnackbar('Comentario eliminado (demo).', 'success');
+        return;
+      }
+      if (!supabaseClient) return;
+      const { error } = await supabaseClient.from('reclamos').delete().eq('id', id);
+      if (error) { showSnackbar('Error: ' + error.message, 'error'); return; }
+      await reload();
+      showSnackbar('Comentario eliminado.', 'success');
+    },
+    [data, demoMode, reload, showSnackbar],
+  );
+
+  const saveProveedor = useCallback(
+    async (payload: Partial<Proveedor>, isEdit: boolean): Promise<boolean> => {
+      if (!data) return false;
+      if (demoMode) {
+        if (isEdit && payload.id) {
+          setData({ ...data, proveedores: data.proveedores.map((p) => (p.id === payload.id ? { ...p, ...payload } : p)) });
+        } else {
+          const nuevo: Proveedor = { ...(payload as Partial<Proveedor>), id: generateUUID() } as Proveedor;
+          setData({ ...data, proveedores: [...data.proveedores, nuevo] });
+        }
+        showSnackbar(isEdit ? 'Proveedor actualizado.' : 'Proveedor agregado.', 'success');
+        return true;
+      }
+      if (!supabaseClient) return false;
+      if (isEdit && payload.id) {
+        const { error } = await supabaseClient.from('proveedores').update(payload).eq('id', payload.id);
+        if (error) { showSnackbar('Error: ' + error.message, 'error'); return false; }
+      } else {
+        const { error } = await supabaseClient.from('proveedores').insert(payload);
+        if (error) { showSnackbar('Error: ' + error.message, 'error'); return false; }
+      }
+      await reload();
+      showSnackbar(isEdit ? 'Proveedor actualizado.' : 'Proveedor agregado.', 'success');
+      return true;
+    },
+    [data, demoMode, reload, showSnackbar],
+  );
+
+  const deleteProveedor = useCallback(
+    async (id: string): Promise<void> => {
+      if (!data) return;
+      if (demoMode) {
+        setData({ ...data, proveedores: data.proveedores.filter((p) => p.id !== id) });
+        showSnackbar('Proveedor eliminado (demo).', 'success');
+        return;
+      }
+      if (!supabaseClient) return;
+      const { error } = await supabaseClient.from('proveedores').delete().eq('id', id);
+      if (error) { showSnackbar('Error: ' + error.message, 'error'); return; }
+      await reload();
+      showSnackbar('Proveedor eliminado.', 'success');
+    },
+    [data, demoMode, reload, showSnackbar],
+  );
+
+  const saveAsamblea = useCallback(
+    async (payload: Partial<Asamblea>, asistenteIds: string[]): Promise<boolean> => {
+      if (!data) return false;
+      if (demoMode) {
+        let asambleas: Asamblea[];
+        if (payload.id) {
+          asambleas = data.asambleas.map((a) => (a.id === payload.id ? { ...a, ...payload } : a));
+        } else {
+          asambleas = [...data.asambleas, { ...(payload as Partial<Asamblea>), id: generateUUID() } as Asamblea];
+        }
+        const idAsamblea = (asambleas.find((a) => a.id === payload.id) || asambleas[asambleas.length - 1]).id;
+        const asistentes = (data.asamblea_asistentes || []).filter((a) => a.asamblea_id !== idAsamblea);
+        asistenteIds.forEach((pid) => {
+          asistentes.push({ id: generateUUID(), asamblea_id: idAsamblea, parcela_id: pid } as AsambleaAsistente);
+        });
+        setData({ ...data, asambleas, asamblea_asistentes: asistentes });
+        showSnackbar(payload.id ? 'Asamblea actualizada.' : 'Asamblea guardada.', 'success');
+        return true;
+      }
+      if (!supabaseClient) return false;
+      let asambleaId = payload.id || '';
+      if (asambleaId) {
+        const { error } = await supabaseClient.from('asambleas').update(payload).eq('id', asambleaId);
+        if (error) { showSnackbar('Error: ' + error.message, 'error'); return false; }
+      } else {
+        const { data: inserted, error } = await supabaseClient.from('asambleas').insert(payload).select('id').single();
+        if (error) { showSnackbar('Error: ' + error.message, 'error'); return false; }
+        asambleaId = inserted.id;
+      }
+      const { error: delErr } = await supabaseClient.from('asamblea_asistentes').delete().eq('asamblea_id', asambleaId);
+      if (delErr) { showSnackbar('Error: ' + delErr.message, 'error'); return false; }
+      if (asistenteIds.length) {
+        const rows = asistenteIds.map((pid) => ({ asamblea_id: asambleaId, parcela_id: pid }));
+        const { error: insErr } = await supabaseClient.from('asamblea_asistentes').insert(rows);
+        if (insErr) { showSnackbar('Error: ' + insErr.message, 'error'); return false; }
+      }
+      await reload();
+      showSnackbar(payload.id ? 'Asamblea actualizada.' : 'Asamblea guardada.', 'success');
+      return true;
+    },
+    [data, demoMode, reload, showSnackbar],
+  );
+
+  const deleteAsamblea = useCallback(
+    async (id: string): Promise<void> => {
+      if (!data) return;
+      if (demoMode) {
+        setData({
+          ...data,
+          asambleas: data.asambleas.filter((a) => a.id !== id),
+          asamblea_asistentes: (data.asamblea_asistentes || []).filter((a) => a.asamblea_id !== id),
+        });
+        showSnackbar('Asamblea eliminada (demo).', 'success');
+        return;
+      }
+      if (!supabaseClient) return;
+      await supabaseClient.from('asamblea_asistentes').delete().eq('asamblea_id', id);
+      const { error } = await supabaseClient.from('asambleas').delete().eq('id', id);
+      if (error) { showSnackbar('Error: ' + error.message, 'error'); return; }
+      await reload();
+      showSnackbar('Asamblea eliminada.', 'success');
+    },
+    [data, demoMode, reload, showSnackbar],
+  );
+
+  const saveEncuesta = useCallback(
+    async (payload: Partial<Encuesta>, isEdit: boolean): Promise<boolean> => {
+      if (!data) return false;
+      if (demoMode) {
+        if (isEdit && payload.id) {
+          setData({ ...data, encuestas: data.encuestas.map((e) => (e.id === payload.id ? { ...e, ...payload } : e)) });
+        } else {
+          const nueva: Encuesta = { ...(payload as Partial<Encuesta>), id: generateUUID() } as Encuesta;
+          setData({ ...data, encuestas: [...data.encuestas, nueva] });
+        }
+        showSnackbar(isEdit ? 'Encuesta actualizada.' : 'Encuesta creada.', 'success');
+        return true;
+      }
+      if (!supabaseClient) return false;
+      if (isEdit && payload.id) {
+        const { error } = await supabaseClient.from('encuestas').update(payload).eq('id', payload.id);
+        if (error) { showSnackbar('Error: ' + error.message, 'error'); return false; }
+      } else {
+        const { error } = await supabaseClient.from('encuestas').insert(payload);
+        if (error) { showSnackbar('Error: ' + error.message, 'error'); return false; }
+      }
+      await reload();
+      showSnackbar(isEdit ? 'Encuesta actualizada.' : 'Encuesta creada.', 'success');
+      return true;
+    },
+    [data, demoMode, reload, showSnackbar],
+  );
+
+  const deleteEncuesta = useCallback(
+    async (id: string): Promise<void> => {
+      if (!data) return;
+      if (demoMode) {
+        setData({
+          ...data,
+          encuestas: data.encuestas.filter((e) => e.id !== id),
+          encuestas_votos: (data.encuestas_votos || []).filter((v) => v.encuesta_id !== id),
+        });
+        showSnackbar('Encuesta eliminada (demo).', 'success');
+        return;
+      }
+      if (!supabaseClient) return;
+      await supabaseClient.from('encuestas_votos').delete().eq('encuesta_id', id);
+      const { error } = await supabaseClient.from('encuestas').delete().eq('id', id);
+      if (error) { showSnackbar('Error: ' + error.message, 'error'); return; }
+      await reload();
+      showSnackbar('Encuesta eliminada.', 'success');
+    },
+    [data, demoMode, reload, showSnackbar],
+  );
+
+  const registrarVoto = useCallback(
+    async (encuestaId: string, parcelaId: string, seleccion: string): Promise<boolean> => {
+      if (!data) return false;
+      if (demoMode) {
+        const nuevo: VotoEncuesta = {
+          id: generateUUID(),
+          encuesta_id: encuestaId,
+          parcela_id: parcelaId,
+          seleccion,
+          created_at: new Date().toISOString(),
+        };
+        setData({ ...data, encuestas_votos: [...(data.encuestas_votos || []), nuevo] });
+        showSnackbar('Voto registrado (demo).', 'success');
+        return true;
+      }
+      if (!supabaseClient) return false;
+      const { error } = await supabaseClient.from('encuestas_votos').insert({
+        encuesta_id: encuestaId,
+        parcela_id: parcelaId,
+        seleccion,
+      });
+      if (error) { showSnackbar('Error: ' + error.message, 'error'); return false; }
+      await reload();
+      showSnackbar('Voto registrado.', 'success');
+      return true;
+    },
+    [data, demoMode, reload, showSnackbar],
+  );
+
+  const savePublicacion = useCallback(
+    async (payload: Partial<Publicacion>, isEdit: boolean): Promise<boolean> => {
+      if (!data) return false;
+      if (demoMode) {
+        if (isEdit && payload.id) {
+          setData({ ...data, publicaciones: data.publicaciones.map((p) => (p.id === payload.id ? { ...p, ...payload } : p)) });
+        } else {
+          const nueva: Publicacion = { ...(payload as Partial<Publicacion>), id: generateUUID() } as Publicacion;
+          setData({ ...data, publicaciones: [...data.publicaciones, nueva] });
+        }
+        showSnackbar(isEdit ? 'Publicación actualizada.' : 'Publicación publicada.', 'success');
+        return true;
+      }
+      if (!supabaseClient) return false;
+      if (isEdit && payload.id) {
+        const { error } = await supabaseClient.from('publicaciones').update(payload).eq('id', payload.id);
+        if (error) { showSnackbar('Error: ' + error.message, 'error'); return false; }
+      } else {
+        const { error } = await supabaseClient.from('publicaciones').insert(payload);
+        if (error) { showSnackbar('Error: ' + error.message, 'error'); return false; }
+      }
+      await reload();
+      showSnackbar(isEdit ? 'Publicación actualizada.' : 'Publicación publicada.', 'success');
+      return true;
+    },
+    [data, demoMode, reload, showSnackbar],
+  );
+
+  const deletePublicacion = useCallback(
+    async (id: string): Promise<void> => {
+      if (!data) return;
+      if (demoMode) {
+        setData({ ...data, publicaciones: data.publicaciones.filter((p) => p.id !== id) });
+        showSnackbar('Publicación eliminada (demo).', 'success');
+        return;
+      }
+      if (!supabaseClient) return;
+      const { error } = await supabaseClient.from('publicaciones').delete().eq('id', id);
+      if (error) { showSnackbar('Error: ' + error.message, 'error'); return; }
+      await reload();
+      showSnackbar('Publicación eliminada.', 'success');
+    },
+    [data, demoMode, reload, showSnackbar],
+  );
+
+  const saveConfigValue = useCallback(
+    async (key: keyof Config, value: unknown): Promise<boolean> => {
+      if (!data) return false;
+      if (demoMode) {
+        setData({ ...data, config: { ...data.config, [key]: value } });
+        return true;
+      }
+      if (!supabaseClient) return false;
+      const { error } = await supabaseClient.from('config').upsert({ key, value });
+      if (error) { showSnackbar('Error: ' + error.message, 'error'); return false; }
+      return true;
+    },
+    [data, demoMode, showSnackbar],
+  );
+
   const value = useMemo<DataContextValue>(() => {
     return {
       gastos: data?.gastos ?? [],
@@ -393,6 +690,13 @@ export function DataProvider({ children }: { children: ReactNode }) {
       propietarios: data?.propietarios ?? [],
       noticias: data?.noticias ?? [],
       documentos: data?.documentos ?? [],
+      reclamos: data?.reclamos ?? [],
+      proveedores: data?.proveedores ?? [],
+      asambleas: data?.asambleas ?? [],
+      asamblea_asistentes: data?.asamblea_asistentes ?? [],
+      encuestas: data?.encuestas ?? [],
+      encuestas_votos: data?.encuestas_votos ?? [],
+      publicaciones: data?.publicaciones ?? [],
       config: data?.config ?? {},
       loading,
       reload,
@@ -411,8 +715,20 @@ export function DataProvider({ children }: { children: ReactNode }) {
       toggleNoticiaPinned,
       saveDocumento,
       deleteDocumento,
+      saveReclamo,
+      deleteReclamo,
+      saveProveedor,
+      deleteProveedor,
+      saveAsamblea,
+      deleteAsamblea,
+      saveEncuesta,
+      deleteEncuesta,
+      registrarVoto,
+      savePublicacion,
+      deletePublicacion,
+      saveConfigValue,
     };
-  }, [data, loading, reload, saveGasto, deleteGasto, savePago, deletePago, savePeriodos, generarCuotas, saveParcela, deleteParcela, savePropietario, deletePropietario, saveNoticia, deleteNoticia, toggleNoticiaPinned, saveDocumento, deleteDocumento]);
+  }, [data, loading, reload, saveGasto, deleteGasto, savePago, deletePago, savePeriodos, generarCuotas, saveParcela, deleteParcela, savePropietario, deletePropietario, saveNoticia, deleteNoticia, toggleNoticiaPinned, saveDocumento, deleteDocumento, saveReclamo, deleteReclamo, saveProveedor, deleteProveedor, saveAsamblea, deleteAsamblea, saveEncuesta, deleteEncuesta, registrarVoto, savePublicacion, deletePublicacion, saveConfigValue]);
 
   return <DataContext.Provider value={value}>{children}</DataContext.Provider>;
 }

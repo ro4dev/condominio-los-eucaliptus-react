@@ -1,4 +1,4 @@
-import type { Config, Documento, Gasto, Movimiento, Noticia, Pago, Parcela, Propietario } from './types';
+import type { Asamblea, AsambleaAsistente, Config, Documento, Encuesta, Gasto, Movimiento, Noticia, Pago, Parcela, Propietario, Proveedor, Publicacion, Reclamo, VotoEncuesta } from './types';
 import { getDemoMode } from './appConfig';
 import { supabaseClient } from './supabase';
 
@@ -86,11 +86,18 @@ export interface FinanzasData {
   propietarios: Propietario[];
   noticias: Noticia[];
   documentos: Documento[];
+  reclamos: Reclamo[];
+  proveedores: Proveedor[];
+  asambleas: Asamblea[];
+  asamblea_asistentes: AsambleaAsistente[];
+  encuestas: Encuesta[];
+  encuestas_votos: VotoEncuesta[];
+  publicaciones: Publicacion[];
   config: Config;
 }
 
 export async function loadFinanzasData(): Promise<FinanzasData> {
-  const [gastos, pagos, flujo, parcelas, propietarios, noticias, documentos, config] = await Promise.all([
+  const [gastos, pagos, flujo, parcelas, propietarios, noticias, documentos, reclamos, proveedores, asambleas, asamblea_asistentes, encuestas, encuestas_votos, publicaciones, config] = await Promise.all([
     loadJson('GASTOS'),
     loadJson('PAGOS'),
     loadJson('FLUJO'),
@@ -98,6 +105,13 @@ export async function loadFinanzasData(): Promise<FinanzasData> {
     loadJson('PROPIETARIOS'),
     loadJson('NOTICIAS'),
     loadJson('DOCUMENTOS'),
+    loadJson('RECLAMOS'),
+    loadJson('PROVEEDORES'),
+    loadJson('ASAMBLEAS'),
+    loadJson('ASAMBLEA_ASISTENTES'),
+    loadJson('ENCUESTAS'),
+    loadJson('ENCUESTAS_VOTOS'),
+    loadJson('PUBLICACIONES'),
     loadConfig(),
   ]);
   return {
@@ -108,6 +122,13 @@ export async function loadFinanzasData(): Promise<FinanzasData> {
     propietarios: propietarios as Propietario[],
     noticias: noticias as Noticia[],
     documentos: documentos as Documento[],
+    reclamos: reclamos as Reclamo[],
+    proveedores: proveedores as Proveedor[],
+    asambleas: asambleas as Asamblea[],
+    asamblea_asistentes: asamblea_asistentes as AsambleaAsistente[],
+    encuestas: encuestas as Encuesta[],
+    encuestas_votos: encuestas_votos as VotoEncuesta[],
+    publicaciones: publicaciones as Publicacion[],
     config,
   };
 }

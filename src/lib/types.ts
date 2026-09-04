@@ -99,3 +99,71 @@ export interface Documento {
   fecha?: string;
   created_at?: string;
 }
+
+export interface Reclamo {
+  id: string;
+  tipo: 'Reclamo' | 'Sugerencia';
+  asunto: string;
+  descripcion: string;
+  parcela_id?: string | null;
+  fecha?: string;
+  created_at?: string;
+}
+
+export interface Proveedor {
+  id: string;
+  rubro: string;
+  nombre: string;
+  contacto?: string;
+  telefono?: string;
+  email?: string;
+  web_instagram?: string;
+  observaciones?: string;
+}
+
+export interface Asamblea {
+  id: string;
+  fecha: string;
+  tipo: 'Ordinaria' | 'Extraordinaria';
+  temario: string;
+  acuerdos?: string;
+  created_at?: string;
+}
+
+export interface AsambleaAsistente {
+  id: string;
+  asamblea_id: string;
+  parcela_id: string;
+}
+
+export interface Encuesta {
+  id: string;
+  titulo: string;
+  descripcion: string;
+  alternativas?: string[];
+  fecha_termino?: string | null;
+  quorum?: number | null;
+  created_at?: string;
+}
+
+export interface VotoEncuesta {
+  id: string;
+  encuesta_id: string;
+  parcela_id: string;
+  seleccion: string;
+  created_at?: string;
+}
+
+export interface Publicacion {
+  id: string;
+  titulo: string;
+  descripcion?: string;
+  categoria: 'Producto' | 'Servicio';
+  precio?: number | string | null;
+  contacto?: string;
+  parcela_id?: string;
+  estado: 'Disponible' | 'Vendido';
+  usuario?: string;
+  foto?: string;
+  created_at?: string;
+}
