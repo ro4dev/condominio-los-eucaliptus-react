@@ -1,0 +1,2562 @@
+[
+  {
+    "id": "42db8db2-9130-4243-b00c-3c5c5fa2e5ae",
+    "fecha": "2/08/2024",
+    "tipo": "Egreso",
+    "concepto": "Electricidad",
+    "descripcion": "Factura luz agosto",
+    "monto": "734894",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "ddb82767-d0ef-4934-ae92-7979538282e3",
+    "fecha": "3/08/2024",
+    "tipo": "Egreso",
+    "concepto": "Internet",
+    "descripcion": "Internet comunitario agosto",
+    "monto": "310107",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "435dcdfb-4c91-4374-b8f9-9f20434006f1",
+    "fecha": "4/08/2024",
+    "tipo": "Egreso",
+    "concepto": "Gas",
+    "descripcion": "Factura gas agosto",
+    "monto": "252038",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "2295cb1b-8bab-440e-af8a-e63321e17670",
+    "fecha": "5/08/2024",
+    "tipo": "Egreso",
+    "concepto": "Electricidad",
+    "descripcion": "Factura electricidad agosto",
+    "monto": "794531",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "0890e21a-d08d-4723-b90e-57ab91ec1a38",
+    "fecha": "6/08/2024",
+    "tipo": "Egreso",
+    "concepto": "Jardinería",
+    "descripcion": "Fertilización jardines agosto",
+    "monto": "300000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "8dbb2297-4578-4e70-a1fe-c8533011bf9d",
+    "fecha": "7/08/2024",
+    "tipo": "Ingreso",
+    "concepto": "Multa",
+    "descripcion": "Multa obra sin permiso Eduardo Navarrete",
+    "monto": "200000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "75bb989b-8d0b-496a-b05e-a85680c79f0d",
+    "fecha": "8/08/2024",
+    "tipo": "Egreso",
+    "concepto": "Jardinería",
+    "descripcion": "Riego sistema automático agosto",
+    "monto": "300000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "1b98ce5e-98b6-4a16-845c-c4b5cc9d0462",
+    "fecha": "9/08/2024",
+    "tipo": "Egreso",
+    "concepto": "Limpieza",
+    "descripcion": "Desinfección áreas comunes agosto",
+    "monto": "250000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "2d2ab0e2-6e72-4a7a-a233-e6bb23a097a2",
+    "fecha": "10/08/2024",
+    "tipo": "Egreso",
+    "concepto": "Mantenimiento",
+    "descripcion": "Pintura fachada salón común",
+    "monto": "680000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "5090564c-ca50-448b-83a7-b6e4e371695a",
+    "fecha": "11/08/2024",
+    "tipo": "Egreso",
+    "concepto": "Mantenimiento",
+    "descripcion": "Mantención techos pasillos",
+    "monto": "420000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "04c95d23-0e48-4522-9fea-e2efb6bad11b",
+    "fecha": "2/09/2024",
+    "tipo": "Egreso",
+    "concepto": "Cable",
+    "descripcion": "Cable comunitario septiembre",
+    "monto": "334980",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "397aac55-df7f-48ee-9a4c-bae80d4511d2",
+    "fecha": "3/09/2024",
+    "tipo": "Egreso",
+    "concepto": "Electricidad",
+    "descripcion": "Factura luz septiembre",
+    "monto": "758186",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "cc2e85fa-3445-4068-9f3b-3d858623a851",
+    "fecha": "4/09/2024",
+    "tipo": "Egreso",
+    "concepto": "Agua",
+    "descripcion": "Factura agua septiembre",
+    "monto": "447094",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "cfca3bb5-0c23-460b-be10-1f4e15cfe154",
+    "fecha": "5/09/2024",
+    "tipo": "Egreso",
+    "concepto": "Gas",
+    "descripcion": "Factura gas septiembre",
+    "monto": "264137",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "eee1dde8-3931-4fa7-ab2f-558bbcab4229",
+    "fecha": "6/09/2024",
+    "tipo": "Egreso",
+    "concepto": "Jardinería",
+    "descripcion": "Riego sistema automático septiembre",
+    "monto": "180000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "484d675d-c639-4e89-8d82-17a8bcdfa3de",
+    "fecha": "7/09/2024",
+    "tipo": "Egreso",
+    "concepto": "Jardinería",
+    "descripcion": "Control plagas mes septiembre",
+    "monto": "320000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "e6539f9d-4d8f-409c-814f-159d5c9c9b72",
+    "fecha": "8/09/2024",
+    "tipo": "Egreso",
+    "concepto": "Limpieza",
+    "descripcion": "Limpieza piscina septiembre",
+    "monto": "150000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "1213faab-a8da-4041-aa2c-b1d5fadbef3a",
+    "fecha": "9/09/2024",
+    "tipo": "Egreso",
+    "concepto": "Limpieza",
+    "descripcion": "Limpieza espacios comunes septiembre",
+    "monto": "200000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "802b8b11-4570-45e1-b7eb-137269b7b0eb",
+    "fecha": "10/09/2024",
+    "tipo": "Egreso",
+    "concepto": "Mantenimiento",
+    "descripcion": "Arreglo rejilla desagüe",
+    "monto": "200000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "039c2067-74de-4fc2-904b-4ec87a040640",
+    "fecha": "11/09/2024",
+    "tipo": "Egreso",
+    "concepto": "Mantenimiento",
+    "descripcion": "Mantención techos pasillos",
+    "monto": "500000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "e6f501ff-1816-44d8-9e30-8dea4502bdce",
+    "fecha": "2/10/2024",
+    "tipo": "Egreso",
+    "concepto": "Cable",
+    "descripcion": "Cable comunitario octubre",
+    "monto": "334639",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "aa11f124-259e-4137-a4d3-b43c257a2b5b",
+    "fecha": "3/10/2024",
+    "tipo": "Egreso",
+    "concepto": "Agua",
+    "descripcion": "Factura agua octubre",
+    "monto": "455713",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "aca423e3-f5af-4a1e-b26d-4934bc505e87",
+    "fecha": "4/10/2024",
+    "tipo": "Egreso",
+    "concepto": "Electricidad",
+    "descripcion": "Factura electricidad octubre",
+    "monto": "798698",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "b1ab5903-cbae-496a-bf25-d1bf65718c6a",
+    "fecha": "5/10/2024",
+    "tipo": "Egreso",
+    "concepto": "Gas",
+    "descripcion": "Factura gas octubre",
+    "monto": "280058",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "dd613aec-d420-4527-bba0-327cdd0c0969",
+    "fecha": "6/10/2024",
+    "tipo": "Egreso",
+    "concepto": "Jardinería",
+    "descripcion": "Mantención césped octubre",
+    "monto": "200000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "8ea1790d-05e9-49d3-b2cd-52e4523aefaa",
+    "fecha": "7/10/2024",
+    "tipo": "Ingreso",
+    "concepto": "Multa",
+    "descripcion": "Multa uso piscina fuera de horario Carlos Silva",
+    "monto": "180000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "e491c876-ac5a-43c2-84f2-9c63e4822e71",
+    "fecha": "8/10/2024",
+    "tipo": "Egreso",
+    "concepto": "Jardinería",
+    "descripcion": "Mantención césped octubre",
+    "monto": "650000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "e13173b0-e78a-4a89-b557-0bfca86c78c3",
+    "fecha": "9/10/2024",
+    "tipo": "Egreso",
+    "concepto": "Limpieza",
+    "descripcion": "Desinfección áreas comunes octubre",
+    "monto": "450000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "e3dc0f4c-29e7-40fa-8cc2-2f27b8f0f9f0",
+    "fecha": "10/10/2024",
+    "tipo": "Egreso",
+    "concepto": "Mantenimiento",
+    "descripcion": "Reparación bomba de agua",
+    "monto": "250000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "75b07aa9-63d9-492d-ad1a-3eaf59af52e8",
+    "fecha": "11/10/2024",
+    "tipo": "Egreso",
+    "concepto": "Mantenimiento",
+    "descripcion": "Arreglo cerradura acceso principal",
+    "monto": "500000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "7a0cedab-32b0-4608-9fb7-da5f6c2c4c8b",
+    "fecha": "12/10/2024",
+    "tipo": "Egreso",
+    "concepto": "Seguros",
+    "descripcion": "Seguro incendio trimestral",
+    "monto": "694516",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "9e427ec7-28ea-424d-92a7-53f6b2219b25",
+    "fecha": "2/11/2024",
+    "tipo": "Egreso",
+    "concepto": "Cable",
+    "descripcion": "Cable comunitario noviembre",
+    "monto": "325604",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "0ba2cdf8-67ab-43b5-8949-f797dff46901",
+    "fecha": "3/11/2024",
+    "tipo": "Egreso",
+    "concepto": "Electricidad",
+    "descripcion": "Factura electricidad noviembre",
+    "monto": "826773",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "0942d83f-7e9e-4f4c-a178-359e6d1b522b",
+    "fecha": "4/11/2024",
+    "tipo": "Egreso",
+    "concepto": "Electricidad",
+    "descripcion": "Factura luz noviembre",
+    "monto": "788006",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "8c5c5f84-446d-4d70-a312-c49b1c8c4b08",
+    "fecha": "5/11/2024",
+    "tipo": "Egreso",
+    "concepto": "Internet",
+    "descripcion": "Internet comunitario noviembre",
+    "monto": "322247",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "f07f321b-50a1-4e47-b6cc-9bd5f566705e",
+    "fecha": "6/11/2024",
+    "tipo": "Egreso",
+    "concepto": "Jardinería",
+    "descripcion": "Riego sistema automático noviembre",
+    "monto": "420000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "c759f47a-46bd-4355-83da-d179b65f0e57",
+    "fecha": "7/11/2024",
+    "tipo": "Ingreso",
+    "concepto": "Multa",
+    "descripcion": "Multa estacionamiento indebido Patricia Ortiz",
+    "monto": "75000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "e88a4606-4371-44c3-8808-d9fab9453c88",
+    "fecha": "8/11/2024",
+    "tipo": "Egreso",
+    "concepto": "Jardinería",
+    "descripcion": "Mantención césped noviembre",
+    "monto": "260000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "8899cbef-3953-46d1-b952-0e7d423c65a3",
+    "fecha": "9/11/2024",
+    "tipo": "Egreso",
+    "concepto": "Limpieza",
+    "descripcion": "Desinfección áreas comunes noviembre",
+    "monto": "200000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "7b1b66b2-0115-44b2-bc23-230f8f08da65",
+    "fecha": "10/11/2024",
+    "tipo": "Egreso",
+    "concepto": "Mantenimiento",
+    "descripcion": "Cambio grifería baño común",
+    "monto": "500000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "e65f69be-e17c-4ae6-8b99-5608975b6b82",
+    "fecha": "11/11/2024",
+    "tipo": "Egreso",
+    "concepto": "Mantenimiento",
+    "descripcion": "Reparación iluminación pasillo",
+    "monto": "750000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "62345547-5867-4506-80dd-be64f932f46d",
+    "fecha": "2/12/2024",
+    "tipo": "Egreso",
+    "concepto": "Internet",
+    "descripcion": "Internet comunitario diciembre",
+    "monto": "308285",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "17c31154-3582-4c5b-8fc7-997f8ed7e17a",
+    "fecha": "3/12/2024",
+    "tipo": "Egreso",
+    "concepto": "Gas",
+    "descripcion": "Factura gas diciembre",
+    "monto": "296022",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "c36d625d-c7a9-4a49-b92a-eeef86789c60",
+    "fecha": "4/12/2024",
+    "tipo": "Egreso",
+    "concepto": "Cable",
+    "descripcion": "Cable comunitario diciembre",
+    "monto": "336247",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "55151260-a975-40f6-9f56-8a3d364b75fe",
+    "fecha": "5/12/2024",
+    "tipo": "Ingreso",
+    "concepto": "Multa",
+    "descripcion": "Multa mascota sin correa Isabel Fernández",
+    "monto": "100000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "646ba1e2-0abb-4456-ae33-05f1c10a93d4",
+    "fecha": "6/12/2024",
+    "tipo": "Egreso",
+    "concepto": "Electricidad",
+    "descripcion": "Factura luz diciembre",
+    "monto": "777782",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "1ffed8ca-7adb-404a-8786-c03b630ac8d2",
+    "fecha": "7/12/2024",
+    "tipo": "Egreso",
+    "concepto": "Jardinería",
+    "descripcion": "Riego sistema automático diciembre",
+    "monto": "180000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "34b79078-a6b0-4972-a5fd-0bf91cefbf60",
+    "fecha": "8/12/2024",
+    "tipo": "Ingreso",
+    "concepto": "Multa",
+    "descripcion": "Multa uso piscina fuera de horario Santiago Vega",
+    "monto": "75000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "adfe5962-8b21-4aed-926f-940fb020f514",
+    "fecha": "9/12/2024",
+    "tipo": "Egreso",
+    "concepto": "Limpieza",
+    "descripcion": "Limpieza espacios comunes diciembre",
+    "monto": "380000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "299104fe-0af1-458b-aa7f-c57f047c0027",
+    "fecha": "10/12/2024",
+    "tipo": "Egreso",
+    "concepto": "Mantenimiento",
+    "descripcion": "Reparación bomba de presión",
+    "monto": "420000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "3a70cdb1-f22d-4ddf-b0ce-ee303d512938",
+    "fecha": "2/01/2025",
+    "tipo": "Egreso",
+    "concepto": "Electricidad",
+    "descripcion": "Factura electricidad enero",
+    "monto": "792908",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "9a04a493-f7ce-46ac-ba2c-cccd6ce5fdd7",
+    "fecha": "3/01/2025",
+    "tipo": "Egreso",
+    "concepto": "Agua",
+    "descripcion": "Factura agua enero",
+    "monto": "408755",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "d410b365-d431-4a66-a9ea-c2e3c1358d74",
+    "fecha": "4/01/2025",
+    "tipo": "Egreso",
+    "concepto": "Electricidad",
+    "descripcion": "Factura luz enero",
+    "monto": "732430",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "8d78d435-4036-4469-9f91-6bf7da209229",
+    "fecha": "5/01/2025",
+    "tipo": "Egreso",
+    "concepto": "Cable",
+    "descripcion": "Cable comunitario enero",
+    "monto": "324200",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "0150fe3c-affe-4bc5-b2b5-f16c587dc412",
+    "fecha": "6/01/2025",
+    "tipo": "Egreso",
+    "concepto": "Jardinería",
+    "descripcion": "Control plagas mes enero",
+    "monto": "260000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "96d8fdf4-7c5f-4d17-919c-43110c8a6fa0",
+    "fecha": "7/01/2025",
+    "tipo": "Egreso",
+    "concepto": "Jardinería",
+    "descripcion": "Poda de árboles mes enero",
+    "monto": "320000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "24f70b7e-83b8-4492-bdf5-a7a83f25ff58",
+    "fecha": "8/01/2025",
+    "tipo": "Egreso",
+    "concepto": "Limpieza",
+    "descripcion": "Limpieza piscina enero",
+    "monto": "320000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "bf0669da-a062-4b7c-ad5c-774eccbaa525",
+    "fecha": "9/01/2025",
+    "tipo": "Egreso",
+    "concepto": "Limpieza",
+    "descripcion": "Service limpieza común enero",
+    "monto": "380000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "a94b1e47-041d-4151-8900-9d76f6854209",
+    "fecha": "10/01/2025",
+    "tipo": "Egreso",
+    "concepto": "Mantenimiento",
+    "descripcion": "Mantención portón automático",
+    "monto": "300000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "86aae0ab-3b22-492c-8a35-d2b11248273d",
+    "fecha": "11/01/2025",
+    "tipo": "Egreso",
+    "concepto": "Mantenimiento",
+    "descripcion": "Mantención portón automático",
+    "monto": "680000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "e5bd3749-6bb1-4895-b700-3024ca78682e",
+    "fecha": "12/01/2025",
+    "tipo": "Egreso",
+    "concepto": "Seguros",
+    "descripcion": "Seguro incendio trimestral",
+    "monto": "701026",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "16255c07-8074-4d73-a2e1-83127710082b",
+    "fecha": "2/02/2025",
+    "tipo": "Egreso",
+    "concepto": "Electricidad",
+    "descripcion": "Factura electricidad febrero",
+    "monto": "702958",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "6031f10e-ae1d-4e70-9b8f-823b9a805c8f",
+    "fecha": "3/02/2025",
+    "tipo": "Egreso",
+    "concepto": "Electricidad",
+    "descripcion": "Factura luz febrero",
+    "monto": "685382",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "12ac3fb3-07a5-4ed8-8f26-1ef81efe6539",
+    "fecha": "4/02/2025",
+    "tipo": "Egreso",
+    "concepto": "Internet",
+    "descripcion": "Internet comunitario febrero",
+    "monto": "291638",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "eda2ee29-f63e-42e4-abe6-3f395c94c7b2",
+    "fecha": "5/02/2025",
+    "tipo": "Ingreso",
+    "concepto": "Multa",
+    "descripcion": "Multa mascota sin correa Vicente Urrutia",
+    "monto": "180000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "4d8006ae-14a4-4b86-a1b9-254f6b135031",
+    "fecha": "6/02/2025",
+    "tipo": "Egreso",
+    "concepto": "Agua",
+    "descripcion": "Factura agua febrero",
+    "monto": "459768",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "1d66d1bc-888b-4a29-aa91-39aa565bcf11",
+    "fecha": "7/02/2025",
+    "tipo": "Egreso",
+    "concepto": "Jardinería",
+    "descripcion": "Fertilización jardines febrero",
+    "monto": "600000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "12659bcd-cdd3-4e27-89aa-b177017d52f0",
+    "fecha": "8/02/2025",
+    "tipo": "Ingreso",
+    "concepto": "Multa",
+    "descripcion": "Multa mascota sin correa Leonardo Gallardo",
+    "monto": "150000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "78ad0514-2d81-4726-8314-689b475322a2",
+    "fecha": "9/02/2025",
+    "tipo": "Egreso",
+    "concepto": "Limpieza",
+    "descripcion": "Limpieza piscina febrero",
+    "monto": "380000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "8d9d4b22-85b2-481e-835d-10fe7b8a0df8",
+    "fecha": "10/02/2025",
+    "tipo": "Egreso",
+    "concepto": "Mantenimiento",
+    "descripcion": "Reparación bomba de agua",
+    "monto": "180000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "c24573e7-be24-4085-b97a-ec4f9c147c4a",
+    "fecha": "11/02/2025",
+    "tipo": "Egreso",
+    "concepto": "Mantenimiento",
+    "descripcion": "Mantención portón automático",
+    "monto": "180000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "c2b7a0bd-41ea-49e4-bf1a-f119af0f3072",
+    "fecha": "2/03/2025",
+    "tipo": "Egreso",
+    "concepto": "Electricidad",
+    "descripcion": "Factura luz marzo",
+    "monto": "777876",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "6178d333-7884-4639-8ac7-98b770039edb",
+    "fecha": "3/03/2025",
+    "tipo": "Egreso",
+    "concepto": "Agua",
+    "descripcion": "Factura agua marzo",
+    "monto": "436819",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "3bc9f66b-6e98-45b3-afdf-0c411af554c4",
+    "fecha": "4/03/2025",
+    "tipo": "Egreso",
+    "concepto": "Internet",
+    "descripcion": "Internet comunitario marzo",
+    "monto": "297536",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "7df2e63a-4951-4e67-8016-6ca4412a3ce6",
+    "fecha": "5/03/2025",
+    "tipo": "Egreso",
+    "concepto": "Electricidad",
+    "descripcion": "Factura electricidad marzo",
+    "monto": "758815",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "48c59858-6990-4d76-a579-19e642b52d66",
+    "fecha": "6/03/2025",
+    "tipo": "Egreso",
+    "concepto": "Cable",
+    "descripcion": "Cable comunitario marzo",
+    "monto": "322438",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "20c17b92-0d61-4d83-9220-66107af6aff0",
+    "fecha": "7/03/2025",
+    "tipo": "Egreso",
+    "concepto": "Jardinería",
+    "descripcion": "Control plagas mes marzo",
+    "monto": "420000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "9964f46c-b556-4225-bd03-fe09be3bcbb6",
+    "fecha": "8/03/2025",
+    "tipo": "Egreso",
+    "concepto": "Jardinería",
+    "descripcion": "Fertilización jardines marzo",
+    "monto": "200000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "fcc44044-d80e-483e-8e4f-684d6517fc78",
+    "fecha": "9/03/2025",
+    "tipo": "Egreso",
+    "concepto": "Limpieza",
+    "descripcion": "Limpieza piscina marzo",
+    "monto": "250000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "4854c04e-9cba-48b9-b003-0324451d9ae4",
+    "fecha": "10/03/2025",
+    "tipo": "Egreso",
+    "concepto": "Limpieza",
+    "descripcion": "Limpieza espacios comunes marzo",
+    "monto": "450000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "78cc3d79-8a79-4711-97cb-0b879f6f88e2",
+    "fecha": "11/03/2025",
+    "tipo": "Egreso",
+    "concepto": "Mantenimiento",
+    "descripcion": "Mantención techos pasillos",
+    "monto": "220000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "da5451d9-19b5-4d95-8036-4509156337e8",
+    "fecha": "12/03/2025",
+    "tipo": "Egreso",
+    "concepto": "Mantenimiento",
+    "descripcion": "Mantención techos pasillos",
+    "monto": "180000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "aa05367f-26ca-4d33-adcb-b50ed11061be",
+    "fecha": "2/04/2025",
+    "tipo": "Egreso",
+    "concepto": "Agua",
+    "descripcion": "Factura agua abril",
+    "monto": "439958",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "42c3d9da-3ca4-4530-bf24-cf5904b0a03b",
+    "fecha": "3/04/2025",
+    "tipo": "Egreso",
+    "concepto": "Gas",
+    "descripcion": "Factura gas abril",
+    "monto": "314795",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "a083c30b-b0f8-445c-8145-6e20474734f8",
+    "fecha": "4/04/2025",
+    "tipo": "Egreso",
+    "concepto": "Electricidad",
+    "descripcion": "Factura electricidad abril",
+    "monto": "837322",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "dfff3b73-4cff-4b50-adbf-de7538ce8f66",
+    "fecha": "5/04/2025",
+    "tipo": "Ingreso",
+    "concepto": "Multa",
+    "descripcion": "Multa obra sin permiso Silvia Carvajal",
+    "monto": "300000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "360a4777-a870-4825-8429-51c5967b3445",
+    "fecha": "6/04/2025",
+    "tipo": "Egreso",
+    "concepto": "Cable",
+    "descripcion": "Cable comunitario abril",
+    "monto": "334913",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "39071fca-1cc0-41c5-b1a5-479bccc56adf",
+    "fecha": "7/04/2025",
+    "tipo": "Egreso",
+    "concepto": "Electricidad",
+    "descripcion": "Factura luz abril",
+    "monto": "723549",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "bdb022a3-8028-42f1-920d-c2db40607b9b",
+    "fecha": "8/04/2025",
+    "tipo": "Egreso",
+    "concepto": "Jardinería",
+    "descripcion": "Poda de árboles mes abril",
+    "monto": "300000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "b16fc7ae-208e-4004-b637-e1b6efad5e83",
+    "fecha": "9/04/2025",
+    "tipo": "Ingreso",
+    "concepto": "Multa",
+    "descripcion": "Multa mascota sin correa Silvia Carvajal",
+    "monto": "300000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "73e0ac5f-0da2-42a2-b81f-8aeb341a9214",
+    "fecha": "10/04/2025",
+    "tipo": "Egreso",
+    "concepto": "Limpieza",
+    "descripcion": "Desinfección áreas comunes abril",
+    "monto": "200000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "86ac2f8d-3684-46a4-8c85-6da0f92b6590",
+    "fecha": "11/04/2025",
+    "tipo": "Egreso",
+    "concepto": "Mantenimiento",
+    "descripcion": "Pintura portón ingreso",
+    "monto": "250000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "93742085-c279-4358-89b9-74f47ea2d7c1",
+    "fecha": "12/04/2025",
+    "tipo": "Egreso",
+    "concepto": "Seguros",
+    "descripcion": "Seguro incendio trimestral",
+    "monto": "765781",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "0bfbd92e-404a-4477-b297-f4e4f0000686",
+    "fecha": "2/05/2025",
+    "tipo": "Egreso",
+    "concepto": "Gas",
+    "descripcion": "Factura gas mayo",
+    "monto": "282231",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "7831ae0e-0b1c-43e1-b8eb-201dd7a1078a",
+    "fecha": "3/05/2025",
+    "tipo": "Egreso",
+    "concepto": "Agua",
+    "descripcion": "Factura agua mayo",
+    "monto": "397417",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "7bcb9a1b-bc2f-430b-b909-1f7d4ae26d82",
+    "fecha": "4/05/2025",
+    "tipo": "Egreso",
+    "concepto": "Electricidad",
+    "descripcion": "Factura luz mayo",
+    "monto": "714037",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "337fd176-aaa7-485d-ab29-88a0ffca9bbf",
+    "fecha": "5/05/2025",
+    "tipo": "Egreso",
+    "concepto": "Internet",
+    "descripcion": "Internet comunitario mayo",
+    "monto": "290328",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "380b501c-d0bc-432b-9592-75a67a63ec5b",
+    "fecha": "6/05/2025",
+    "tipo": "Ingreso",
+    "concepto": "Multa",
+    "descripcion": "Multa estacionamiento indebido Helena Ulloa",
+    "monto": "75000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "61f3e9be-cbf9-448f-bb59-e73404d0ed77",
+    "fecha": "7/05/2025",
+    "tipo": "Egreso",
+    "concepto": "Cable",
+    "descripcion": "Cable comunitario mayo",
+    "monto": "337965",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "3e1d44ac-fb6f-4212-9ea7-1a6173d513e7",
+    "fecha": "8/05/2025",
+    "tipo": "Egreso",
+    "concepto": "Jardinería",
+    "descripcion": "Riego sistema automático mayo",
+    "monto": "300000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "5bab79f9-c9af-48e3-9b9b-9551b8e5bb7b",
+    "fecha": "9/05/2025",
+    "tipo": "Egreso",
+    "concepto": "Jardinería",
+    "descripcion": "Fertilización jardines mayo",
+    "monto": "200000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "eeb8b1f2-78e2-4f31-9bfd-d91f78e53590",
+    "fecha": "10/05/2025",
+    "tipo": "Ingreso",
+    "concepto": "Multa",
+    "descripcion": "Multa estacionamiento indebido Vicente Quintana",
+    "monto": "180000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "8e589be7-21e3-41e4-a879-ba68eb0f395e",
+    "fecha": "11/05/2025",
+    "tipo": "Egreso",
+    "concepto": "Limpieza",
+    "descripcion": "Service limpieza común mayo",
+    "monto": "150000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "8c92df75-c378-48de-9a1e-1ed9bb3754a1",
+    "fecha": "12/05/2025",
+    "tipo": "Egreso",
+    "concepto": "Mantenimiento",
+    "descripcion": "Pintura fachada salón común",
+    "monto": "180000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "a0845adb-6352-4eaf-a395-be06e6261b48",
+    "fecha": "13/05/2025",
+    "tipo": "Egreso",
+    "concepto": "Mantenimiento",
+    "descripcion": "Mantención portón automático",
+    "monto": "150000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "985773b3-a37d-4630-9429-b511ad8ad2b4",
+    "fecha": "2/06/2025",
+    "tipo": "Egreso",
+    "concepto": "Gas",
+    "descripcion": "Factura gas junio",
+    "monto": "261671",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "4a637c34-9573-491b-ae1b-ed658a2900eb",
+    "fecha": "3/06/2025",
+    "tipo": "Egreso",
+    "concepto": "Cable",
+    "descripcion": "Cable comunitario junio",
+    "monto": "357253",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "7ef4894f-a742-4c83-8304-5341deb36de0",
+    "fecha": "4/06/2025",
+    "tipo": "Egreso",
+    "concepto": "Internet",
+    "descripcion": "Internet comunitario junio",
+    "monto": "312468",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "bbec5bee-5607-474c-a6fc-27fab1de872e",
+    "fecha": "5/06/2025",
+    "tipo": "Ingreso",
+    "concepto": "Multa",
+    "descripcion": "Multa basura en zona común Vicente Quintana",
+    "monto": "75000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "6245bcec-f318-4bae-a53a-6a4a55dc19d8",
+    "fecha": "6/06/2025",
+    "tipo": "Egreso",
+    "concepto": "Electricidad",
+    "descripcion": "Factura luz junio",
+    "monto": "698369",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "41052ebd-f3e0-45e5-a017-80f29f2976a4",
+    "fecha": "7/06/2025",
+    "tipo": "Egreso",
+    "concepto": "Agua",
+    "descripcion": "Factura agua junio",
+    "monto": "429720",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "9dd4ffc7-588f-4a5f-86ef-e81125be7fe2",
+    "fecha": "8/06/2025",
+    "tipo": "Egreso",
+    "concepto": "Jardinería",
+    "descripcion": "Mantención césped junio",
+    "monto": "300000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "3da96aa4-5b86-4ade-b72c-2c8056eae204",
+    "fecha": "9/06/2025",
+    "tipo": "Ingreso",
+    "concepto": "Multa",
+    "descripcion": "Multa mascota sin correa Hernán Zamora",
+    "monto": "300000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "6c1bdb4a-850a-4a1a-aabb-d3406b61383d",
+    "fecha": "10/06/2025",
+    "tipo": "Egreso",
+    "concepto": "Jardinería",
+    "descripcion": "Mantención césped junio",
+    "monto": "200000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "617af928-fc68-42c6-aa3e-981a2fc87b8d",
+    "fecha": "11/06/2025",
+    "tipo": "Egreso",
+    "concepto": "Limpieza",
+    "descripcion": "Desinfección áreas comunes junio",
+    "monto": "320000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "8c617b03-7065-4758-8236-c0cfbd058083",
+    "fecha": "12/06/2025",
+    "tipo": "Egreso",
+    "concepto": "Mantenimiento",
+    "descripcion": "Reparación cámara de seguridad",
+    "monto": "200000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "3bd746ab-fa6c-466d-883e-e9dee8e08d13",
+    "fecha": "2/07/2025",
+    "tipo": "Egreso",
+    "concepto": "Gas",
+    "descripcion": "Factura gas julio",
+    "monto": "320074",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "3bae685a-1b36-4cd4-b7c1-71f3913e59f2",
+    "fecha": "3/07/2025",
+    "tipo": "Egreso",
+    "concepto": "Agua",
+    "descripcion": "Factura agua julio",
+    "monto": "400074",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "98ade4ad-b5fe-439b-bfc1-03cdbe1c2eac",
+    "fecha": "4/07/2025",
+    "tipo": "Egreso",
+    "concepto": "Internet",
+    "descripcion": "Internet comunitario julio",
+    "monto": "313794",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "72a9b987-adef-4321-8e02-93a860838318",
+    "fecha": "5/07/2025",
+    "tipo": "Egreso",
+    "concepto": "Electricidad",
+    "descripcion": "Factura luz julio",
+    "monto": "790142",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "71c106e4-b053-4bab-91ff-7674caec3565",
+    "fecha": "6/07/2025",
+    "tipo": "Ingreso",
+    "concepto": "Multa",
+    "descripcion": "Multa ruido excesivo Daniela Toledo",
+    "monto": "180000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "9d8cdd25-f7c7-4451-ad00-9f7f914c5f37",
+    "fecha": "7/07/2025",
+    "tipo": "Egreso",
+    "concepto": "Jardinería",
+    "descripcion": "Riego sistema automático julio",
+    "monto": "320000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "df4b851b-752b-4b31-a5c4-cb856e768483",
+    "fecha": "8/07/2025",
+    "tipo": "Egreso",
+    "concepto": "Limpieza",
+    "descripcion": "Limpieza piscina julio",
+    "monto": "250000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "ae7fea4e-4f60-42b9-9af0-f74f91207da3",
+    "fecha": "9/07/2025",
+    "tipo": "Egreso",
+    "concepto": "Mantenimiento",
+    "descripcion": "Cambio grifería baño común",
+    "monto": "300000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "fb9a0dd0-d375-4f02-b5a2-9663de895ef6",
+    "fecha": "10/07/2025",
+    "tipo": "Ingreso",
+    "concepto": "Multa",
+    "descripcion": "Multa ruido excesivo Diego Ramírez",
+    "monto": "90000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "5061c653-0b15-4e02-bc0c-36276d9ff94b",
+    "fecha": "11/07/2025",
+    "tipo": "Egreso",
+    "concepto": "Mantenimiento",
+    "descripcion": "Reparación cámara de seguridad",
+    "monto": "180000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "e16e8cc8-bc39-4505-acbf-4d40d361101f",
+    "fecha": "12/07/2025",
+    "tipo": "Egreso",
+    "concepto": "Seguros",
+    "descripcion": "Seguro RC anual condominio",
+    "monto": "796643",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "820356ab-3700-4d69-a7f3-803b58b8059c",
+    "fecha": "13/07/2025",
+    "tipo": "Egreso",
+    "concepto": "Seguros",
+    "descripcion": "Seguro incendio trimestral",
+    "monto": "663551",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "ac214c5b-6d49-4512-8f71-a96c79d222c0",
+    "fecha": "2/08/2025",
+    "tipo": "Egreso",
+    "concepto": "Agua",
+    "descripcion": "Factura agua agosto",
+    "monto": "449960",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "8ee75757-6275-4243-870d-0af931f8f666",
+    "fecha": "3/08/2025",
+    "tipo": "Egreso",
+    "concepto": "Electricidad",
+    "descripcion": "Factura luz agosto",
+    "monto": "771196",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "709ebb52-1bb4-4c98-9a14-01e0df71bb69",
+    "fecha": "4/08/2025",
+    "tipo": "Egreso",
+    "concepto": "Internet",
+    "descripcion": "Internet comunitario agosto",
+    "monto": "334430",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "c21a8e42-619b-4111-8c73-2fc8249f0bfd",
+    "fecha": "5/08/2025",
+    "tipo": "Egreso",
+    "concepto": "Cable",
+    "descripcion": "Cable comunitario agosto",
+    "monto": "339209",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "dee8d284-0d8e-4849-abec-67bf4f4c8f0b",
+    "fecha": "6/08/2025",
+    "tipo": "Egreso",
+    "concepto": "Electricidad",
+    "descripcion": "Factura electricidad agosto",
+    "monto": "777722",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "ad9b52c9-abe3-47a6-88c3-bd3e5e8eb2d8",
+    "fecha": "7/08/2025",
+    "tipo": "Ingreso",
+    "concepto": "Multa",
+    "descripcion": "Multa mascota sin correa Patricia Ortiz",
+    "monto": "250000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "240fa562-0d03-4ac0-80a5-4c74beae1c78",
+    "fecha": "8/08/2025",
+    "tipo": "Egreso",
+    "concepto": "Jardinería",
+    "descripcion": "Poda de árboles mes agosto",
+    "monto": "600000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "51abfd43-f0e6-4426-ad2b-0a7072e49d8d",
+    "fecha": "9/08/2025",
+    "tipo": "Egreso",
+    "concepto": "Jardinería",
+    "descripcion": "Control plagas mes agosto",
+    "monto": "200000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "77dbed08-b1b4-4eba-975e-9cd52fe6d106",
+    "fecha": "10/08/2025",
+    "tipo": "Egreso",
+    "concepto": "Limpieza",
+    "descripcion": "Service limpieza común agosto",
+    "monto": "380000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "b4feee3b-0a8f-4930-a620-39cf5755e5d1",
+    "fecha": "11/08/2025",
+    "tipo": "Egreso",
+    "concepto": "Mantenimiento",
+    "descripcion": "Pintura portón ingreso",
+    "monto": "250000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "8a243062-54a2-41ed-a9a6-e351908f866c",
+    "fecha": "12/08/2025",
+    "tipo": "Egreso",
+    "concepto": "Mantenimiento",
+    "descripcion": "Cambio grifería baño común",
+    "monto": "350000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "aca3088f-db4f-47d4-96ad-63199b892afc",
+    "fecha": "2/09/2025",
+    "tipo": "Egreso",
+    "concepto": "Internet",
+    "descripcion": "Internet comunitario septiembre",
+    "monto": "304141",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "42d22367-7d77-49f6-9f65-e9cb6d6f5b2d",
+    "fecha": "3/09/2025",
+    "tipo": "Egreso",
+    "concepto": "Electricidad",
+    "descripcion": "Factura electricidad septiembre",
+    "monto": "816692",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "69d56f7d-a56e-467a-95cf-a8cd9e6b1690",
+    "fecha": "4/09/2025",
+    "tipo": "Egreso",
+    "concepto": "Cable",
+    "descripcion": "Cable comunitario septiembre",
+    "monto": "315325",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "56fbf9ee-2617-402d-93ca-8e529642d053",
+    "fecha": "5/09/2025",
+    "tipo": "Egreso",
+    "concepto": "Electricidad",
+    "descripcion": "Factura luz septiembre",
+    "monto": "780425",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "84aca86d-4337-4c0f-b082-c17639456bef",
+    "fecha": "6/09/2025",
+    "tipo": "Egreso",
+    "concepto": "Jardinería",
+    "descripcion": "Mantención césped septiembre",
+    "monto": "260000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "e1e9d318-c122-4205-81c4-931f75b55c23",
+    "fecha": "7/09/2025",
+    "tipo": "Egreso",
+    "concepto": "Jardinería",
+    "descripcion": "Mantención césped septiembre",
+    "monto": "650000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "b49e8e22-e34b-4422-9034-e992125add03",
+    "fecha": "8/09/2025",
+    "tipo": "Egreso",
+    "concepto": "Limpieza",
+    "descripcion": "Limpieza espacios comunes septiembre",
+    "monto": "320000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "ad763b77-5dfd-45a6-bd69-257d1d5ee22e",
+    "fecha": "9/09/2025",
+    "tipo": "Egreso",
+    "concepto": "Limpieza",
+    "descripcion": "Limpieza espacios comunes septiembre",
+    "monto": "450000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "7c34e342-eba8-49d8-9652-1ed54c2c43d7",
+    "fecha": "10/09/2025",
+    "tipo": "Egreso",
+    "concepto": "Mantenimiento",
+    "descripcion": "Cambio grifería baño común",
+    "monto": "200000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "d34e5623-d4c5-4b66-b7b5-1250fb35422d",
+    "fecha": "11/09/2025",
+    "tipo": "Egreso",
+    "concepto": "Mantenimiento",
+    "descripcion": "Reparación bomba de agua",
+    "monto": "250000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "8323939a-c320-4689-ac43-9b0768b43c4e",
+    "fecha": "2/10/2025",
+    "tipo": "Egreso",
+    "concepto": "Gas",
+    "descripcion": "Factura gas octubre",
+    "monto": "317538",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "b243f8a6-0c62-4095-b74a-e6e60e477bca",
+    "fecha": "3/10/2025",
+    "tipo": "Egreso",
+    "concepto": "Internet",
+    "descripcion": "Internet comunitario octubre",
+    "monto": "336088",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "9c4628bd-6eb1-4ec1-b7c9-b107ef1fb9c0",
+    "fecha": "4/10/2025",
+    "tipo": "Egreso",
+    "concepto": "Agua",
+    "descripcion": "Factura agua octubre",
+    "monto": "398985",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "bdfb516b-4291-4533-8e0c-d5b5f644f304",
+    "fecha": "5/10/2025",
+    "tipo": "Egreso",
+    "concepto": "Electricidad",
+    "descripcion": "Factura electricidad octubre",
+    "monto": "772165",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "401b5ab7-0da7-4d4c-a8e7-ac03ef32420a",
+    "fecha": "6/10/2025",
+    "tipo": "Egreso",
+    "concepto": "Electricidad",
+    "descripcion": "Factura luz octubre",
+    "monto": "738073",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "8ee4881a-43fc-4082-b138-4649383fa2f2",
+    "fecha": "7/10/2025",
+    "tipo": "Egreso",
+    "concepto": "Jardinería",
+    "descripcion": "Poda de árboles mes octubre",
+    "monto": "200000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "64e92d84-246a-4e6b-b11b-e23e47a197aa",
+    "fecha": "8/10/2025",
+    "tipo": "Ingreso",
+    "concepto": "Multa",
+    "descripcion": "Multa estacionamiento indebido Vicente Quintana",
+    "monto": "75000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "4c6e9450-096d-464b-bcd9-5caece16ddbf",
+    "fecha": "9/10/2025",
+    "tipo": "Egreso",
+    "concepto": "Limpieza",
+    "descripcion": "Limpieza espacios comunes octubre",
+    "monto": "380000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "ec516a3c-e2fc-4812-81de-89c000801d8c",
+    "fecha": "10/10/2025",
+    "tipo": "Egreso",
+    "concepto": "Limpieza",
+    "descripcion": "Desinfección áreas comunes octubre",
+    "monto": "150000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "86a01ba0-eda8-4797-aeab-625ef38f4eb6",
+    "fecha": "11/10/2025",
+    "tipo": "Egreso",
+    "concepto": "Mantenimiento",
+    "descripcion": "Arreglo rejilla desagüe",
+    "monto": "150000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "50968ad2-4a54-4b53-8269-e4ca976ddf8e",
+    "fecha": "12/10/2025",
+    "tipo": "Egreso",
+    "concepto": "Mantenimiento",
+    "descripcion": "Reparación cámara de seguridad",
+    "monto": "200000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "81e08f28-e60a-446a-ba74-52bffa132dba",
+    "fecha": "13/10/2025",
+    "tipo": "Egreso",
+    "concepto": "Seguros",
+    "descripcion": "Seguro incendio trimestral",
+    "monto": "681494",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "202fe55c-5d1e-40d0-8c2a-b97552964cc8",
+    "fecha": "2/11/2025",
+    "tipo": "Egreso",
+    "concepto": "Agua",
+    "descripcion": "Factura agua noviembre",
+    "monto": "448896",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "e63f6aba-e8ce-4780-878c-be92bffeae09",
+    "fecha": "3/11/2025",
+    "tipo": "Egreso",
+    "concepto": "Internet",
+    "descripcion": "Internet comunitario noviembre",
+    "monto": "293647",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "98e8ce0b-239a-4236-a5e8-d080735b8cd2",
+    "fecha": "4/11/2025",
+    "tipo": "Egreso",
+    "concepto": "Cable",
+    "descripcion": "Cable comunitario noviembre",
+    "monto": "332324",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "10713484-cbda-43ad-884c-f3d10167d97e",
+    "fecha": "5/11/2025",
+    "tipo": "Egreso",
+    "concepto": "Electricidad",
+    "descripcion": "Factura electricidad noviembre",
+    "monto": "780422",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "f6c79cd4-1f7d-43dc-a426-0973b45eb346",
+    "fecha": "6/11/2025",
+    "tipo": "Ingreso",
+    "concepto": "Multa",
+    "descripcion": "Multa mascota sin correa Álvaro Sepúlveda",
+    "monto": "100000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "c2a73ded-11f4-47b2-873a-54f605fbb1ff",
+    "fecha": "7/11/2025",
+    "tipo": "Egreso",
+    "concepto": "Electricidad",
+    "descripcion": "Factura luz noviembre",
+    "monto": "739050",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "e18b0216-80e4-45a7-8d34-d8eb1443d0a3",
+    "fecha": "8/11/2025",
+    "tipo": "Egreso",
+    "concepto": "Jardinería",
+    "descripcion": "Riego sistema automático noviembre",
+    "monto": "600000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "557e57b2-295c-4a23-b9c4-cb43a548f3b8",
+    "fecha": "9/11/2025",
+    "tipo": "Egreso",
+    "concepto": "Jardinería",
+    "descripcion": "Mantención césped noviembre",
+    "monto": "320000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "c65f5147-d307-41a4-99ff-2bc24e329515",
+    "fecha": "10/11/2025",
+    "tipo": "Ingreso",
+    "concepto": "Multa",
+    "descripcion": "Multa estacionamiento indebido Isidora Urrutia",
+    "monto": "150000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "252f4a75-ae37-44dc-bc98-dd07257b73d1",
+    "fecha": "11/11/2025",
+    "tipo": "Egreso",
+    "concepto": "Limpieza",
+    "descripcion": "Service limpieza común noviembre",
+    "monto": "150000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "c9613372-272b-4d28-9373-bbc1eee03788",
+    "fecha": "12/11/2025",
+    "tipo": "Egreso",
+    "concepto": "Mantenimiento",
+    "descripcion": "Pintura portón ingreso",
+    "monto": "750000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "20afa49d-0634-45d2-89e1-d38174ffad95",
+    "fecha": "13/11/2025",
+    "tipo": "Egreso",
+    "concepto": "Mantenimiento",
+    "descripcion": "Reparación bomba de presión",
+    "monto": "250000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "3cb560fb-7b05-4348-abcb-c644a3a5a340",
+    "fecha": "2/12/2025",
+    "tipo": "Egreso",
+    "concepto": "Gas",
+    "descripcion": "Factura gas diciembre",
+    "monto": "271224",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "c6d2f2ee-bcb6-4774-9a68-f6856abc4d3a",
+    "fecha": "3/12/2025",
+    "tipo": "Egreso",
+    "concepto": "Electricidad",
+    "descripcion": "Factura electricidad diciembre",
+    "monto": "822068",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "89395786-cae4-47fa-9773-d1292a1a124e",
+    "fecha": "4/12/2025",
+    "tipo": "Egreso",
+    "concepto": "Electricidad",
+    "descripcion": "Factura luz diciembre",
+    "monto": "767061",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "31a6dbb9-260a-493e-9e1c-f91fe549f32b",
+    "fecha": "5/12/2025",
+    "tipo": "Egreso",
+    "concepto": "Internet",
+    "descripcion": "Internet comunitario diciembre",
+    "monto": "305466",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "e46e60ec-e5e9-40f5-a994-7f3950cfc821",
+    "fecha": "6/12/2025",
+    "tipo": "Egreso",
+    "concepto": "Jardinería",
+    "descripcion": "Fertilización jardines diciembre",
+    "monto": "260000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "298b3769-fd9c-47a4-875d-46876bf795ff",
+    "fecha": "7/12/2025",
+    "tipo": "Egreso",
+    "concepto": "Limpieza",
+    "descripcion": "Service limpieza común diciembre",
+    "monto": "420000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "0de52342-380f-4fa0-938a-b324f4e12e1b",
+    "fecha": "8/12/2025",
+    "tipo": "Egreso",
+    "concepto": "Limpieza",
+    "descripcion": "Desinfección áreas comunes diciembre",
+    "monto": "380000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "d7bfcb59-049f-4ae5-be2f-9f2a3fae52ae",
+    "fecha": "9/12/2025",
+    "tipo": "Egreso",
+    "concepto": "Mantenimiento",
+    "descripcion": "Reparación bomba de presión",
+    "monto": "250000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "a594ae4b-101e-4d02-80f3-5d443b24fa59",
+    "fecha": "2/01/2026",
+    "tipo": "Egreso",
+    "concepto": "Agua",
+    "descripcion": "Factura agua enero",
+    "monto": "421082",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "83a221ab-3a11-4948-a33b-828b5339818d",
+    "fecha": "3/01/2026",
+    "tipo": "Egreso",
+    "concepto": "Internet",
+    "descripcion": "Internet comunitario enero",
+    "monto": "334962",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "beb01af9-1ae7-48ca-b56f-ec86f370c5a6",
+    "fecha": "4/01/2026",
+    "tipo": "Egreso",
+    "concepto": "Electricidad",
+    "descripcion": "Factura luz enero",
+    "monto": "771986",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "64d2dba6-fd76-4deb-aaee-02ae62293f0d",
+    "fecha": "5/01/2026",
+    "tipo": "Ingreso",
+    "concepto": "Multa",
+    "descripcion": "Multa mascota sin correa Pablo Castillo",
+    "monto": "200000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "d72f231f-ba0d-4faa-b7bb-bb89831b4b46",
+    "fecha": "6/01/2026",
+    "tipo": "Egreso",
+    "concepto": "Electricidad",
+    "descripcion": "Factura electricidad enero",
+    "monto": "838547",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "7046ce4d-2acb-43c5-8d1c-e5935ac32242",
+    "fecha": "7/01/2026",
+    "tipo": "Egreso",
+    "concepto": "Jardinería",
+    "descripcion": "Mantención césped enero",
+    "monto": "600000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "4e39894f-678b-4b97-afaf-e46fe9caa9a8",
+    "fecha": "8/01/2026",
+    "tipo": "Egreso",
+    "concepto": "Jardinería",
+    "descripcion": "Fertilización jardines enero",
+    "monto": "320000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "ec269003-1dc5-4c3e-8b7f-460c1151493a",
+    "fecha": "9/01/2026",
+    "tipo": "Ingreso",
+    "concepto": "Multa",
+    "descripcion": "Multa obra sin permiso Paola Cabrera",
+    "monto": "75000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "cba8fe75-84f7-4e30-ae08-d02b53dfc533",
+    "fecha": "10/01/2026",
+    "tipo": "Egreso",
+    "concepto": "Limpieza",
+    "descripcion": "Limpieza espacios comunes enero",
+    "monto": "320000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "1a3ba44f-0e5c-427d-a4bb-251934c87070",
+    "fecha": "11/01/2026",
+    "tipo": "Egreso",
+    "concepto": "Mantenimiento",
+    "descripcion": "Reparación iluminación pasillo",
+    "monto": "220000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "7f55ae9a-8480-43c1-8186-4907919273b9",
+    "fecha": "12/01/2026",
+    "tipo": "Egreso",
+    "concepto": "Seguros",
+    "descripcion": "Seguro incendio trimestral",
+    "monto": "740032",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "bb2e0ef2-7e1c-45f5-a74a-748896906bfb",
+    "fecha": "2/02/2026",
+    "tipo": "Egreso",
+    "concepto": "Cable",
+    "descripcion": "Cable comunitario febrero",
+    "monto": "350446",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "09e10f26-5d26-47f3-9d6a-d6bfccb4f844",
+    "fecha": "3/02/2026",
+    "tipo": "Egreso",
+    "concepto": "Agua",
+    "descripcion": "Factura agua febrero",
+    "monto": "403037",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "e4e37f2a-dc5c-4e9f-946f-fc283dd11af1",
+    "fecha": "4/02/2026",
+    "tipo": "Egreso",
+    "concepto": "Electricidad",
+    "descripcion": "Factura luz febrero",
+    "monto": "738546",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "fede25fb-7eb9-4f90-8834-985acc4c4ec6",
+    "fecha": "5/02/2026",
+    "tipo": "Egreso",
+    "concepto": "Electricidad",
+    "descripcion": "Factura electricidad febrero",
+    "monto": "797141",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "d6e040c6-4ca5-4f35-b257-458ab661ac3b",
+    "fecha": "6/02/2026",
+    "tipo": "Egreso",
+    "concepto": "Jardinería",
+    "descripcion": "Mantención césped febrero",
+    "monto": "200000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "519ebbdc-d167-414a-b50b-764d15de8e90",
+    "fecha": "7/02/2026",
+    "tipo": "Egreso",
+    "concepto": "Jardinería",
+    "descripcion": "Fertilización jardines febrero",
+    "monto": "420000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "a3d730eb-4093-41c6-82fa-ee1390e6f3f9",
+    "fecha": "8/02/2026",
+    "tipo": "Egreso",
+    "concepto": "Limpieza",
+    "descripcion": "Service limpieza común febrero",
+    "monto": "450000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "9e570225-fc42-42ce-a012-5b20bd114c5e",
+    "fecha": "9/02/2026",
+    "tipo": "Egreso",
+    "concepto": "Limpieza",
+    "descripcion": "Limpieza piscina febrero",
+    "monto": "380000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "f0c9a198-f9a0-4dff-8290-a8ff1421a8b1",
+    "fecha": "10/02/2026",
+    "tipo": "Egreso",
+    "concepto": "Mantenimiento",
+    "descripcion": "Pintura fachada salón común",
+    "monto": "750000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "dbae321c-0e24-4b3b-991a-e855b9cc3737",
+    "fecha": "2/03/2026",
+    "tipo": "Egreso",
+    "concepto": "Internet",
+    "descripcion": "Internet comunitario marzo",
+    "monto": "323120",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "9a23bc01-33a3-46d5-8ef4-b5095b10508d",
+    "fecha": "3/03/2026",
+    "tipo": "Egreso",
+    "concepto": "Cable",
+    "descripcion": "Cable comunitario marzo",
+    "monto": "361522",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "9fa82152-212c-4a47-bc6c-3b8fc247105c",
+    "fecha": "4/03/2026",
+    "tipo": "Egreso",
+    "concepto": "Electricidad",
+    "descripcion": "Factura electricidad marzo",
+    "monto": "845058",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "cde57f6e-656b-47c6-baf1-38aac62ec57b",
+    "fecha": "5/03/2026",
+    "tipo": "Ingreso",
+    "concepto": "Multa",
+    "descripcion": "Multa basura en zona común Leonardo Mendoza",
+    "monto": "90000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "64b9b8d6-7ace-4fa9-b7cf-3728a23a212b",
+    "fecha": "6/03/2026",
+    "tipo": "Egreso",
+    "concepto": "Gas",
+    "descripcion": "Factura gas marzo",
+    "monto": "312256",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "f77579d9-32a9-457b-a653-6f7f1588d7f0",
+    "fecha": "7/03/2026",
+    "tipo": "Egreso",
+    "concepto": "Agua",
+    "descripcion": "Factura agua marzo",
+    "monto": "438000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "6fff261b-649d-4750-9e47-c0fe107fa142",
+    "fecha": "8/03/2026",
+    "tipo": "Egreso",
+    "concepto": "Jardinería",
+    "descripcion": "Control plagas mes marzo",
+    "monto": "280000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "4cebed50-baf7-4ef8-b874-4861ad852f27",
+    "fecha": "9/03/2026",
+    "tipo": "Ingreso",
+    "concepto": "Multa",
+    "descripcion": "Multa mascota sin correa Denise Bravo",
+    "monto": "100000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "8489f8aa-1efc-449a-8d21-63d9f687a633",
+    "fecha": "10/03/2026",
+    "tipo": "Egreso",
+    "concepto": "Limpieza",
+    "descripcion": "Limpieza piscina marzo",
+    "monto": "250000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "377b512c-11ad-427d-a1d9-1addeff5ecee",
+    "fecha": "11/03/2026",
+    "tipo": "Egreso",
+    "concepto": "Limpieza",
+    "descripcion": "Limpieza espacios comunes marzo",
+    "monto": "200000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "a5ca179c-2a7b-42cc-b9ab-a9f8c3193329",
+    "fecha": "12/03/2026",
+    "tipo": "Egreso",
+    "concepto": "Mantenimiento",
+    "descripcion": "Pintura portón ingreso",
+    "monto": "150000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "66b64874-0718-402b-948b-c1a809307230",
+    "fecha": "2/04/2026",
+    "tipo": "Egreso",
+    "concepto": "Agua",
+    "descripcion": "Factura agua abril",
+    "monto": "417285",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "b16aa1f2-fb73-4b63-9d6f-e9ef8ce95ec2",
+    "fecha": "3/04/2026",
+    "tipo": "Egreso",
+    "concepto": "Cable",
+    "descripcion": "Cable comunitario abril",
+    "monto": "335359",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "5a937695-cf28-4c2c-a474-c629ea7433a2",
+    "fecha": "4/04/2026",
+    "tipo": "Egreso",
+    "concepto": "Gas",
+    "descripcion": "Factura gas abril",
+    "monto": "329901",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "155f52dd-258a-4121-acc0-b504807ee686",
+    "fecha": "5/04/2026",
+    "tipo": "Egreso",
+    "concepto": "Electricidad",
+    "descripcion": "Factura electricidad abril",
+    "monto": "816325",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "0d6aba89-0605-4213-9045-85a083a80e90",
+    "fecha": "6/04/2026",
+    "tipo": "Egreso",
+    "concepto": "Electricidad",
+    "descripcion": "Factura luz abril",
+    "monto": "752368",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "c6e56ef3-b679-4c6a-b3d3-a353dd5affd4",
+    "fecha": "7/04/2026",
+    "tipo": "Egreso",
+    "concepto": "Jardinería",
+    "descripcion": "Fertilización jardines abril",
+    "monto": "260000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "f0e82cbf-8861-46bd-a263-4ca74e1e4b3e",
+    "fecha": "8/04/2026",
+    "tipo": "Ingreso",
+    "concepto": "Multa",
+    "descripcion": "Multa uso piscina fuera de horario Isidora Urrutia",
+    "monto": "75000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "2e9d2af2-8176-4907-99bd-30625602ec9b",
+    "fecha": "9/04/2026",
+    "tipo": "Egreso",
+    "concepto": "Jardinería",
+    "descripcion": "Mantención césped abril",
+    "monto": "260000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "af90bd88-769b-49e1-b462-b89efd4561a3",
+    "fecha": "10/04/2026",
+    "tipo": "Egreso",
+    "concepto": "Limpieza",
+    "descripcion": "Desinfección áreas comunes abril",
+    "monto": "150000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "c7af6ef1-89b8-473e-991d-c54f25ff2cd4",
+    "fecha": "11/04/2026",
+    "tipo": "Egreso",
+    "concepto": "Mantenimiento",
+    "descripcion": "Mantención portón automático",
+    "monto": "300000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "c49ecfd3-ba10-41ac-a000-e42c6ef9bb7b",
+    "fecha": "12/04/2026",
+    "tipo": "Egreso",
+    "concepto": "Mantenimiento",
+    "descripcion": "Arreglo rejilla desagüe",
+    "monto": "420000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "4d02807e-3caf-41b3-a71c-1ac3ab6c8e61",
+    "fecha": "13/04/2026",
+    "tipo": "Egreso",
+    "concepto": "Seguros",
+    "descripcion": "Seguro incendio trimestral",
+    "monto": "703359",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "06a77ec8-2831-4c0c-a97c-1751ccb60e67",
+    "fecha": "2/05/2026",
+    "tipo": "Egreso",
+    "concepto": "Cable",
+    "descripcion": "Cable comunitario mayo",
+    "monto": "325973",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "d1a4feef-4397-4c20-a1bc-a812c13155e6",
+    "fecha": "3/05/2026",
+    "tipo": "Egreso",
+    "concepto": "Electricidad",
+    "descripcion": "Factura luz mayo",
+    "monto": "769393",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "f1469718-2c17-444f-9a17-3849fd54a00e",
+    "fecha": "4/05/2026",
+    "tipo": "Egreso",
+    "concepto": "Gas",
+    "descripcion": "Factura gas mayo",
+    "monto": "307021",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "a30578bb-4508-4ad2-a6ea-79e59ded581c",
+    "fecha": "5/05/2026",
+    "tipo": "Ingreso",
+    "concepto": "Multa",
+    "descripcion": "Multa obra sin permiso Silvia Carvajal",
+    "monto": "100000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "3b9379cf-a026-4312-834b-bd0cd76ecdb9",
+    "fecha": "6/05/2026",
+    "tipo": "Egreso",
+    "concepto": "Internet",
+    "descripcion": "Internet comunitario mayo",
+    "monto": "337632",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "bae53a98-7c71-43b2-93d9-333cec794e15",
+    "fecha": "7/05/2026",
+    "tipo": "Egreso",
+    "concepto": "Electricidad",
+    "descripcion": "Factura electricidad mayo",
+    "monto": "732705",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "db770a11-479a-4536-b454-481282433722",
+    "fecha": "8/05/2026",
+    "tipo": "Egreso",
+    "concepto": "Jardinería",
+    "descripcion": "Riego sistema automático mayo",
+    "monto": "180000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "5b023749-66ef-49d3-b5fa-37be685032d8",
+    "fecha": "9/05/2026",
+    "tipo": "Ingreso",
+    "concepto": "Multa",
+    "descripcion": "Multa obra sin permiso Isidora Urrutia",
+    "monto": "300000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "d36ff9c2-d0c2-4d70-bf48-4b193374bcc4",
+    "fecha": "10/05/2026",
+    "tipo": "Egreso",
+    "concepto": "Limpieza",
+    "descripcion": "Service limpieza común mayo",
+    "monto": "250000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "c37dfd8a-0a94-4334-88f6-f4ef5487f9dc",
+    "fecha": "11/05/2026",
+    "tipo": "Egreso",
+    "concepto": "Mantenimiento",
+    "descripcion": "Cambio grifería baño común",
+    "monto": "680000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "719b38c4-05d6-4f47-bfee-52d5422993f6",
+    "fecha": "12/05/2026",
+    "tipo": "Egreso",
+    "concepto": "Mantenimiento",
+    "descripcion": "Mantención portón automático",
+    "monto": "200000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "e5956a5b-2ba6-40a3-ab05-8daf64177c5e",
+    "fecha": "2/06/2026",
+    "tipo": "Egreso",
+    "concepto": "Agua",
+    "descripcion": "Factura agua junio",
+    "monto": "396445",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "e3af0e4a-1450-4b01-8852-b6755e187a9c",
+    "fecha": "3/06/2026",
+    "tipo": "Egreso",
+    "concepto": "Electricidad",
+    "descripcion": "Factura luz junio",
+    "monto": "738766",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "9c8bff1a-abca-4d53-819f-f3b6fce71d88",
+    "fecha": "4/06/2026",
+    "tipo": "Egreso",
+    "concepto": "Electricidad",
+    "descripcion": "Factura electricidad junio",
+    "monto": "706841",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "e4b56d5e-d1f6-4433-9171-ca6461424070",
+    "fecha": "5/06/2026",
+    "tipo": "Egreso",
+    "concepto": "Gas",
+    "descripcion": "Factura gas junio",
+    "monto": "259691",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "0181d92b-1750-48bd-a88b-f6c1e21499f5",
+    "fecha": "6/06/2026",
+    "tipo": "Egreso",
+    "concepto": "Jardinería",
+    "descripcion": "Control plagas mes junio",
+    "monto": "260000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "9e9a5db9-4612-40e2-9903-ac9a265a73d1",
+    "fecha": "7/06/2026",
+    "tipo": "Egreso",
+    "concepto": "Jardinería",
+    "descripcion": "Poda de árboles mes junio",
+    "monto": "650000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "8f69a568-a75c-4431-bab1-6b79cd51eb61",
+    "fecha": "8/06/2026",
+    "tipo": "Egreso",
+    "concepto": "Limpieza",
+    "descripcion": "Limpieza piscina junio",
+    "monto": "380000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "5647ba69-e043-4fc5-aac9-52b0e669b097",
+    "fecha": "9/06/2026",
+    "tipo": "Egreso",
+    "concepto": "Mantenimiento",
+    "descripcion": "Arreglo cerradura acceso principal",
+    "monto": "350000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "988d6176-ac8a-4dac-b660-2ad5c413ef38",
+    "fecha": "2/07/2026",
+    "tipo": "Egreso",
+    "concepto": "Gas",
+    "descripcion": "Factura gas julio",
+    "monto": "301758",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "3459cc93-99d3-4277-b7de-c07930bcfe3f",
+    "fecha": "3/07/2026",
+    "tipo": "Egreso",
+    "concepto": "Cable",
+    "descripcion": "Cable comunitario julio",
+    "monto": "364727",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "8ef8b04c-99a7-48ce-a54f-5e965236a2c5",
+    "fecha": "4/07/2026",
+    "tipo": "Egreso",
+    "concepto": "Internet",
+    "descripcion": "Internet comunitario julio",
+    "monto": "338355",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "f00321b3-0627-4654-90eb-7fb14d433810",
+    "fecha": "5/07/2026",
+    "tipo": "Egreso",
+    "concepto": "Electricidad",
+    "descripcion": "Factura electricidad julio",
+    "monto": "786452",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "b6a712a7-b50a-4bf3-aa54-f3c07887c3cc",
+    "fecha": "6/07/2026",
+    "tipo": "Ingreso",
+    "concepto": "Multa",
+    "descripcion": "Multa obra sin permiso Fernanda Escobar",
+    "monto": "180000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "3cf117d6-8a47-400d-8d97-35b456e1895c",
+    "fecha": "7/07/2026",
+    "tipo": "Egreso",
+    "concepto": "Electricidad",
+    "descripcion": "Factura luz julio",
+    "monto": "680414",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "61d43261-c902-4c8c-a2df-6947dbb3b9cf",
+    "fecha": "8/07/2026",
+    "tipo": "Egreso",
+    "concepto": "Jardinería",
+    "descripcion": "Riego sistema automático julio",
+    "monto": "280000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "9559dbde-b2c3-4e9f-a5cc-271f04375cfc",
+    "fecha": "9/07/2026",
+    "tipo": "Egreso",
+    "concepto": "Limpieza",
+    "descripcion": "Limpieza piscina julio",
+    "monto": "420000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "0cef0a1f-6276-4e18-a09d-40983f338c74",
+    "fecha": "10/07/2026",
+    "tipo": "Ingreso",
+    "concepto": "Multa",
+    "descripcion": "Multa estacionamiento indebido Florencia Lagos",
+    "monto": "200000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "01fcd907-e97f-427e-8af9-e35ba1accc93",
+    "fecha": "11/07/2026",
+    "tipo": "Egreso",
+    "concepto": "Mantenimiento",
+    "descripcion": "Arreglo cerradura acceso principal",
+    "monto": "500000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "50a1161c-fd0f-4110-a315-b03fa0fb0ae2",
+    "fecha": "12/07/2026",
+    "tipo": "Egreso",
+    "concepto": "Mantenimiento",
+    "descripcion": "Mantención portón automático",
+    "monto": "680000",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "975c5bec-8514-41bf-8a07-9dda3ef79388",
+    "fecha": "13/07/2026",
+    "tipo": "Egreso",
+    "concepto": "Seguros",
+    "descripcion": "Seguro RC anual condominio",
+    "monto": "884231",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  },
+  {
+    "id": "5ed14e20-c261-48b7-9224-51ec58a9769c",
+    "fecha": "14/07/2026",
+    "tipo": "Egreso",
+    "concepto": "Seguros",
+    "descripcion": "Seguro incendio trimestral",
+    "monto": "664142",
+    "comprobante": "assets/demo_comprobante_transferencia.png",
+    "registrado_por": "Admin"
+  }
+]
