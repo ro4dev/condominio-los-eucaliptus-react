@@ -7,6 +7,7 @@ import { FinanzasPage } from './components/finanzas/FinanzasPage';
 import { ParcelasPage } from './components/parcelas/ParcelasPage';
 import { HomePage } from './components/home/HomePage';
 import { NoticiasPage } from './components/noticias/NoticiasPage';
+import { DocumentosPage } from './components/documentos/DocumentosPage';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<TabId>('home');
@@ -22,6 +23,8 @@ export default function App() {
         return <ParcelasPage />;
       case 'noticias':
         return <NoticiasPage />;
+      case 'documentos':
+        return <DocumentosPage />;
       default:
         return (
           <div className="tab-content active">

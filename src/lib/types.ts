@@ -89,3 +89,13 @@ export interface Noticia {
   archivo?: string;
   created_at?: string;
 }
+
+export interface Documento {
+  id: string;
+  nombre: string;
+  categoria?: string;
+  descripcion?: string;
+  archivo?: string;
+  fecha?: string;
+  created_at?: string;
+}

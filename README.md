@@ -34,6 +34,7 @@ src/
     parcelas/           # Página Parcelas (grid + CRUD parcelas/propietarios)
     home/               # Página Home (stats, recaudación, cómo pagar, morosos + noticias destacadas)
     noticias/           # Página Noticias (filtros + CRUD + destacar/pinnea)
+    documentos/         # Página Documentos (filtros por categoría + CRUD + archivo)
 ```
 
 ## Modo demo vs producción
@@ -50,7 +51,8 @@ src/
 | Parcelas (grid, estado, propietarios, CRUD parcelas/propietarios) | ✅ |
 | Home (stats, recaudación, cómo pagar, morosos, noticias destacadas, registro de pagos) | ✅ |
 | Noticias (filtros vigentes/destacadas/no vigentes/todas, CRUD, destacar en Home) | ✅ |
-| Resto de pestañas (Noticias, Documentos, Reclamos, Asambleas, Encuestas, etc.) | ⏳ Próximamente |
+| Documentos (filtros por categoría desde config, CRUD, archivo adjunto, ver descripción) | ✅ |
+| Resto de pestañas (Reclamos, Asambleas, Encuestas, etc.) | ⏳ Próximamente |
 
 ## Comandos
 

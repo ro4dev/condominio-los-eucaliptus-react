@@ -1,4 +1,4 @@
-import type { Config, Gasto, Movimiento, Noticia, Pago, Parcela, Propietario } from './types';
+import type { Config, Documento, Gasto, Movimiento, Noticia, Pago, Parcela, Propietario } from './types';
 import { getDemoMode } from './appConfig';
 import { supabaseClient } from './supabase';
 
@@ -6,7 +6,7 @@ import { supabaseClient } from './supabase';
 // Equivalente a data.js del original, pero reactivo en vez de globals.
 
 type Key = 'GASTOS' | 'PAGOS' | 'FLUJO' | 'PARCELAS' | 'PROPIETARIOS' | 'NOTICIAS'
-  | 'RECLAMOS' | 'PROVEEDORES' | 'ASAMBLEAS' | 'ASAMBLEA_ASISTENTES'
+  | 'DOCUMENTOS' | 'RECLAMOS' | 'PROVEEDORES' | 'ASAMBLEAS' | 'ASAMBLEA_ASISTENTES'
   | 'ENCUESTAS' | 'ENCUESTAS_VOTOS' | 'PUBLICACIONES';
 
 const DEMO_FILES: Record<Key, string> = {
@@ -16,6 +16,7 @@ const DEMO_FILES: Record<Key, string> = {
   PARCELAS: 'data/parcelas.json',
   PROPIETARIOS: 'data/propietarios.json',
   NOTICIAS: 'data/noticias.json',
+  DOCUMENTOS: 'data/documentos.json',
   RECLAMOS: 'data/reclamos.json',
   PROVEEDORES: 'data/proveedores.json',
   ASAMBLEAS: 'data/asambleas.json',
@@ -32,6 +33,7 @@ const TABLE_MAP: Record<Key, string> = {
   PARCELAS: 'parcelas',
   PROPIETARIOS: 'propietarios',
   NOTICIAS: 'noticias',
+  DOCUMENTOS: 'documentos',
   RECLAMOS: 'reclamos',
   PROVEEDORES: 'proveedores',
   ASAMBLEAS: 'asambleas',
@@ -83,17 +85,19 @@ export interface FinanzasData {
   parcelas: Parcela[];
   propietarios: Propietario[];
   noticias: Noticia[];
+  documentos: Documento[];
   config: Config;
 }
 
 export async function loadFinanzasData(): Promise<FinanzasData> {
-  const [gastos, pagos, flujo, parcelas, propietarios, noticias, config] = await Promise.all([
+  const [gastos, pagos, flujo, parcelas, propietarios, noticias, documentos, config] = await Promise.all([
     loadJson('GASTOS'),
     loadJson('PAGOS'),
     loadJson('FLUJO'),
     loadJson('PARCELAS'),
     loadJson('PROPIETARIOS'),
     loadJson('NOTICIAS'),
+    loadJson('DOCUMENTOS'),
     loadConfig(),
   ]);
   return {
@@ -103,6 +107,7 @@ export async function loadFinanzasData(): Promise<FinanzasData> {
     parcelas: parcelas as Parcela[],
     propietarios: propietarios as Propietario[],
     noticias: noticias as Noticia[],
+    documentos: documentos as Documento[],
     config,
   };
 }

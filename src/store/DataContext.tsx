@@ -2,7 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, t
 import { loadFinanzasData, type FinanzasData } from '../lib/data';
 import { supabaseClient } from '../lib/supabase';
 import { getDemoMode, generateUUID } from '../lib';
-import type { Config, Gasto, Noticia, Pago, Parcela, Propietario } from '../lib/types';
+import type { Config, Documento, Gasto, Noticia, Pago, Parcela, Propietario } from '../lib/types';
 import { useApp } from './AppContext';
 
 export interface GastoSave extends Partial<Gasto> {}
@@ -23,6 +23,8 @@ interface DataContextValue extends FinanzasData {
   saveNoticia: (data: Partial<Noticia>, isEdit: boolean) => Promise<boolean>;
   deleteNoticia: (id: string) => Promise<void>;
   toggleNoticiaPinned: (id: string) => Promise<void>;
+  saveDocumento: (data: Partial<Documento>, isEdit: boolean) => Promise<boolean>;
+  deleteDocumento: (id: string) => Promise<void>;
 }
 
 const DataContext = createContext<DataContextValue | null>(null);
@@ -337,6 +339,51 @@ export function DataProvider({ children }: { children: ReactNode }) {
     [data, saveNoticia],
   );
 
+  const saveDocumento = useCallback(
+    async (payload: Partial<Documento>, isEdit: boolean): Promise<boolean> => {
+      if (!data) return false;
+      if (demoMode) {
+        if (isEdit && payload.id) {
+          setData({ ...data, documentos: data.documentos.map((d) => (d.id === payload.id ? { ...d, ...payload } : d)) });
+        } else {
+          const nuevo: Documento = { ...(payload as Partial<Documento>), id: generateUUID() } as Documento;
+          setData({ ...data, documentos: [...data.documentos, nuevo] });
+        }
+        showSnackbar(isEdit ? 'Documento actualizado.' : 'Documento agregado.', 'success');
+        return true;
+      }
+      if (!supabaseClient) return false;
+      if (isEdit && payload.id) {
+        const { error } = await supabaseClient.from('documentos').update(payload).eq('id', payload.id);
+        if (error) { showSnackbar('Error: ' + error.message, 'error'); return false; }
+      } else {
+        const { error } = await supabaseClient.from('documentos').insert(payload);
+        if (error) { showSnackbar('Error: ' + error.message, 'error'); return false; }
+      }
+      await reload();
+      showSnackbar(isEdit ? 'Documento actualizado.' : 'Documento agregado.', 'success');
+      return true;
+    },
+    [data, demoMode, reload, showSnackbar],
+  );
+
+  const deleteDocumento = useCallback(
+    async (id: string): Promise<void> => {
+      if (!data) return;
+      if (demoMode) {
+        setData({ ...data, documentos: data.documentos.filter((d) => d.id !== id) });
+        showSnackbar('Documento eliminado (demo).', 'success');
+        return;
+      }
+      if (!supabaseClient) return;
+      const { error } = await supabaseClient.from('documentos').delete().eq('id', id);
+      if (error) { showSnackbar('Error: ' + error.message, 'error'); return; }
+      await reload();
+      showSnackbar('Documento eliminado.', 'success');
+    },
+    [data, demoMode, reload, showSnackbar],
+  );
+
   const value = useMemo<DataContextValue>(() => {
     return {
       gastos: data?.gastos ?? [],
@@ -345,6 +392,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
       parcelas: data?.parcelas ?? [],
       propietarios: data?.propietarios ?? [],
       noticias: data?.noticias ?? [],
+      documentos: data?.documentos ?? [],
       config: data?.config ?? {},
       loading,
       reload,
@@ -361,8 +409,10 @@ export function DataProvider({ children }: { children: ReactNode }) {
       saveNoticia,
       deleteNoticia,
       toggleNoticiaPinned,
+      saveDocumento,
+      deleteDocumento,
     };
-  }, [data, loading, reload, saveGasto, deleteGasto, savePago, deletePago, savePeriodos, generarCuotas, saveParcela, deleteParcela, savePropietario, deletePropietario, saveNoticia, deleteNoticia, toggleNoticiaPinned]);
+  }, [data, loading, reload, saveGasto, deleteGasto, savePago, deletePago, savePeriodos, generarCuotas, saveParcela, deleteParcela, savePropietario, deletePropietario, saveNoticia, deleteNoticia, toggleNoticiaPinned, saveDocumento, deleteDocumento]);
 
   return <DataContext.Provider value={value}>{children}</DataContext.Provider>;
 }

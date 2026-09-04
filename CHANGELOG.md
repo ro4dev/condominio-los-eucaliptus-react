@@ -2,6 +2,14 @@
 
 ## Registro de cambios
 
+### 04/09/2026 - Módulo Documentos
+- **Added**: Página **Documentos**:
+  - Filtros por categoría: "Todos" + categorías desde `config.categorias_documentos` (Estatuto, Actas, Contratos, Seguros, Planos)
+  - Items con ícono por categoría, nombre, meta (categoría · fecha), acciones admin (editar/eliminar con confirmación)
+  - Botón "info" para ver la descripción del documento en un modal, y link "Ver documento" si hay archivo adjunto
+  - Modal crear/editar documento: nombre, categoría (desde config), descripción obligatoria y archivo (URL.createObjectURL en demo, fiel al patrón del módulo Finanzas)
+- **Changed**: Tab "Documentos" activada en la navegación. `documentos` agregado a los datos del DataContext (demo/prod) con CRUD
+
 ### 04/09/2026 - Módulo Noticias
 - **Added**: Página **Noticias**:
   - Filtros: Vigentes / Destacadas / No vigentes / Todas
