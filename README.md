@@ -67,6 +67,11 @@ src/
 | Configuración (creación masiva de parcelas, datos de pago, chips editables) | ✅ |
 | Auth (login Supabase, roles admin) y auditoría de actividad | ✅ |
 
+## Documentación
+
+- `docs/features/` — detalles por módulo (arquitectura de datos, finanzas, auth, etc.).
+- `docs/diagrams/` — diagramas del sistema generados con el skill **archify** (HTML autocontenido): arquitectura, flujo demo/prod, workflow de finanzas, sequence de pago y ciclo de vida de ventas. Cada spec `.json` permite regenerarlos.
+
 ## Comandos
 
 ```bash

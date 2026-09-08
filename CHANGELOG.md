@@ -2,6 +2,9 @@
 
 ## Registro de cambios
 
+### 07/09/2026 - Diagramas con archify
+- **Added**: **Diagramas del sistema** en `docs/diagrams/` generados con el skill **archify** (HTML autocontenido): arquitectura, flujo de datos demo/prod, workflow de finanzas, sequence de pago y ciclo de vida de ventas. Cada uno tiene su spec JSON de origen para regenerarlo (`archify validate/deliver`).
+
 ### 04/09/2026 - Paridad total con el frontend original (replicado exactamente)
 - **Added**: **CRUD de flujo (ingresos/egresos)** completo (pestaña Finanzas → "Movimientos del periodo"): modal de flujo con comprobante, guardado demo/prod y eliminación con confirmación; botones de editar/eliminar por fila (admin).
 - **Added**: **Subida de archivos a Supabase Storage** (`src/lib/storage.ts`): compresión de imágenes (<500KB), firma de URLs de 7 días y buckets por módulo (flujo→`ingresos_egresos`, documentos→`documentos`, publicaciones→`publicaciones`, gastos/pagos→`gastos_comunes`); en demo usa blob de la imagen.
