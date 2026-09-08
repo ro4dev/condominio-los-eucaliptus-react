@@ -2,26 +2,33 @@
 
 ## 1. Estado actual
 
-**No existe un módulo de Directiva en la app.** No hay pestaña, página, ruta, tipo, datos demo ni tabla Supabase donde se deje información de la directiva (presidente, secretario, tesorero, contacto, período, etc.).
+**No existe info de la directiva en la app.** No hay lugar donde se deje (o muestre) información de los cargos (presidente, secretario, tesorero), su contacto, etc.
 
 Realizado un barrido por `src/`, `public/`, `supabase/`, `docs/` y `README.md`, ninguna de las siguientes palabras aparece como feature: `directiva`, `directorio`, `director`, `board`, `junta`, `consejo`.
 
 Único contenido relacionado, como dato de contacto, hoy vive en `public/data/config.json` → `datos_pago` (correo `tesoreria@eucaliptus.cl`), mostrado en el modal "Cómo pagar" de la Home. Es parte de la configuración de pago, no de la directiva.
 
-## 2. Qué hace falta para crear el módulo
+## 2. Dónde vive
 
-Para que exista, debe seguir el patrón que ya usan los demás módulos (p. ej. Asambleas, Reclamos). Todo esto hace falta hoy:
+**No es una pestaña nueva.** Todo vive en la pestaña **Home**:
+
+- **HomePage.tsx**: se agrega una card/sección "Directiva" que lista los cargos con su contacto.
+- **Lectura**: visible para todos los usuarios logueados.
+- **Edición**: los mismos botones de agregar/editar/quitar en la card, visibles **solo para admin** (mismo patrón CRUD que las demás páginas).
+
+No se toca `tabs.ts` ni el `switch` de `App.tsx`.
+
+## 3. Qué hace falta para implementarlo (patrón del resto de módulos)
 
 | # | Pieza | Referencia de patrón |
 |---|-------|----------------------|
-| 1 | `TabId` + entrada en `src/components/layout/tabs.ts` | `asambleas`, `reclamos`, etc. |
-| 2 | Página `DirectivaPage.tsx` + `case` en el `switch` de `src/App.tsx` | `AsambleasPage.tsx` |
-| 3 | Interface `Directivo` en `src/lib/types.ts` | interfaces del archivo (182 líneas) |
-| 4 | Datos demo `public/data/directiva.json` + entrada en `DATA_MAP` de `src/lib/data.ts` | `asambleas.json` |
-| 5 | Métodos CRUD en `src/store/DataContext.tsx` | `saveAsamblea`, `deleteAsamblea` |
-| 6 | Para producción: tabla Supabase + migración en `supabase/migrations/` | `001_audit_log.sql` |
+| 1 | Card/sección "Directiva" en `src/components/home/HomePage.tsx` | modal "Cómo pagar" / cards de Asambleas |
+| 2 | Interface `Directivo` en `src/lib/types.ts` | interfaces del archivo |
+| 3 | Datos demo `public/data/directiva.json` + entrada en `DATA_MAP` de `src/lib/data.ts` | `asambleas.json` |
+| 4 | Métodos CRUD en `src/store/DataContext.tsx` | `saveAsamblea`, `deleteAsamblea` |
+| 5 | Para producción: tabla Supabase + migración en `supabase/migrations/` | `001_audit_log.sql` |
 
-## 3. Campos de cada directivo (definido)
+## 4. Campos de cada directivo (definido)
 
 Siempre se muestra la **directiva actual** (no hay período ni foto):
 
@@ -31,9 +38,9 @@ Siempre se muestra la **directiva actual** (no hay período ni foto):
 - `email`
 - `extra`: campo de texto libre por si quieren agregar algo (p. ej. "Parcela 12" u otra cosa no prevista)
 
-## 4. Reglas de negocio / privacidad
+## 5. Reglas de negocio / privacidad
 
 - **Lectura**: todos los usuarios logueados.
-- **Escritura**: solo `admin`. El resto de módulos siguen esta misma regla (RI del tab solo afecta a UI; la RLS es la autoridad).
+- **Escritura**: solo `admin`. El resto de módulos siguen esta misma regla (RI del botón solo afecta a UI; la RLS es la autoridad).
 - **Auditoría**: los cambios se registran en `audit_log` (como en el resto de CRUD). `telefono`/`email` pasan por `sanitizeAudit` (PII → `[oculto]`).
 - **RLS**: como otras tablas de la app, las políticas viven en Supabase (no en este repo).
