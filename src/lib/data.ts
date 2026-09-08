@@ -1,4 +1,4 @@
-import type { Asamblea, AsambleaAsistente, AuditEntry, Config, Documento, Encuesta, Gasto, Movimiento, Noticia, Pago, Parcela, Propietario, Proveedor, Publicacion, Reclamo, VotoEncuesta } from './types';
+import type { Asamblea, AsambleaAsistente, AuditEntry, Config, Directivo, Documento, Encuesta, Gasto, Movimiento, Noticia, Pago, Parcela, Propietario, Proveedor, Publicacion, Reclamo, VotoEncuesta } from './types';
 import { getDemoMode } from './appConfig';
 import { supabaseClient } from './supabase';
 
@@ -7,7 +7,7 @@ import { supabaseClient } from './supabase';
 
 type Key = 'GASTOS' | 'PAGOS' | 'FLUJO' | 'PARCELAS' | 'PROPIETARIOS' | 'NOTICIAS'
   | 'DOCUMENTOS' | 'RECLAMOS' | 'PROVEEDORES' | 'ASAMBLEAS' | 'ASAMBLEA_ASISTENTES'
-  | 'ENCUESTAS' | 'ENCUESTAS_VOTOS' | 'PUBLICACIONES' | 'AUDIT_LOG';
+  | 'ENCUESTAS' | 'ENCUESTAS_VOTOS' | 'PUBLICACIONES' | 'AUDIT_LOG' | 'DIRECTIVA';
 
 const DEMO_FILES: Record<Key, string> = {
   GASTOS: 'data/gastos.json',
@@ -25,6 +25,7 @@ const DEMO_FILES: Record<Key, string> = {
   ENCUESTAS_VOTOS: 'data/encuestas_votos.json',
   PUBLICACIONES: 'data/publicaciones.json',
   AUDIT_LOG: 'data/audit_log.json',
+  DIRECTIVA: 'data/directiva.json',
 };
 
 const TABLE_MAP: Record<Key, string> = {
@@ -43,6 +44,7 @@ const TABLE_MAP: Record<Key, string> = {
   ENCUESTAS_VOTOS: 'encuestas_votos',
   PUBLICACIONES: 'publicaciones',
   AUDIT_LOG: 'audit_log',
+  DIRECTIVA: 'directiva',
 };
 
 export function datosKeyToTable(key: Key): string {
@@ -96,11 +98,12 @@ export interface FinanzasData {
   encuestas_votos: VotoEncuesta[];
   publicaciones: Publicacion[];
   audit_log: AuditEntry[];
+  directiva: Directivo[];
   config: Config;
 }
 
 export async function loadFinanzasData(): Promise<FinanzasData> {
-  const [gastos, pagos, flujo, parcelas, propietarios, noticias, documentos, reclamos, proveedores, asambleas, asamblea_asistentes, encuestas, encuestas_votos, publicaciones, audit_log, config] = await Promise.all([
+  const [gastos, pagos, flujo, parcelas, propietarios, noticias, documentos, reclamos, proveedores, asambleas, asamblea_asistentes, encuestas, encuestas_votos, publicaciones, audit_log, directiva, config] = await Promise.all([
     loadJson('GASTOS'),
     loadJson('PAGOS'),
     loadJson('FLUJO'),
@@ -116,6 +119,7 @@ export async function loadFinanzasData(): Promise<FinanzasData> {
     loadJson('ENCUESTAS_VOTOS'),
     loadJson('PUBLICACIONES'),
     loadJson('AUDIT_LOG'),
+    loadJson('DIRECTIVA'),
     loadConfig(),
   ]);
   return {
@@ -134,6 +138,7 @@ export async function loadFinanzasData(): Promise<FinanzasData> {
     encuestas_votos: encuestas_votos as VotoEncuesta[],
     publicaciones: publicaciones as Publicacion[],
     audit_log: audit_log as AuditEntry[],
+    directiva: directiva as Directivo[],
     config,
   };
 }

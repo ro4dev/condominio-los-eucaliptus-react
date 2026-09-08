@@ -1,0 +1,25 @@
+[
+  {
+    "id": "1a2b3c4d-5e6f-4a7b-8c9d-0e1f2a3b4c5d",
+    "nombre": "María González",
+    "cargo": "Presidente",
+    "telefono": "+56 9 8765 4321",
+    "email": "presidente@eucaliptus.cl",
+    "extra": "Parcela 12"
+  },
+  {
+    "id": "2b3c4d5e-6f7a-4b8c-9d0e-1f2a3b4c5d6e",
+    "nombre": "Carlos Fuentes",
+    "cargo": "Secretario",
+    "telefono": "+56 9 1122 3344",
+    "email": "secretario@eucaliptus.cl"
+  },
+  {
+    "id": "3c4d5e6f-7a8b-4c9d-0e1f-2a3b4c5d6e7f",
+    "nombre": "Ana Rojas",
+    "cargo": "Tesorero",
+    "telefono": "+56 9 5566 7788",
+    "email": "tesorero@eucaliptus.cl",
+    "extra": "Parcela 28"
+  }
+]

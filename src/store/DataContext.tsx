@@ -3,7 +3,7 @@ import { loadFinanzasData, type FinanzasData } from '../lib/data';
 import { supabaseClient } from '../lib/supabase';
 import { getDemoMode, generateUUID, sanitizeAudit } from '../lib';
 import { formatPeriodo } from '../lib/format';
-import type { Asamblea, AsambleaAsistente, Config, Documento, Encuesta, Gasto, Movimiento, Noticia, Pago, Parcela, Propietario, Proveedor, Publicacion, Reclamo, VotoEncuesta } from '../lib/types';
+import type { Asamblea, AsambleaAsistente, Config, Directivo, Documento, Encuesta, Gasto, Movimiento, Noticia, Pago, Parcela, Propietario, Proveedor, Publicacion, Reclamo, VotoEncuesta } from '../lib/types';
 import { useApp } from './AppContext';
 
 export interface GastoSave extends Partial<Gasto> {}
@@ -39,6 +39,8 @@ interface DataContextValue extends FinanzasData {
   registrarVoto: (encuestaId: string, parcelaId: string, seleccion: string) => Promise<boolean>;
   savePublicacion: (data: Partial<Publicacion>, isEdit: boolean) => Promise<boolean>;
   deletePublicacion: (id: string) => Promise<void>;
+  saveDirectivo: (data: Partial<Directivo>, isEdit: boolean) => Promise<boolean>;
+  deleteDirectivo: (id: string) => Promise<void>;
   saveConfigValue: (key: keyof Config, value: unknown) => Promise<boolean>;
 }
 
@@ -835,6 +837,57 @@ export function DataProvider({ children }: { children: ReactNode }) {
     [data, demoMode, reload, showSnackbar, logAudit],
   );
 
+  const saveDirectivo = useCallback(
+    async (payload: Partial<Directivo>, isEdit: boolean): Promise<boolean> => {
+      if (!data) return false;
+      if (demoMode) {
+        if (isEdit && payload.id) {
+          const actualizado = data.directiva.map((d) => (d.id === payload.id ? { ...d, ...payload } : d));
+          setData({ ...data, directiva: actualizado });
+          await logAudit('directiva', 'UPDATE', actualizado.find((d) => d.id === payload.id) );
+        } else {
+          const nuevo: Directivo = { ...(payload as Partial<Directivo>), id: generateUUID() } as Directivo;
+          setData({ ...data, directiva: [...data.directiva, nuevo] });
+          await logAudit('directiva', 'INSERT', nuevo );
+        }
+        showSnackbar(isEdit ? 'Directivo actualizado.' : 'Directivo agregado.', 'success');
+        return true;
+      }
+      if (!supabaseClient) return false;
+      if (isEdit && payload.id) {
+        const { error } = await supabaseClient.from('directiva').update(payload).eq('id', payload.id);
+        if (error) { showSnackbar('Error: ' + error.message, 'error'); return false; }
+      } else {
+        const { error } = await supabaseClient.from('directiva').insert(payload);
+        if (error) { showSnackbar('Error: ' + error.message, 'error'); return false; }
+      }
+      await logAudit('directiva', isEdit ? 'UPDATE' : 'INSERT', payload );
+      await reload();
+      showSnackbar(isEdit ? 'Directivo actualizado.' : 'Directivo agregado.', 'success');
+      return true;
+    },
+    [data, demoMode, reload, showSnackbar, logAudit],
+  );
+
+  const deleteDirectivo = useCallback(
+    async (id: string): Promise<void> => {
+      if (!data) return;
+      if (demoMode) {
+        setData({ ...data, directiva: data.directiva.filter((d) => d.id !== id) });
+        showSnackbar('Directivo eliminado (demo).', 'success');
+        await logAudit('directiva', 'DELETE', { id });
+        return;
+      }
+      if (!supabaseClient) return;
+      const { error } = await supabaseClient.from('directiva').delete().eq('id', id);
+      if (error) { showSnackbar('Error: ' + error.message, 'error'); return; }
+      await logAudit('directiva', 'DELETE', { id });
+      await reload();
+      showSnackbar('Directivo eliminado.', 'success');
+    },
+    [data, demoMode, reload, showSnackbar, logAudit],
+  );
+
   const saveConfigValue = useCallback(
     async (key: keyof Config, value: unknown): Promise<boolean> => {
       if (!data) return false;
@@ -870,6 +923,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
       encuestas_votos: data?.encuestas_votos ?? [],
       publicaciones: data?.publicaciones ?? [],
       audit_log: data?.audit_log ?? [],
+      directiva: data?.directiva ?? [],
       config: data?.config ?? {},
       loading,
       reload,
@@ -901,9 +955,11 @@ export function DataProvider({ children }: { children: ReactNode }) {
       registrarVoto,
       savePublicacion,
       deletePublicacion,
+      saveDirectivo,
+      deleteDirectivo,
       saveConfigValue,
     };
-  }, [data, loading, reload, saveGasto, deleteGasto, savePago, deletePago, saveFlujo, deleteFlujo, savePeriodos, generarCuotas, saveParcela, deleteParcela, savePropietario, deletePropietario, saveNoticia, deleteNoticia, toggleNoticiaPinned, saveDocumento, deleteDocumento, saveReclamo, deleteReclamo, saveProveedor, deleteProveedor, saveAsamblea, deleteAsamblea, saveEncuesta, deleteEncuesta, registrarVoto, savePublicacion, deletePublicacion, saveConfigValue]);
+  }, [data, loading, reload, saveGasto, deleteGasto, savePago, deletePago, saveFlujo, deleteFlujo, savePeriodos, generarCuotas, saveParcela, deleteParcela, savePropietario, deletePropietario, saveNoticia, deleteNoticia, toggleNoticiaPinned, saveDocumento, deleteDocumento, saveReclamo, deleteReclamo, saveProveedor, deleteProveedor, saveAsamblea, deleteAsamblea, saveEncuesta, deleteEncuesta, registrarVoto, savePublicacion, deletePublicacion, saveDirectivo, deleteDirectivo, saveConfigValue]);
 
   return <DataContext.Provider value={value}>{children}</DataContext.Provider>;
 }

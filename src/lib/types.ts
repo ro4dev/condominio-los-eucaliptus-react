@@ -171,6 +171,16 @@ export interface Publicacion {
   created_at?: string;
 }
 
+export interface Directivo {
+  id: string;
+  nombre: string;
+  cargo: string;
+  telefono?: string;
+  email?: string;
+  extra?: string;
+  created_at?: string;
+}
+
 export interface AuditEntry {
   id?: string;
   tabla: string;

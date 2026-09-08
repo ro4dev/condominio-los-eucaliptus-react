@@ -13,7 +13,7 @@ getDemoMode()  // localStorage 'demoMode' !== 'false'  → default true
 getDarkTheme() // localStorage 'theme' === 'dark'
 ```
 
-- **Demo**: `fetch` de `public/data/*.json` (13 datasets + config) con `cache: 'no-store'`. Los cambios se aplican solo al estado del contexto (no se persisten entre recargas).
+- **Demo**: `fetch` de `public/data/*.json` (16 datasets + config) con `cache: 'no-store'`. Los cambios se aplican solo al estado del contexto (no se persisten entre recargas).
 - **Prod**: consultas a Supabase con el cliente autenticado; cada escritura hace `reload()` para re-sincronizar el estado.
 
 El cliente Supabase (`src/lib/supabase.ts`) existe solo si `VITE_SUPABASE_URL` y `VITE_SUPABASE_ANON_KEY` están definidas; si no, la app queda en modo demo de facto.
@@ -39,6 +39,7 @@ Mapeo en `src/lib/data.ts` (`DATA_MAP`):
 | ENCUESTAS_VOTOS | encuestas_votos.json | encuestas_votos |
 | PUBLICACIONES | publicaciones.json | publicaciones |
 | AUDIT_LOG | audit_log.json | audit_log |
+| DIRECTIVA | directiva.json | directiva |
 
 `loadFinanzasData()` (`data.ts:102`) carga **todos** los datasets en paralelo (`Promise.all`) + `config` desde `config.json` o `config` (key/value → objeto).
 

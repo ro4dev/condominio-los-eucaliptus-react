@@ -13,14 +13,15 @@ import {
   periodosFinanzas,
   recaudadoPorPeriodo,
 } from '../../lib/finanzas';
-import type { Gasto } from '../../lib/types';
+import type { Directivo, Gasto } from '../../lib/types';
 import { useApp } from '../../store/AppContext';
 import { useData } from '../../store/DataContext';
-import { Button } from '../ui/Button';
+import { Button, IconButton } from '../ui/Button';
 import { EmptyState } from '../ui/EmptyState';
 import { StatCard } from '../ui/StatCard';
 import { ComoPagarModal } from './ComoPagarModal';
 import { DeudaModal } from './DeudaModal';
+import { DirectivoFormModal } from './DirectivoFormModal';
 import { PagoFormModal } from './PagoFormModal';
 
 function parcelaNumero(id: string, parcelas: { id: string; numero?: string }[]): string {
@@ -35,12 +36,13 @@ function parseFecha(s?: string | number): number {
 }
 
 export function HomePage() {
-  const { gastos, pagos, flujo, parcelas, propietarios, config, noticias, loading } = useData();
-  const { isAdmin, currentUserEmail } = useApp();
+  const { gastos, pagos, flujo, parcelas, propietarios, config, noticias, directiva, deleteDirectivo, loading } = useData();
+  const { isAdmin, demoMode, currentUserEmail } = useApp();
 
   const [comoPagar, setComoPagar] = useState(false);
   const [deuda, setDeuda] = useState<{ parcelaId: string; nombre: string } | null>(null);
   const [pago, setPago] = useState<Gasto | null>(null);
+  const [directivoModal, setDirectivoModal] = useState<{ open: boolean; directivo: Directivo | null }>({ open: false, directivo: null });
 
   if (loading) {
     return (
@@ -188,6 +190,60 @@ export function HomePage() {
         </div>
       </div>
 
+      {(currentUserEmail || demoMode) && (
+        <div className="card" style={{ marginBottom: '1rem' }}>
+          <h4>Directiva</h4>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+            <span style={{ fontSize: '0.85rem', color: 'var(--text-2)' }}>Directiva actual del condominio.</span>
+            {isAdmin && (
+              <Button icon="add" onClick={() => setDirectivoModal({ open: true, directivo: null })}>Agregar directivo</Button>
+            )}
+          </div>
+          {directiva.length === 0 ? (
+            <EmptyState texto="No hay directiva registrada." />
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              {directiva.map((d) => (
+                <div
+                  key={d.id}
+                  style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0.6rem 0', borderBottom: '1px solid var(--divider)' }}
+                >
+                  <div>
+                    <div style={{ fontWeight: 600, color: 'var(--text)' }}>
+                      {escHtml(d.nombre)}
+                      <span style={{ fontWeight: 400, fontSize: '0.8rem', color: 'var(--text-2)', marginLeft: '0.5rem' }}>{escHtml(d.cargo)}</span>
+                    </div>
+                    {(d.telefono || d.email) && (
+                      <div style={{ fontSize: '0.8rem', color: 'var(--text-2)', marginTop: '0.15rem' }}>
+                        {d.telefono ? <span>{escHtml(d.telefono)}</span> : null}
+                        {d.telefono && d.email ? ' · ' : null}
+                        {d.email ? <span>{escHtml(d.email)}</span> : null}
+                      </div>
+                    )}
+                    {d.extra && <div style={{ fontSize: '0.8rem', color: 'var(--text-2)', marginTop: '0.15rem' }}>{escHtml(d.extra)}</div>}
+                  </div>
+                  {isAdmin && (
+                    <span style={{ display: 'flex', flexShrink: 0 }}>
+                      <IconButton icon="edit" title="Editar" onClick={() => setDirectivoModal({ open: true, directivo: d })} />
+                      <IconButton
+                        icon="delete"
+                        className="danger"
+                        title="Eliminar"
+                        onClick={() => {
+                          if (window.confirm('¿Eliminar a ' + d.nombre + ' de la directiva?')) {
+                            deleteDirectivo(d.id);
+                          }
+                        }}
+                      />
+                    </span>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
       {currentUserEmail && (
         <div className="card" style={{ marginBottom: '1rem' }}>
           <h4>Parcelas morosas</h4>
@@ -218,6 +274,12 @@ export function HomePage() {
         gasto={pago}
         parcelaNombre={pago ? parcelaNumero(pago.parcela_id, parcelas) : ''}
         onClose={() => setPago(null)}
+      />
+
+      <DirectivoFormModal
+        open={directivoModal.open}
+        directivo={directivoModal.directivo}
+        onClose={() => setDirectivoModal({ open: false, directivo: null })}
       />
     </div>
   );
