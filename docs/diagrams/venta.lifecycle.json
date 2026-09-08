@@ -1,0 +1,164 @@
+{
+  "schema_version": 1,
+  "diagram_type": "lifecycle",
+  "meta": {
+    "title": "Ciclo de vida de una publicacion (Ventas)",
+    "output": "venta.lifecycle.html",
+    "viewBox": [
+      1000,
+      700
+    ],
+    "quality_profile": "showcase",
+    "views": [
+      {
+        "id": "principal",
+        "label": "De creada a vendida",
+        "focus": [
+          "creada",
+          "disponible",
+          "vendido"
+        ],
+        "note": "Sigue el flujo principal de una publicacion en el condominio."
+      },
+      {
+        "id": "excepciones",
+        "label": "Esperas y salidas",
+        "focus": [
+          "disponible",
+          "pendiente",
+          "vendido",
+          "retirada"
+        ],
+        "note": "Separa pausas no terminales de la salida definitiva."
+      }
+    ]
+  },
+  "lanes": [
+    {
+      "id": "main",
+      "label": "Estados de la publicacion"
+    },
+    {
+      "id": "waiting",
+      "label": "Pausas"
+    },
+    {
+      "id": "terminal",
+      "label": "Estados finales"
+    }
+  ],
+  "states": [
+    {
+      "id": "creada",
+      "type": "start",
+      "label": "Creada",
+      "sublabel": "borrador inicial",
+      "lane": "main",
+      "col": 0,
+      "step": "01",
+      "tag": "entrada",
+      "height": 76
+    },
+    {
+      "id": "disponible",
+      "type": "active",
+      "label": "Disponible",
+      "sublabel": "a la vista del condominio",
+      "lane": "main",
+      "col": 1,
+      "step": "02",
+      "tag": "publicada",
+      "height": 76
+    },
+    {
+      "id": "vendido",
+      "type": "success",
+      "label": "Vendido",
+      "sublabel": "transaccion cerrada",
+      "lane": "main",
+      "col": 3,
+      "step": "03",
+      "tag": "fin",
+      "height": 76
+    },
+    {
+      "id": "pendiente",
+      "type": "waiting",
+      "label": "Sin foto",
+      "sublabel": "falta adjuntar imagen",
+      "lane": "waiting",
+      "col": 1,
+      "tag": "espera"
+    },
+    {
+      "id": "retirada",
+      "type": "failure",
+      "label": "Retirada",
+      "sublabel": "publicacion eliminada",
+      "lane": "terminal",
+      "col": 1,
+      "tag": "terminal"
+    }
+  ],
+  "transitions": [
+    {
+      "id": "crear",
+      "from": "creada",
+      "to": "disponible",
+      "variant": "emphasis"
+    },
+    {
+      "id": "foto-falta",
+      "from": "disponible",
+      "to": "pendiente",
+      "variant": "default"
+    },
+    {
+      "id": "vender",
+      "from": "disponible",
+      "to": "vendido",
+      "variant": "emphasis"
+    },
+    {
+      "id": "retirar",
+      "from": "disponible",
+      "to": "retirada",
+      "variant": "security"
+    },
+    {
+      "id": "listar",
+      "from": "pendiente",
+      "to": "disponible",
+      "variant": "emphasis"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Flujo principal",
+      "items": [
+        "Creada -> Disponible -> Vendido",
+        "Publicar requiere foto para estar a la vista",
+        "El cambio a Vendido cierra la transaccion"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Espera no terminal",
+      "items": [
+        "Una publicacion sin foto queda pendiente",
+        "No esta a la vista hasta adjuntar la imagen",
+        "Vuelve a Disponible al completar el dato"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Salida definitiva",
+      "items": [
+        "Retirada es el unico estado terminal",
+        "Se conserva el registro en auditoria",
+        "No hay vuelta atras desde retirada"
+      ]
+    }
+  ]
+}

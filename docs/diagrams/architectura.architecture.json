@@ -1,0 +1,290 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Condominio Los Eucaliptus — Arquitectura",
+    "output": "architectura.architecture.html",
+    "quality_profile": "showcase",
+    "views": [
+      {
+        "id": "main",
+        "label": "Camino de datos",
+        "focus": [
+          "browser",
+          "react",
+          "data",
+          "supabase",
+          "db"
+        ],
+        "note": "Sigue los datos desde el navegador hasta Postgres."
+      },
+      {
+        "id": "auth",
+        "label": "Auth y roles",
+        "focus": [
+          "react",
+          "auth"
+        ],
+        "note": "Identifica el flujo de login y rol de administrador."
+      },
+      {
+        "id": "storage",
+        "label": "Archivos",
+        "focus": [
+          "supabase",
+          "storage"
+        ],
+        "note": "Sube y baja archivos y fotos via Storage."
+      }
+    ],
+    "viewBox": [
+      1200,
+      640
+    ]
+  },
+  "components": [
+    {
+      "id": "browser",
+      "type": "external",
+      "label": "Usuarios",
+      "sublabel": "Navegador / Dispositivo",
+      "pos": [
+        30,
+        300
+      ],
+      "size": [
+        130,
+        64
+      ]
+    },
+    {
+      "id": "react",
+      "type": "frontend",
+      "label": "App React",
+      "sublabel": "Vite + React 19 + TS",
+      "pos": [
+        240,
+        300
+      ],
+      "size": [
+        150,
+        64
+      ],
+      "tag": "SPA"
+    },
+    {
+      "id": "data",
+      "type": "frontend",
+      "label": "DataContext",
+      "sublabel": "CRUD + logAudit",
+      "pos": [
+        470,
+        300
+      ],
+      "size": [
+        150,
+        64
+      ]
+    },
+    {
+      "id": "demo",
+      "type": "cloud",
+      "label": "Modo Demo",
+      "sublabel": "JSON en public/data",
+      "pos": [
+        470,
+        90
+      ],
+      "size": [
+        140,
+        64
+      ],
+      "tag": "DEMO_MODE"
+    },
+    {
+      "id": "supabase",
+      "type": "cloud",
+      "label": "Supabase",
+      "sublabel": "backend cloud",
+      "pos": [
+        700,
+        300
+      ],
+      "size": [
+        140,
+        64
+      ]
+    },
+    {
+      "id": "auth",
+      "type": "security",
+      "label": "Auth",
+      "sublabel": "login / roles",
+      "pos": [
+        700,
+        90
+      ],
+      "size": [
+        140,
+        64
+      ],
+      "tag": "JWT"
+    },
+    {
+      "id": "db",
+      "type": "database",
+      "label": "Postgres",
+      "sublabel": "base de datos",
+      "pos": [
+        930,
+        300
+      ],
+      "size": [
+        140,
+        64
+      ]
+    },
+    {
+      "id": "storage",
+      "type": "cloud",
+      "label": "Storage",
+      "sublabel": "archivos + fotos",
+      "pos": [
+        760,
+        520
+      ],
+      "size": [
+        140,
+        64
+      ]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "Cliente (navegador)",
+      "wraps": [
+        "react",
+        "data"
+      ]
+    },
+    {
+      "kind": "security-group",
+      "label": "Supabase proyecto",
+      "wraps": [
+        "supabase",
+        "auth",
+        "db",
+        "storage"
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "browser-react",
+      "from": "browser",
+      "to": "react",
+      "variant": "emphasis"
+    },
+    {
+      "id": "react-data",
+      "from": "react",
+      "to": "data",
+      "label": "AppContext",
+      "labelDy": -33
+    },
+    {
+      "id": "data-demo",
+      "from": "data",
+      "to": "demo",
+      "label": "DEMO_MODE",
+      "variant": "dashed",
+      "fromSide": "top",
+      "toSide": "bottom"
+    },
+    {
+      "id": "data-supabase",
+      "from": "data",
+      "to": "supabase",
+      "label": "PROD",
+      "variant": "emphasis",
+      "labelDy": -33
+    },
+    {
+      "id": "supabase-db",
+      "from": "supabase",
+      "to": "db",
+      "label": "queries + RLS",
+      "labelDy": -33
+    },
+    {
+      "id": "supabase-storage",
+      "from": "supabase",
+      "to": "storage",
+      "label": "archivos",
+      "variant": "dashed",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "react-auth",
+      "from": "react",
+      "to": "auth",
+      "label": "login / signup",
+      "variant": "security",
+      "fromSide": "top",
+      "toSide": "top",
+      "via": [
+        [
+          315,
+          250
+        ],
+        [
+          315,
+          40
+        ],
+        [
+          770,
+          40
+        ],
+        [
+          770,
+          90
+        ]
+      ],
+      "labelAt": [
+        550,
+        30
+      ]
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Capas",
+      "items": [
+        "UI modular sobre un DataContext central",
+        "Cada modulo consume la misma capa de datos",
+        "Logica de finanzas separada en lib/finanzas"
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "Doble fuente",
+      "items": [
+        "DEMO_MODE = JSON local, sin tocar backend",
+        "PROD = Supabase para auth, DB y storage",
+        "La eleccion es global via appConfig"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Seguridad",
+      "items": [
+        "Login Supabase con roles (isAdmin)",
+        "RLS sobre la base de datos",
+        "Auditoria de actividad en logAudit"
+      ]
+    }
+  ]
+}

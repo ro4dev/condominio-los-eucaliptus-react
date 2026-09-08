@@ -1,0 +1,180 @@
+{
+  "schema_version": 1,
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "Registro de un pago",
+    "output": "pago.sequence.html",
+    "viewBox": [
+      940,
+      760
+    ],
+    "quality_profile": "showcase",
+    "views": [
+      {
+        "id": "cobro",
+        "label": "Registro del pago",
+        "focus": [
+          "prop",
+          "ui",
+          "data",
+          "db",
+          "audit"
+        ],
+        "note": "Sigue el cobro desde el propietario hasta la persistencia."
+      }
+    ]
+  },
+  "participants": [
+    {
+      "id": "prop",
+      "type": "external",
+      "label": "Propietario",
+      "sublabel": "usuario"
+    },
+    {
+      "id": "ui",
+      "type": "frontend",
+      "label": "UI Finanzas",
+      "sublabel": "modulo"
+    },
+    {
+      "id": "data",
+      "type": "frontend",
+      "label": "DataContext",
+      "sublabel": "capa de datos"
+    },
+    {
+      "id": "db",
+      "type": "database",
+      "label": "Supabase",
+      "sublabel": "Postgres"
+    },
+    {
+      "id": "audit",
+      "type": "security",
+      "label": "logAudit",
+      "sublabel": "auditoria"
+    }
+  ],
+  "segments": [
+    {
+      "from": 150,
+      "to": 280,
+      "label": "Captura"
+    },
+    {
+      "from": 310,
+      "to": 460,
+      "label": "Guardado"
+    },
+    {
+      "from": 490,
+      "to": 600,
+      "label": "Confirmacion"
+    }
+  ],
+  "messages": [
+    {
+      "id": "abrir-pago",
+      "from": "prop",
+      "to": "ui",
+      "y": 185,
+      "label": "abrir registro de pago",
+      "variant": "default"
+    },
+    {
+      "id": "enviar-form",
+      "from": "ui",
+      "to": "data",
+      "y": 228,
+      "label": "guardar pago",
+      "variant": "emphasis"
+    },
+    {
+      "id": "insert-prod",
+      "from": "data",
+      "to": "db",
+      "y": 360,
+      "label": "insert pago",
+      "variant": "emphasis"
+    },
+    {
+      "id": "insert-ok",
+      "from": "db",
+      "to": "data",
+      "y": 405,
+      "label": "ok",
+      "variant": "return"
+    },
+    {
+      "id": "audit-log",
+      "from": "data",
+      "to": "audit",
+      "y": 530,
+      "label": "registrar actividad",
+      "variant": "security"
+    },
+    {
+      "id": "sincronizar",
+      "from": "data",
+      "to": "ui",
+      "y": 455,
+      "label": "estado actualizado",
+      "variant": "return"
+    },
+    {
+      "id": "notificar",
+      "from": "ui",
+      "to": "prop",
+      "y": 565,
+      "label": "pago confirmado",
+      "variant": "return"
+    }
+  ],
+  "activations": [
+    {
+      "participant": "ui",
+      "from": 220,
+      "to": 575,
+      "type": "frontend"
+    },
+    {
+      "participant": "data",
+      "from": 228,
+      "to": 545,
+      "type": "frontend"
+    },
+    {
+      "participant": "db",
+      "from": 355,
+      "to": 412,
+      "type": "database"
+    },
+    {
+      "participant": "audit",
+      "from": 525,
+      "to": 540,
+      "type": "security"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Camino principal",
+      "items": [
+        "Propietario -> UI -> DataContext -> Supabase",
+        "La UI muestra el estado actualizado al terminar",
+        "Return messages son mas sutiles que las llamadas"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Consistencia",
+      "items": [
+        "DataContext valida y calcula antes de persistir",
+        "En modo demo no llega a Supabase, solo a JSON",
+        "La auditoria se registra como paso de seguridad"
+      ]
+    }
+  ]
+}

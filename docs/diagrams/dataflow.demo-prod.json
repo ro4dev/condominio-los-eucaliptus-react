@@ -1,0 +1,230 @@
+{
+  "schema_version": 1,
+  "diagram_type": "dataflow",
+  "meta": {
+    "title": "Flujo de Datos — Demo vs Produccion",
+    "output": "dataflow.demo-prod.html",
+    "viewBox": [
+      1000,
+      800
+    ],
+    "quality_profile": "showcase",
+    "views": [
+      {
+        "id": "demo-path",
+        "label": "Camino demo",
+        "focus": [
+          "ui",
+          "data",
+          "datajson",
+          "json"
+        ],
+        "note": "El modo demo lee JSON local sin tocar backend."
+      },
+      {
+        "id": "prod-path",
+        "label": "Camino produccion",
+        "focus": [
+          "ui",
+          "data",
+          "supabase",
+          "db",
+          "storage"
+        ],
+        "note": "El modo produccion persiste en Supabase."
+      },
+      {
+        "id": "audit",
+        "label": "Auditoria",
+        "focus": [
+          "data",
+          "audit"
+        ],
+        "note": "Cada operacion queda registrada en logAudit."
+      }
+    ]
+  },
+  "stages": [
+    {
+      "label": "UI"
+    },
+    {
+      "label": "Capa de datos"
+    },
+    {
+      "label": "Fuente"
+    },
+    {
+      "label": "Persistencia"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "ui",
+      "type": "frontend",
+      "label": "App React",
+      "sublabel": "modulos y CRUD",
+      "stage": 0,
+      "row": 1,
+      "tag": "Vite"
+    },
+    {
+      "id": "data",
+      "type": "frontend",
+      "label": "DataContext",
+      "sublabel": "CRUD + estado global",
+      "stage": 1,
+      "row": 1,
+      "tag": "provider"
+    },
+    {
+      "id": "datajson",
+      "type": "cloud",
+      "label": "carga demo",
+      "sublabel": "reader de JSON",
+      "stage": 2,
+      "row": 0,
+      "tag": "DEMO_MODE"
+    },
+    {
+      "id": "supabase",
+      "type": "cloud",
+      "label": "Cliente Supabase",
+      "sublabel": "lazy desde env",
+      "stage": 2,
+      "row": 2,
+      "tag": "PROD"
+    },
+    {
+      "id": "json",
+      "type": "database",
+      "label": "public/data",
+      "sublabel": "archivos JSON",
+      "stage": 3,
+      "row": 0,
+      "tag": "solo lectura"
+    },
+    {
+      "id": "db",
+      "type": "database",
+      "label": "Postgres",
+      "sublabel": "tablas de dominio",
+      "stage": 3,
+      "row": 2,
+      "tag": "RLS"
+    },
+    {
+      "id": "storage",
+      "type": "cloud",
+      "label": "Storage",
+      "sublabel": "archivos y fotos",
+      "stage": 3,
+      "row": 4,
+      "tag": "archivos"
+    },
+    {
+      "id": "audit",
+      "type": "security",
+      "label": "logAudit",
+      "sublabel": "registro de actividad",
+      "stage": 1,
+      "row": 4,
+      "tag": "auditoria"
+    }
+  ],
+  "flows": [
+    {
+      "id": "ui-data",
+      "from": "ui",
+      "to": "data",
+      "label": "leer / escribir",
+      "classification": "comandos",
+      "variant": "emphasis",
+      "route": "straight"
+    },
+    {
+      "id": "demo-load",
+      "from": "data",
+      "to": "datajson",
+      "label": "DEMO_MODE=true",
+      "classification": "carga inicial",
+      "variant": "dashed"
+    },
+    {
+      "id": "prod-load",
+      "from": "data",
+      "to": "supabase",
+      "label": "DEMO_MODE=false",
+      "classification": "carga + mutaciones",
+      "variant": "emphasis"
+    },
+    {
+      "id": "json-read",
+      "from": "datajson",
+      "to": "json",
+      "label": "fetch JSON",
+      "classification": "solo lectura",
+      "variant": "dashed",
+      "route": "straight"
+    },
+    {
+      "id": "db-query",
+      "from": "supabase",
+      "to": "db",
+      "label": "queries",
+      "classification": "CRUD + RLS",
+      "variant": "emphasis",
+      "route": "straight",
+      "labelDy": -27
+    },
+    {
+      "id": "storage-upload",
+      "from": "supabase",
+      "to": "storage",
+      "label": "subir / bajar",
+      "classification": "archivos",
+      "variant": "default"
+    },
+    {
+      "id": "audit-write",
+      "from": "data",
+      "to": "audit",
+      "label": "registrar",
+      "classification": "log",
+      "variant": "security",
+      "labelAt": [
+        315,
+        314
+      ]
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Modo demo",
+      "items": [
+        "Carga JSON de public/data/ sin tocar backend",
+        "Util para desarrollo y testing local",
+        "No aplica autenticacion ni RLS"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "Modo produccion",
+      "items": [
+        "Lee y persiste via el cliente Supabase",
+        "Archivos y fotos van a Storage",
+        "Acceso protegido por RLS y roles"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Auditoria",
+      "items": [
+        "logAudit registra la actividad del usuario",
+        "Las operaciones seguras se resaltan",
+        "El registro es central en la capa de datos"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,87 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Finanzas — Generacion y cobro de cuotas",
+    "quality_profile": "showcase",
+    "output": "finanzas.workflow.html",
+    "views": [
+      {
+        "id": "happy-path",
+        "label": "Cuota a recaudado",
+        "focus": ["admin", "periodo", "generar", "pagar", "recaudado"],
+        "note": "Sigue el flujo principal desde crear el periodo hasta cobrar la cuota."
+      },
+      {
+        "id": "gestion",
+        "label": "Gestion y excepciones",
+        "focus": ["generar", "gasto", "edit", "moroso", "recaudado"],
+        "note": "Ve donde se registran gastos, se edita o se marca deuda."
+      }
+    ]
+  },
+  "lanes": [
+    { "id": "admin", "label": "Administrador" },
+    { "id": "fincore", "label": "Motor de finanzas" },
+    { "id": "data", "label": "Capa de datos" },
+    { "id": "prop", "label": "Propietario" }
+  ],
+  "phases": [
+    { "id": "setup", "label": "Periodo", "fromCol": 0, "toCol": 1 },
+    { "id": "core", "label": "Cuotas y gastos", "fromCol": 2, "toCol": 3, "variant": "emphasis" },
+    { "id": "cobro", "label": "Cobro y deuda", "fromCol": 4, "toCol": 5, "variant": "dashed" }
+  ],
+  "mainPath": ["admin", "periodo", "generar", "pagar", "recaudado"],
+  "nodes": [
+    { "id": "admin", "lane": "admin", "col": 0, "type": "external", "label": "Administrador", "sublabel": "configura el periodo", "width": 132 },
+    { "id": "periodo", "lane": "fincore", "col": 1, "type": "backend", "label": "Periodo", "sublabel": "abre mes", "tag": "estado", "width": 132 },
+    { "id": "generar", "lane": "fincore", "col": 2, "type": "backend", "label": "Generar cuotas", "sublabel": "una por parcela", "tag": "lib/finanzas", "width": 132 },
+    { "id": "gasto", "lane": "fincore", "col": 2, "type": "messagebus", "label": "Registrar gasto", "sublabel": "costo del mes", "yOffset": 80, "width": 132 },
+    { "id": "pagar", "lane": "prop", "col": 3, "type": "frontend", "label": "Registrar pago", "sublabel": "propietario", "width": 132 },
+    { "id": "edit", "lane": "admin", "col": 3, "type": "backend", "label": "Editar cuota", "sublabel": "ajuste manual", "width": 132 },
+    { "id": "recaudado", "lane": "fincore", "col": 4, "type": "database", "label": "Recaudado", "sublabel": "suma de pagos", "tag": "estado", "width": 132 },
+    { "id": "moroso", "lane": "fincore", "col": 4, "type": "database", "label": "Moroso", "sublabel": "deuda pendiente", "yOffset": 80, "width": 132 },
+    { "id": "final", "lane": "fincore", "col": 5, "type": "database", "label": "Cierre", "sublabel": "estado del mes", "width": 132 }
+  ],
+  "edges": [
+    { "id": "apertura", "from": "admin", "to": "periodo", "variant": "default" },
+    { "id": "crea-periodo", "from": "periodo", "to": "generar", "label": "crear", "variant": "emphasis" },
+    { "id": "gasto-paralelo", "from": "generar", "to": "gasto", "label": "o", "variant": "dashed", "role": "branch" },
+    { "id": "cuota-lista", "from": "generar", "to": "pagar", "variant": "emphasis" },
+    { "id": "cuota-edit", "from": "generar", "to": "edit", "variant": "default", "role": "branch" },
+    { "id": "edit-actualiza", "from": "edit", "to": "recaudado", "variant": "dashed" },
+    { "id": "pago-registra", "from": "pagar", "to": "recaudado", "variant": "emphasis", "role": "return" },
+    { "id": "pago-incompleto", "from": "pagar", "to": "moroso", "label": "sin pago", "variant": "security", "role": "error" },
+    { "id": "recaudado-cierre", "from": "recaudado", "to": "final", "variant": "default" },
+    { "id": "moroso-cierre", "from": "moroso", "to": "final", "variant": "security" }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Camino principal",
+      "items": [
+        "Periodo -> generar cuotas -> registrar pago -> recaudado",
+        "La logica de cuotas y deuda vive en lib/finanzas",
+        "El cierre resume el estado del mes"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Operaciones del admin",
+      "items": [
+        "Registra gastos en paralelo a las cuotas",
+        "Puede editar cuotas manualmente",
+        "Los pagos y ajustes reflejan el saldo"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Deuda",
+      "items": [
+        "Sin pago la parcela queda morosa",
+        "La deuda se acumula hasta el cierre",
+        "El estado alimenta recaudacion y deuda"
+      ]
+    }
+  ]
+}
