@@ -51,31 +51,33 @@ export function VentasPage() {
         <Button icon="add" onClick={() => setForm({ open: true, publicacion: null })}>Publicar Venta</Button>
       </div>
 
-      <div className="filter-chips" style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap', marginBottom: '0.5rem' }}>
-        {([['todas', 'Todas'], ['Producto', 'Productos'], ['Servicio', 'Servicios']] as [FiltroCat, string][]).map(([id, label]) => (
-          <button
-            key={id}
-            type="button"
-            className={'chip ' + (cat === id ? 'chip-primary' : 'chip-neutral')}
-            style={{ cursor: 'pointer', border: cat === id ? '1px solid var(--md-sys-color-primary)' : '1px solid transparent' }}
-            onClick={() => setCat(id)}
-          >
-            {label}
-          </button>
-        ))}
-      </div>
-      <div className="filter-chips" style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap', marginBottom: '0.8rem' }}>
-        {([['todos', 'Todos'], ['Disponible', 'Disponibles'], ['Vendido', 'Vendidos']] as [FiltroEstado, string][]).map(([id, label]) => (
-          <button
-            key={id}
-            type="button"
-            className={'chip ' + (estado === id ? 'chip-primary' : 'chip-neutral')}
-            style={{ cursor: 'pointer', border: estado === id ? '1px solid var(--md-sys-color-primary)' : '1px solid transparent' }}
-            onClick={() => setEstado(id)}
-          >
-            {label}
-          </button>
-        ))}
+      <div className="filter-chips" style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '0.8rem' }}>
+        <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
+          {([['todas', 'Todas'], ['Producto', 'Productos'], ['Servicio', 'Servicios']] as [FiltroCat, string][]).map(([id, label]) => (
+            <button
+              key={id}
+              type="button"
+              className={'chip ' + (cat === id ? 'chip-primary' : 'chip-neutral')}
+              style={{ cursor: 'pointer', border: cat === id ? '1px solid var(--md-sys-color-primary)' : '1px solid transparent' }}
+              onClick={() => setCat(id)}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+        <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
+          {([['todos', 'Todos'], ['Disponible', 'Disponibles'], ['Vendido', 'Vendidos']] as [FiltroEstado, string][]).map(([id, label]) => (
+            <button
+              key={id}
+              type="button"
+              className={'chip ' + (estado === id ? 'chip-primary' : 'chip-neutral')}
+              style={{ cursor: 'pointer', border: estado === id ? '1px solid var(--md-sys-color-primary)' : '1px solid transparent' }}
+              onClick={() => setEstado(id)}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
       </div>
 
       {mostrar.length === 0 ? (
