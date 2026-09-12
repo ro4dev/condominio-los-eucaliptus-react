@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Header } from './components/layout/Header';
 import { NavigationDrawer } from './components/layout/NavigationDrawer';
 import { ComingSoon } from './components/layout/ComingSoon';
@@ -16,15 +16,43 @@ import { EncuestasPage } from './components/encuestas/EncuestasPage';
 import { VentasPage } from './components/ventas/VentasPage';
 import { ConfigPage } from './components/config/ConfigPage';
 
+const VISTA_PARAM = 'vista';
+
+function tabFromUrl(isAdmin: boolean): TabId {
+  const v = new URLSearchParams(window.location.search).get(VISTA_PARAM);
+  if (v && TABS.some((t) => t.id === v) && (isAdmin || v !== 'config')) return v as TabId;
+  return 'home';
+}
+
 export default function App() {
   const { isAdmin } = useApp();
-  const [activeTab, setActiveTab] = useState<TabId>('home');
+  const [activeTab, setActiveTab] = useState<TabId>(() => tabFromUrl(isAdmin));
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const skipPush = useRef(true);
   const activeDef = TABS.find((t) => t.id === activeTab) || TABS[0];
 
   const guard = isAdmin || activeDef.id !== 'config'
     ? activeDef
     : TABS.find((t) => t.id === 'home') || TABS[0];
+
+  useEffect(() => {
+    if (skipPush.current) {
+      skipPush.current = false;
+      return;
+    }
+    const url = new URL(window.location.href);
+    url.searchParams.set(VISTA_PARAM, activeTab);
+    window.history.pushState({}, '', url);
+  }, [activeTab]);
+
+  useEffect(() => {
+    const onPop = () => {
+      const v = new URLSearchParams(window.location.search).get(VISTA_PARAM);
+      if (v && TABS.some((t) => t.id === v)) setActiveTab(v as TabId);
+    };
+    window.addEventListener('popstate', onPop);
+    return () => window.removeEventListener('popstate', onPop);
+  }, []);
 
   useEffect(() => {
     if (!drawerOpen) return;
