@@ -4,10 +4,11 @@ import { IconButton } from '../ui/Button';
 import { LoginModal } from '../auth/LoginModal';
 
 interface HeaderProps {
+  title: string;
   onMenuClick: () => void;
 }
 
-export function Header({ onMenuClick }: HeaderProps) {
+export function Header({ title, onMenuClick }: HeaderProps) {
   const { isDark, toggleTheme, demoMode, toggleDemoMode, currentUserEmail, isAdmin, logout } = useApp();
   const [menuOpen, setMenuOpen] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
@@ -37,6 +38,7 @@ export function Header({ onMenuClick }: HeaderProps) {
             <p>Control de gastos comunes</p>
           </div>
         </div>
+        <span className="chip chip-primary header-view-chip">{title}</span>
         <div className="header-actions">
           <div style={{ position: 'relative' }} ref={menuRef}>
             <IconButton

@@ -111,7 +111,7 @@ export default function App() {
       />
       <div className={'drawer-scrim' + (drawerOpen ? ' visible' : '')} onClick={() => setDrawerOpen(false)} aria-hidden="true" />
       <div className="app-main">
-        <Header onMenuClick={() => setDrawerOpen(true)} />
+        <Header title={guard.label} onMenuClick={() => setDrawerOpen(true)} />
         <main className="container">{renderPage()}</main>
       </div>
     </div>
