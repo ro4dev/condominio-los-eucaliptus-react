@@ -3,7 +3,11 @@ import { useApp } from '../../store/AppContext';
 import { IconButton } from '../ui/Button';
 import { LoginModal } from '../auth/LoginModal';
 
-export function Header() {
+interface HeaderProps {
+  onMenuClick: () => void;
+}
+
+export function Header({ onMenuClick }: HeaderProps) {
   const { isDark, toggleTheme, demoMode, toggleDemoMode, currentUserEmail, isAdmin, logout } = useApp();
   const [menuOpen, setMenuOpen] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
@@ -21,9 +25,17 @@ export function Header() {
   return (
     <header>
       <div className="header-inner">
-        <div>
-          <h1>CONDOMINIO EUCALIPTUS</h1>
-          <p>Control de gastos comunes</p>
+        <div className="header-leading">
+          <IconButton
+            icon="menu"
+            onClick={onMenuClick}
+            title="Abrir menú"
+            className="header-menu-btn"
+          />
+          <div>
+            <h1>CONDOMINIO EUCALIPTUS</h1>
+            <p>Control de gastos comunes</p>
+          </div>
         </div>
         <div className="header-actions">
           <div style={{ position: 'relative' }} ref={menuRef}>

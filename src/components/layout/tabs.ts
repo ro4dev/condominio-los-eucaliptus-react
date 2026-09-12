@@ -14,19 +14,20 @@ export type TabId =
 export interface TabDef {
   id: TabId;
   label: string;
+  icon: string;
   implemented: boolean;
 }
 
 export const TABS: TabDef[] = [
-  { id: 'home', label: 'Home', implemented: true },
-  { id: 'finanzas', label: 'Finanzas', implemented: true },
-  { id: 'parcelas', label: 'Parcelas', implemented: true },
-  { id: 'noticias', label: 'Noticias', implemented: true },
-  { id: 'documentos', label: 'Documentos', implemented: true },
-  { id: 'reclamos', label: 'Comentarios', implemented: true },
-  { id: 'proveedores', label: 'Proveedores', implemented: true },
-  { id: 'asambleas', label: 'Asambleas', implemented: true },
-  { id: 'encuestas', label: 'Encuestas', implemented: true },
-  { id: 'publicaciones', label: 'Ventas', implemented: true },
-  { id: 'config', label: 'Configuración', implemented: true },
+  { id: 'home', label: 'Home', icon: 'home', implemented: true },
+  { id: 'finanzas', label: 'Finanzas', icon: 'account_balance', implemented: true },
+  { id: 'parcelas', label: 'Parcelas', icon: 'dashboard', implemented: true },
+  { id: 'noticias', label: 'Noticias', icon: 'newspaper', implemented: true },
+  { id: 'documentos', label: 'Documentos', icon: 'description', implemented: true },
+  { id: 'reclamos', label: 'Comentarios', icon: 'forum', implemented: true },
+  { id: 'proveedores', label: 'Proveedores', icon: 'engineering', implemented: true },
+  { id: 'asambleas', label: 'Asambleas', icon: 'groups', implemented: true },
+  { id: 'encuestas', label: 'Encuestas', icon: 'ballot', implemented: true },
+  { id: 'publicaciones', label: 'Ventas', icon: 'sell', implemented: true },
+  { id: 'config', label: 'Configuración', icon: 'settings', implemented: true },
 ];

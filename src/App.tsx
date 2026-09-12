@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Header } from './components/layout/Header';
-import { TabsNav } from './components/layout/TabsNav';
+import { NavigationDrawer } from './components/layout/NavigationDrawer';
 import { ComingSoon } from './components/layout/ComingSoon';
 import { TABS, type TabId } from './components/layout/tabs';
 import { useApp } from './store/AppContext';
@@ -19,11 +19,26 @@ import { ConfigPage } from './components/config/ConfigPage';
 export default function App() {
   const { isAdmin } = useApp();
   const [activeTab, setActiveTab] = useState<TabId>('home');
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const activeDef = TABS.find((t) => t.id === activeTab) || TABS[0];
 
   const guard = isAdmin || activeDef.id !== 'config'
     ? activeDef
     : TABS.find((t) => t.id === 'home') || TABS[0];
+
+  useEffect(() => {
+    if (!drawerOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setDrawerOpen(false);
+    };
+    document.addEventListener('keydown', onKey);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.body.style.overflow = prev;
+    };
+  }, [drawerOpen]);
 
   function renderPage() {
     switch (guard.id) {
@@ -59,12 +74,18 @@ export default function App() {
   }
 
   return (
-    <>
-      <Header />
-      <div className="container">
-        <TabsNav active={activeTab} onChange={setActiveTab} />
-        {renderPage()}
+    <div className="app-shell">
+      <NavigationDrawer
+        open={drawerOpen}
+        active={activeTab}
+        onChange={setActiveTab}
+        onClose={() => setDrawerOpen(false)}
+      />
+      <div className={'drawer-scrim' + (drawerOpen ? ' visible' : '')} onClick={() => setDrawerOpen(false)} aria-hidden="true" />
+      <div className="app-main">
+        <Header onMenuClick={() => setDrawerOpen(true)} />
+        <main className="container">{renderPage()}</main>
       </div>
-    </>
+    </div>
   );
 }
