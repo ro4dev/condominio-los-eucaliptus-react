@@ -59,8 +59,11 @@ export function escHtml(str: unknown): string {
     .replace(/'/g, '&#39;');
 }
 
-export function nl2br(text: unknown): string {
-  return escHtml(text || '').replace(/\n/g, '<br>');
+import { createElement } from 'react';
+
+export function nl2br(text: unknown) {
+  const lines = String(text ?? '').split('\n');
+  return lines.flatMap((line, i) => (i === 0 ? [line] : [createElement('br', { key: `br-${i}` }), line]));
 }
 
 export function safeUrl(u?: string | null): string {

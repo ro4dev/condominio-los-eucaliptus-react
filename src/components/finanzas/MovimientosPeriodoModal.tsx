@@ -69,7 +69,7 @@ export function MovimientosPeriodoModal({ open, onClose, periodo, flujo, onEdita
                     <td>
                       {f.concepto}
                       {f.descripcion && (
-                        <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }} dangerouslySetInnerHTML={{ __html: nl2br(f.descripcion) }} />
+                        <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>{nl2br(f.descripcion)}</div>
                       )}
                     </td>
                     <td style={{ textAlign: 'right', fontWeight: 600, whiteSpace: 'nowrap', color }}>{formatMoney(parseFloat(String(f.monto)) || 0)}</td>
